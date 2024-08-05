@@ -63,7 +63,18 @@ export declare const z_createUserMembership: z.ZodObject<{
     endDate: string;
     priceAtPurchase: number;
 }>;
+export declare const z_signin: z.ZodObject<{
+    email: z.ZodString;
+    password: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+    password: string;
+}, {
+    email: string;
+    password: string;
+}>;
 export type z_createAdmin_type = z.infer<typeof z_createAdmin>;
 export type z_createUser_type = z.infer<typeof z_createUser>;
 export type z_createMembership_type = z.infer<typeof z_createMembership>;
 export type z_createUserMembership_type = z.infer<typeof z_createUserMembership>;
+export type z_signin_type = z.infer<typeof z_signin>;

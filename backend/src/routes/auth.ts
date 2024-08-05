@@ -1,6 +1,7 @@
 import { Hono } from "hono";
+import { Signin } from "../controllers/auth";
 
-const user = new Hono<{
+const auth = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
@@ -10,4 +11,6 @@ const user = new Hono<{
   };
 }>();
 
-export default user;
+auth.post("/signin", Signin);
+
+export default auth;

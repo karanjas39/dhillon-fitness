@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@prisma/extension-accelerate": "^1.1.0",
-    "@singhjaskaran/dhillonfitness-common": "^1.0.1",
+    "@singhjaskaran/dhillonfitness-common": "^1.0.4",
     "bcrypt-ts": "^5.0.2",
     "hono": "^4.5.3"
   },
