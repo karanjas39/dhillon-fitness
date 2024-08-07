@@ -80,6 +80,7 @@ export async function CreateCustomerMembership(c: Context) {
     const startDate = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
+    endDate.setHours(23, 59, 59, 999);
 
     const newUserMembership = await prisma.userMembership.create({
       data: {
