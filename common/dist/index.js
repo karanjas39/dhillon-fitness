@@ -55,7 +55,6 @@ exports.z_updateMembership = zod_1.z.object({
     price: zod_1.z.number().optional(),
 });
 exports.z_updatePassword = zod_1.z.object({
-    id: zod_1.z.string().uuid(),
     newPassword: zod_1.z.string().min(6),
     confirmNewPassword: zod_1.z.string().min(6).optional(),
     prevPassword: zod_1.z.string().min(6),

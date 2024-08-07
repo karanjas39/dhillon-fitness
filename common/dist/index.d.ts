@@ -135,17 +135,14 @@ export declare const z_updateMembership: z.ZodObject<{
     price?: number | undefined;
 }>;
 export declare const z_updatePassword: z.ZodObject<{
-    id: z.ZodString;
     newPassword: z.ZodString;
     confirmNewPassword: z.ZodOptional<z.ZodString>;
     prevPassword: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    id: string;
     newPassword: string;
     prevPassword: string;
     confirmNewPassword?: string | undefined;
 }, {
-    id: string;
     newPassword: string;
     prevPassword: string;
     confirmNewPassword?: string | undefined;

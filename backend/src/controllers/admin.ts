@@ -1,16 +1,16 @@
 import { Context } from "hono";
-import { sign } from "hono/jwt";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { z_updatePassword } from "@singhjaskaran/dhillonfitness-common";
 import { compareSync, hashSync } from "bcrypt-ts";
 
 export async function ChangePassword(c: Context) {
+  const adminId: string = c.get("adminId");
   const body = await c.req.json();
 
   const { success, data } = z_updatePassword.safeParse(body);
 
-  if (!success) {
+  if (!success || !adminId) {
     return c.json({
       success: false,
       status: 404,
@@ -28,7 +28,7 @@ export async function ChangePassword(c: Context) {
 
     const isAdminExist = await prisma.admin.findUnique({
       where: {
-        id: data.id,
+        id: adminId,
       },
     });
 
@@ -45,7 +45,7 @@ export async function ChangePassword(c: Context) {
 
     await prisma.admin.update({
       where: {
-        id: data.id,
+        id: adminId,
       },
       data: {
         password: hashedPassword,

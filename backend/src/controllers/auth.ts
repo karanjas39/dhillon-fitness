@@ -29,23 +29,16 @@ export async function Signin(c: Context) {
       },
     });
 
-    if (!isAdminExist)
-      return c.json({
-        success: false,
-        status: 400,
-        message: "Password or email is incorrect.",
-      });
+    if (!isAdminExist) throw new Error("Password or email is incorrect.");
 
     const isPasswordCorrect = compareSync(data.password, isAdminExist.password);
 
-    if (!isPasswordCorrect)
-      return c.json({
-        success: false,
-        status: 400,
-        message: "Password or email is incorrect.",
-      });
+    if (!isPasswordCorrect) throw new Error("Password or email is incorrect.");
 
-    const token = await sign({ admin: true }, c.env.JWT_SECRET);
+    const token = await sign(
+      { admin: true, adminId: isAdminExist.id },
+      c.env.JWT_SECRET
+    );
 
     return c.json({
       success: true,
@@ -53,10 +46,11 @@ export async function Signin(c: Context) {
       token,
     });
   } catch (error) {
+    const err = error as Error;
     return c.json({
       success: false,
       status: 400,
-      message: "Error while logging in right now.",
+      message: err.message ? err.message : "Error while logging in right now.",
     });
   }
 }

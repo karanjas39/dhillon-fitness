@@ -5,6 +5,9 @@ const admin = new Hono<{
   Bindings: {
     DATABASE_URL: string;
   };
+  Variables: {
+    adminId: string;
+  };
 }>();
 
 admin.patch("/update/password", ChangePassword);

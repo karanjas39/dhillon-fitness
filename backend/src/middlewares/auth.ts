@@ -30,6 +30,7 @@ export async function authMiddleware(c: Context, next: Next) {
         message: "User is unauthorized.",
       });
     }
+    c.set("adminId", payload.adminId);
     await next();
   } catch (error) {
     return c.json({
