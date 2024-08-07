@@ -14,7 +14,7 @@ app.route("/api/v1/auth", auth);
 app.route("/api/v1/admin/membership", membership);
 app.route("/api/v1/admin/customer", user);
 
-app.all(async (c) => {
+app.all("*", async (c) => {
   return c.json({
     success: true,
     statue: 200,
