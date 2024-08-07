@@ -2,11 +2,11 @@ import { Context } from "hono";
 import { sign } from "hono/jwt";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { z_signin, z_signin_type } from "@singhjaskaran/dhillonfitness-common";
+import { z_signin } from "@singhjaskaran/dhillonfitness-common";
 import { compareSync } from "bcrypt-ts";
 
 export async function Signin(c: Context) {
-  const body: z_signin_type = await c.req.json();
+  const body = await c.req.json();
 
   const { success, data } = z_signin.safeParse(body);
 

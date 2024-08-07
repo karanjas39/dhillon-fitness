@@ -4,6 +4,7 @@ import auth from "./routes/auth";
 import membership from "./routes/membership";
 import user from "./routes/customer";
 import { authMiddleware } from "./middlewares/auth";
+import admin from "./routes/admin";
 
 const app = new Hono();
 
@@ -13,6 +14,7 @@ app.use("/api/v1/admin/*", authMiddleware);
 app.route("/api/v1/auth", auth);
 app.route("/api/v1/admin/membership", membership);
 app.route("/api/v1/admin/customer", user);
+app.route("/api/v1/admin", admin);
 
 app.all("*", async (c) => {
   return c.json({
