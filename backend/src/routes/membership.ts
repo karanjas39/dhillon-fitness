@@ -1,13 +1,12 @@
 import { Hono } from "hono";
+import { CreateMembership } from "../controllers/membership";
 
 const membership = new Hono<{
   Bindings: {
     DATABASE_URL: string;
-    JWT_SECRET: string;
-  };
-  Variables: {
-    admin: boolean;
   };
 }>();
+
+membership.post("/create", CreateMembership);
 
 export default membership;

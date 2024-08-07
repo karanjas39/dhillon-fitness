@@ -50,18 +50,12 @@ export declare const z_createMembership: z.ZodObject<{
 export declare const z_createUserMembership: z.ZodObject<{
     userId: z.ZodString;
     membershipId: z.ZodString;
-    endDate: z.ZodString;
-    priceAtPurchase: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     userId: string;
     membershipId: string;
-    endDate: string;
-    priceAtPurchase: number;
 }, {
     userId: string;
     membershipId: string;
-    endDate: string;
-    priceAtPurchase: number;
 }>;
 export declare const z_signin: z.ZodObject<{
     email: z.ZodString;

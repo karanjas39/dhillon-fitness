@@ -24,8 +24,6 @@ exports.z_createMembership = zod_1.z.object({
 exports.z_createUserMembership = zod_1.z.object({
     userId: zod_1.z.string().uuid(),
     membershipId: zod_1.z.string().uuid(),
-    endDate: zod_1.z.string().datetime(),
-    priceAtPurchase: zod_1.z.number(),
 });
 exports.z_signin = zod_1.z.object({
     email: zod_1.z.string().email(),

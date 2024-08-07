@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import auth from "./routes/auth";
 import membership from "./routes/membership";
-import user from "./routes/user";
+import user from "./routes/customer";
 import { authMiddleware } from "./middlewares/auth";
 
 const app = new Hono();

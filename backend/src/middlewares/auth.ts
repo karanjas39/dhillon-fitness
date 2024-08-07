@@ -23,7 +23,13 @@ export async function authMiddleware(c: Context, next: Next) {
         message: "User is unauthorized.",
       });
     }
-    c.set("admin", payload.admin);
+    if (!payload.admin) {
+      return c.json({
+        success: false,
+        status: 400,
+        message: "User is unauthorized.",
+      });
+    }
     await next();
   } catch (error) {
     return c.json({
