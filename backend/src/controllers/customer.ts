@@ -36,9 +36,7 @@ export async function CreateCustomer(c: Context) {
       success: true,
       status: 200,
       message: "New customer is created successfuly.",
-      data: {
-        userId: newUser.id,
-      },
+      userId: newUser.id,
     });
   } catch (error) {
     return c.json({

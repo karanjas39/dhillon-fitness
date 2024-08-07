@@ -77,6 +77,7 @@ export async function UpdateMembership(c: Context) {
     const updatedMembership = await prisma.membership.update({
       where: {
         id: id,
+        active: true,
       },
       data: {
         ...dataToUpdate,
@@ -107,6 +108,9 @@ export async function GetMembershipIds(c: Context) {
     }).$extends(withAccelerate());
 
     const membershipIds = await prisma.membership.findMany({
+      where: {
+        active: true,
+      },
       select: {
         id: true,
         name: true,
@@ -151,8 +155,12 @@ export async function GetMembershipById(c: Context) {
     const membership = await prisma.membership.findUnique({
       where: {
         id: data.id,
+        active: true,
       },
     });
+
+    if (!membership) throw new Error("No such active membership found.");
+
     return c.json({
       success: true,
       status: 200,
@@ -186,11 +194,15 @@ export async function deleteMembership(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    await prisma.membership.delete({
+    await prisma.membership.update({
       where: {
         id: data.id,
       },
+      data: {
+        active: false,
+      },
     });
+
     return c.json({
       success: true,
       status: 200,
@@ -201,7 +213,9 @@ export async function deleteMembership(c: Context) {
     return c.json({
       success: false,
       status: 400,
-      message: err.message ? err.message : "Failed while deleting membership.",
+      message: err.message
+        ? err.message.toString()
+        : "Failed while deleting membership.",
     });
   }
 }
