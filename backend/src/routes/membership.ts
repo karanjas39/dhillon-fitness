@@ -1,5 +1,11 @@
 import { Hono } from "hono";
-import { CreateMembership } from "../controllers/membership";
+import {
+  CreateMembership,
+  deleteMembership,
+  GetMembershipById,
+  GetMembershipIds,
+  UpdateMembership,
+} from "../controllers/membership";
 
 const membership = new Hono<{
   Bindings: {
@@ -8,5 +14,9 @@ const membership = new Hono<{
 }>();
 
 membership.post("/create", CreateMembership);
+membership.put("/update", UpdateMembership);
+membership.delete("/delete", deleteMembership);
+membership.get("/ids", GetMembershipIds);
+membership.get("/:id", GetMembershipById);
 
 export default membership;
