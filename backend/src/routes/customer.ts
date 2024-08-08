@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import {
   CreateCustomer,
   CreateCustomerMembership,
+  GetAllCustomers,
 } from "../controllers/customer";
 
 const customer = new Hono<{
@@ -12,6 +13,6 @@ const customer = new Hono<{
 
 customer.post("/create", CreateCustomer);
 customer.post("/membership/create", CreateCustomerMembership);
-customer.get("/", CreateCustomerMembership);
+customer.get("/all", GetAllCustomers);
 
 export default customer;
