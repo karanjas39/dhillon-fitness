@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins as FontSans } from "next/font/google";
+import { Montserrat as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
+import Navbar from "@/components/Navbar/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-sans",
 });
 
@@ -35,6 +35,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
         </ThemeProvider>
       </body>
