@@ -112,3 +112,37 @@ export async function CreateCustomerMembership(c: Context) {
     });
   }
 }
+
+export async function GetAllCustomers(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const customers = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        sex: true,
+      },
+    });
+
+    if (!customers.length) throw new Error("No customers found.");
+
+    return c.json({
+      success: true,
+      status: 200,
+      customers,
+    });
+  } catch (error) {
+    const err = error as Error;
+
+    return c.json({
+      success: false,
+      status: 400,
+      message:
+        err && err.message ? err.message : "Error while fetching customers.",
+    });
+  }
+}

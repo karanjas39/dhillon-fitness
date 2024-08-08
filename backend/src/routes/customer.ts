@@ -12,5 +12,6 @@ const customer = new Hono<{
 
 customer.post("/create", CreateCustomer);
 customer.post("/membership/create", CreateCustomerMembership);
+customer.get("/", CreateCustomerMembership);
 
 export default customer;
