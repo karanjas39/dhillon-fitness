@@ -13,15 +13,17 @@ import { ThemeModeToggle } from "@/components/Theme/ThemeModeToggle";
 import Logo from "@/components/Navbar/Logo";
 import { useEffect, useState } from "react";
 import NavItems from "./NavItems";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function Navbar() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const { token } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) setLoggedIn(false);
     else setLoggedIn(true);
-  }, []);
+  }, [token]);
 
   return (
     <div className="p-4 flex items-center justify-between">

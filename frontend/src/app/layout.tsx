@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/Theme/ThemeProvider";
-import { Toaster } from "@/components/ui/toaster";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
+import ClientProvider from "@/components/ClientProvider/ClientProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,17 +28,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );
