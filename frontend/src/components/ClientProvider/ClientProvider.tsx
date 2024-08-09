@@ -4,7 +4,6 @@ import { type ReactNode } from "react";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
 import { Provider } from "react-redux";
 import { store } from "@/store/index";
 
@@ -24,7 +23,6 @@ function ClientProvider({ children }: Providertype) {
         >
           <Navbar />
           {children}
-          <Footer />
           <Toaster />
         </ThemeProvider>
       </Provider>
