@@ -40,7 +40,7 @@ function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    if (token) router.push("/dash");
+    if (token) router.push("/dashboard");
   }, [token]);
 
   async function onSubmit(values: z_signin_type) {
@@ -49,7 +49,7 @@ function SignIn() {
       if (response && response.success) {
         toast({ description: "You are successfully signedIn." });
         dispatch(setToken(response.token));
-        router.push("/dash");
+        router.push("/dashboard");
       } else throw new Error(response.message);
     } catch (error) {
       const err = error as Error;

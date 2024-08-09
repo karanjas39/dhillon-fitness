@@ -1,12 +1,17 @@
 export const NavLinks = [
   {
-    link: "/dash",
+    link: "/dashboard",
     title: "Dashboard",
     auth: true,
   },
   {
-    link: "/customers",
+    link: "/customer",
     title: "Customers",
+    auth: true,
+  },
+  {
+    link: "/membership",
+    title: "Memberships",
     auth: true,
   },
 ];
