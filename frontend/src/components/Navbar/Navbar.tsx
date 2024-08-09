@@ -12,9 +12,7 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { ThemeModeToggle } from "@/components/Theme/ThemeModeToggle";
 import Logo from "@/components/Navbar/Logo";
 import { useEffect, useState } from "react";
-import { navButtons, NavLinks } from "@/utils/constants";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import NavItems from "./NavItems";
 
 function Navbar() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -29,9 +27,8 @@ function Navbar() {
     <div className="p-4 flex items-center justify-between">
       <Logo />
       <div className="flex items-center gap-4">
-        <ThemeModeToggle />
         <Sheet>
-          <SheetTrigger className="block sm:block">
+          <SheetTrigger className="block sm:hidden">
             <HamburgerMenuIcon className="w-[30px] h-[30px] cursor-pointer" />
           </SheetTrigger>
           <SheetContent side="right" className="flex flex-col gap-6 w-[70%]">
@@ -43,46 +40,13 @@ function Navbar() {
                 Empowering your gym management with ease and efficiency.
               </SheetDescription>
             </SheetHeader>
-            <div className="flex-1 w-[100%]">
-              {NavLinks.map((link, i) => {
-                if (loggedIn && link.auth) {
-                  return (
-                    <Link href={link.link} key={i}>
-                      {link.title}
-                    </Link>
-                  );
-                } else if (!loggedIn && !link.auth) {
-                  return (
-                    <Link href={link.link} key={i}>
-                      {link.title}
-                    </Link>
-                  );
-                }
-              })}
-            </div>
-            <div className="w-[100%]">
-              {navButtons.map((link, i) => {
-                if (loggedIn && link.auth) {
-                  return (
-                    <Button className="w-[100%]">
-                      <Link href={link.link} key={i}>
-                        {link.title}
-                      </Link>
-                    </Button>
-                  );
-                } else if (!loggedIn && !link.auth) {
-                  return (
-                    <Button className="w-[100%]">
-                      <Link href={link.link} key={i}>
-                        {link.title}
-                      </Link>
-                    </Button>
-                  );
-                }
-              })}
-            </div>
+            <NavItems loggedIn={loggedIn} />
           </SheetContent>
         </Sheet>
+        <div className="hidden sm:flex sm:items-center sm:gap-3">
+          <NavItems loggedIn={loggedIn} />
+        </div>
+        <ThemeModeToggle />
       </div>
     </div>
   );
