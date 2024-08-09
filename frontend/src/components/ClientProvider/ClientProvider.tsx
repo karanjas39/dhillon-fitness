@@ -1,18 +1,14 @@
 "use client";
 
-import { type ReactNode } from "react";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar/Navbar";
 import { Provider } from "react-redux";
 import { store } from "@/store/index";
 import ProtectedRoutes from "../ProtectedRoutes/ProtectedRoutes";
+import { ChildrenProp } from "@/utils/Types/types";
 
-interface Providertype {
-  children: ReactNode;
-}
-
-function ClientProvider({ children }: Providertype) {
+function ClientProvider({ children }: ChildrenProp) {
   return (
     <>
       <Provider store={store}>
