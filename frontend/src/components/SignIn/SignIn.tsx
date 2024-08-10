@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import HeroImage from "/public/hero.jpg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z_signin, z_signin_type } from "@singhjaskaran/dhillonfitness-common";
@@ -59,9 +57,14 @@ function SignIn() {
 
   return (
     <>
-      <div className="w-[90%] sm:w-[50%] mx-auto my-5 grid grid-cols-1 sm:grid-cols-2 flex-1">
-        <div className="flex items-center justify-center flex-col">
-          <h1 className="font-bold text-3xl text-center">Sign In</h1>
+      <div className="w-[90%] sm:w-[30%] mx-auto mt-9 flex-1">
+        <div className="w-full flex flex-col gap-3 items-center mb-2 bg-primary-foreground py-[50px] rounded-2xl">
+          <div className="flex flex-col gap-3 px-4">
+            <h1 className="font-bold text-4xl text-center">Sign In</h1>
+            <p className="text-muted-foreground text-sm text-center">
+              Fill account credentials to log in into your account.
+            </p>
+          </div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -77,7 +80,7 @@ function SignIn() {
                       <Input placeholder="email" type="email" {...field} />
                     </FormControl>
                     <FormDescription>
-                      Enter your registered email here.
+                      Enter your registered email here
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -97,7 +100,7 @@ function SignIn() {
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter your account password here.
+                      Enter your account password here
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -109,11 +112,6 @@ function SignIn() {
             </form>
           </Form>
         </div>
-        <Image
-          src={HeroImage}
-          alt="Hero Image"
-          className="rounded-xl hidden sm:block"
-        />
       </div>
       <Footer />
     </>

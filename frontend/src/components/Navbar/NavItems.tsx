@@ -5,9 +5,11 @@ import { useDispatch } from "react-redux";
 import { navButtons, NavLinks } from "@/utils/constants";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 function NavItems({ loggedIn }: { loggedIn: boolean }) {
   const dispatch = useDispatch();
+  const pathName = usePathname();
 
   return (
     <>
@@ -15,7 +17,15 @@ function NavItems({ loggedIn }: { loggedIn: boolean }) {
         {NavLinks.map((link, i) => {
           if (loggedIn && link.auth) {
             return (
-              <Link href={link.link} key={i}>
+              <Link
+                href={link.link}
+                key={i}
+                className={
+                  link.link === pathName
+                    ? "text-foreground font-bold"
+                    : "text-muted-foreground"
+                }
+              >
                 {link.title}
               </Link>
             );

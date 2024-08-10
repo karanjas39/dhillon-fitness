@@ -1,5 +1,11 @@
+import Section from "@/components/Layouts/Section";
+
 function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <Section>
+      <h2>Dashboard</h2>
+    </Section>
+  );
 }
 
 export default Dashboard;
