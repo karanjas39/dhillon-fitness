@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import auth from "./routes/auth";
 import membership from "./routes/membership";
-import user from "./routes/customer";
+import customer from "./routes/customer";
 import { authMiddleware } from "./middlewares/auth";
 import admin from "./routes/admin";
 
@@ -13,7 +13,7 @@ app.use("/api/v1/admin/*", authMiddleware);
 
 app.route("/api/v1/auth", auth);
 app.route("/api/v1/admin/membership", membership);
-app.route("/api/v1/admin/customer", user);
+app.route("/api/v1/admin/customer", customer);
 app.route("/api/v1/admin", admin);
 
 app.all("*", async (c) => {

@@ -14,7 +14,8 @@ model User {
   phone          String          @unique
   email          String?
   address        String
-  sex            String     
+  sex            String
+  balance        Float          @default(0)     
   joinDate       DateTime        @default(now())
   memberships    UserMembership[]
   createdAt      DateTime        @default(now())
@@ -41,6 +42,8 @@ model UserMembership {
   membershipId   String
   startDate      DateTime        @default(now())
   endDate        DateTime
+  paymentAmount   Float
+  balanceAdjustment Float  
   priceAtPurchase Float
   createdAt      DateTime        @default(now())
 }

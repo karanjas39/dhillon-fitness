@@ -124,7 +124,16 @@ export async function GetAllCustomers(c: Context) {
         id: true,
         name: true,
         phone: true,
-        sex: true,
+        memberships: {
+          select: {
+            membership: {
+              select: {
+                name: true,
+              },
+            },
+            endDate: true,
+          },
+        },
       },
     });
 
