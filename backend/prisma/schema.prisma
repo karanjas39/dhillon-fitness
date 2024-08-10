@@ -43,7 +43,6 @@ model UserMembership {
   startDate      DateTime        @default(now())
   endDate        DateTime
   paymentAmount   Float
-  balanceAdjustment Float  
   priceAtPurchase Float
   createdAt      DateTime        @default(now())
 }

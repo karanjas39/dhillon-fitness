@@ -76,17 +76,14 @@ export declare const z_createUserMembership: z.ZodObject<{
     userId: z.ZodString;
     membershipId: z.ZodString;
     paymentAmount: z.ZodNumber;
-    balanceAdjustment: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     userId: string;
     membershipId: string;
     paymentAmount: number;
-    balanceAdjustment: number;
 }, {
     userId: string;
     membershipId: string;
     paymentAmount: number;
-    balanceAdjustment: number;
 }>;
 export declare const z_updateUserMembership: z.ZodObject<{
     id: z.ZodString;

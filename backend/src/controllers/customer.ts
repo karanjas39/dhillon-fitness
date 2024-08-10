@@ -82,6 +82,24 @@ export async function CreateCustomerMembership(c: Context) {
     endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
     endDate.setHours(23, 59, 59, 999);
 
+    const isUser = await prisma.user.findUnique({
+      where: {
+        id: data.userId,
+      },
+    });
+
+    if (!isUser) throw new Error("No such customer exist.");
+
+    const newBalance =
+      data.paymentAmount > isUser.balance
+        ? data.paymentAmount - isUser.balance
+        : isUser.balance + (isMembershipExist.price - data.paymentAmount);
+
+    await prisma.user.update({
+      where: { id: isUser.id },
+      data: { balance: newBalance },
+    });
+
     const newUserMembership = await prisma.userMembership.create({
       data: {
         ...data,

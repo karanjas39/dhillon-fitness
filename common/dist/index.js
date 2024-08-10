@@ -34,7 +34,6 @@ exports.z_createUserMembership = zod_1.z.object({
     userId: zod_1.z.string().uuid(),
     membershipId: zod_1.z.string().uuid(),
     paymentAmount: zod_1.z.number(),
-    balanceAdjustment: zod_1.z.number(),
 });
 exports.z_updateUserMembership = zod_1.z.object({
     id: zod_1.z.string().uuid(),
