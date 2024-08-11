@@ -14,7 +14,7 @@ export declare const z_createAdmin: z.ZodObject<{
 }>;
 export declare const z_createUser: z.ZodObject<{
     name: z.ZodString;
-    email: z.ZodOptional<z.ZodString>;
+    email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
     phone: z.ZodString;
     address: z.ZodString;
     sex: z.ZodEnum<["male", "female"]>;

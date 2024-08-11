@@ -10,12 +10,12 @@ exports.z_createAdmin = zod_1.z.object({
 });
 exports.z_createUser = zod_1.z.object({
     name: zod_1.z.string(),
-    email: zod_1.z.string().email().optional(),
+    email: zod_1.z.string().email().or(zod_1.z.literal("").optional()),
     phone: zod_1.z.string().min(10).max(10),
     address: zod_1.z.string(),
     sex: zod_1.z.enum(["male", "female"]),
     membershipId: zod_1.z.string().uuid(),
-    paymentAmount: zod_1.z.number(),
+    paymentAmount: zod_1.z.coerce.number(),
 });
 exports.z_updateUser = zod_1.z.object({
     id: zod_1.z.string().uuid(),

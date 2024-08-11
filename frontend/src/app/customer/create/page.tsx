@@ -1,5 +1,15 @@
+import CreateCustomerForm from "@/components/Customer/CreateCustomerForm/CreateCustomerForm";
+import Section from "@/components/Layouts/Section";
+
 function CreateCustomer() {
-  return <div>CreateCustomer</div>;
+  return (
+    <Section>
+      <div>
+        <h1 className="text-lg sm:text-2xl font-bold">Create Customer</h1>
+      </div>
+      <CreateCustomerForm />
+    </Section>
+  );
 }
 
 export default CreateCustomer;

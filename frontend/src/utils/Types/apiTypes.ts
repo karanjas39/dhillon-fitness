@@ -70,3 +70,10 @@ export interface Api_AllMemberships extends GeneralResponse {
     updatedAt: string;
   }[];
 }
+export interface Api_MembershipIds extends GeneralResponse {
+  ids: {
+    id: string;
+    name: string;
+    price: number;
+  }[];
+}

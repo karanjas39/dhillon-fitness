@@ -2,7 +2,7 @@ import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tagTypes } from "@/store/api/tags";
 import { RootState } from "@/store/index";
-import { Api_AllMemberships } from "@/utils/Types/apiTypes";
+import { Api_AllMemberships, Api_MembershipIds } from "@/utils/Types/apiTypes";
 
 export const membershipApi = createApi({
   reducerPath: "membershipApi",
@@ -20,6 +20,9 @@ export const membershipApi = createApi({
   endpoints: (builder) => ({
     getAllMemberships: builder.query<Api_AllMemberships, void>({
       query: () => "/membership/all",
+    }),
+    getAllMembershipIds: builder.query<Api_MembershipIds, void>({
+      query: () => "/membership/ids",
     }),
   }),
 });

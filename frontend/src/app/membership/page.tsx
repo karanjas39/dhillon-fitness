@@ -1,10 +1,17 @@
 import Section from "@/components/Layouts/Section";
 import MembershipTable from "@/components/Memberships/MembershipTable";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function Membership() {
   return (
     <Section>
-      <h1 className="text-2xl font-bold">Memberships</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="sm:text-2xl text-lg font-bold">Membership Management</h1>
+        <Link href="/membership/create">
+          <Button>Add Membership</Button>
+        </Link>
+      </div>
       <MembershipTable />
     </Section>
   );
