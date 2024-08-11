@@ -18,3 +18,17 @@ interface Api_DailyStatType extends GeneralResponse {
   totalIncome: number;
   date: Date;
 }
+
+interface Api_AllCustomers extends GeneralResponse {
+  customers: {
+    id: string;
+    name: string;
+    phone: string;
+    memberships: {
+      membership: {
+        name: string;
+      };
+      endDate: string;
+    }[];
+  }[];
+}
