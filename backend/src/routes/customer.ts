@@ -4,6 +4,7 @@ import {
   CreateCustomerMembership,
   GetAllCustomers,
 } from "../controllers/customer";
+import { GetExpiredMemberships } from "../controllers/membership";
 
 const customer = new Hono<{
   Bindings: {
@@ -13,6 +14,7 @@ const customer = new Hono<{
 
 customer.post("/create", CreateCustomer);
 customer.post("/membership/create", CreateCustomerMembership);
+customer.get("/membership/expired", GetExpiredMemberships);
 customer.get("/all", GetAllCustomers);
 
 export default customer;

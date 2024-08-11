@@ -1,0 +1,119 @@
+import { Context } from "hono";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
+
+export async function GetYearlySales(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const now = new Date();
+
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const yearlyData = await prisma.userMembership.findMany({
+      where: {
+        startDate: {
+          gte: startOfYear,
+          lte: endOfYear,
+        },
+        paymentAmount: {
+          gte: 0,
+        },
+      },
+      select: {
+        startDate: true,
+        paymentAmount: true,
+      },
+    });
+
+    const monthlyIncome = Array(12).fill(0);
+
+    for (const entry of yearlyData) {
+      const month = new Date(entry.startDate).getMonth();
+      monthlyIncome[month] += entry.paymentAmount;
+    }
+
+    const formattedMonthlyIncome = monthlyIncome.map((totalIncome, index) => ({
+      month: new Date(now.getFullYear(), index, 1).toLocaleString("default", {
+        month: "long",
+      }),
+      totalIncome,
+    }));
+
+    return c.json({
+      success: true,
+      status: 200,
+      monthlyIncome: formattedMonthlyIncome,
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message
+        ? err.message
+        : "Error while retrieving yearly sales data.",
+    });
+  }
+}
+
+export async function GetDailySales(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const now = new Date();
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      0,
+      0,
+      0
+    );
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+
+    const dailyIncome = await prisma.userMembership.aggregate({
+      _sum: {
+        paymentAmount: true,
+      },
+      where: {
+        startDate: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
+        paymentAmount: {
+          gte: 0,
+        },
+      },
+    });
+
+    const totalDailyIncome = dailyIncome._sum.paymentAmount || 0;
+
+    return c.json({
+      success: true,
+      status: 200,
+      totalIncome: totalDailyIncome,
+      date: startOfDay.toISOString(),
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message || "Error while retrieving daily sales data.",
+    });
+  }
+}

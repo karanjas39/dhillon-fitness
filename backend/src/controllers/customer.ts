@@ -90,10 +90,25 @@ export async function CreateCustomerMembership(c: Context) {
 
     if (!isUser) throw new Error("No such customer exist.");
 
-    const newBalance =
-      data.paymentAmount > isUser.balance
-        ? data.paymentAmount - isUser.balance
-        : isUser.balance + (isMembershipExist.price - data.paymentAmount);
+    let newBalance;
+
+    if (data.paymentAmount > isMembershipExist.price) {
+      if (isUser.balance < 0) {
+        newBalance =
+          isUser.balance + (data.paymentAmount - isMembershipExist.price);
+      } else {
+        newBalance =
+          data.paymentAmount - isMembershipExist.price + isUser.balance;
+      }
+    } else {
+      if (isUser.balance < 0) {
+        newBalance =
+          isUser.balance + (data.paymentAmount - isMembershipExist.price);
+      } else {
+        newBalance =
+          isUser.balance - (isMembershipExist.price - data.paymentAmount);
+      }
+    }
 
     await prisma.user.update({
       where: { id: isUser.id },

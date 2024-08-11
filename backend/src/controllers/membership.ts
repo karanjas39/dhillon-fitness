@@ -219,3 +219,52 @@ export async function deleteMembership(c: Context) {
     });
   }
 }
+
+export async function GetExpiredMemberships(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const nowUTC = new Date();
+    const istOffsetMinutes = 330;
+    const nowIST = new Date(nowUTC.getTime() + istOffsetMinutes * 60 * 1000);
+
+    const expiredMemberships = await prisma.userMembership.findMany({
+      where: {
+        endDate: {
+          lt: nowIST,
+        },
+      },
+      select: {
+        membership: {
+          select: {
+            name: true,
+          },
+        },
+        endDate: true,
+        user: {
+          select: {
+            name: true,
+            phone: true,
+          },
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      expiredMemberships,
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message
+        ? err.message
+        : "Error while retrieving expired memberships.",
+    });
+  }
+}
