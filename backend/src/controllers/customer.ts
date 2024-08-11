@@ -229,6 +229,116 @@ export async function GetAllCustomers(c: Context) {
   }
 }
 
+export async function GetCustomerDetails(c: Context) {
+  const params = c.req.param();
+
+  const { success, data } = z_id.safeParse(params);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const customer = await prisma.user.findUnique({
+      where: {
+        id: data.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        address: true,
+        balance: true,
+        email: true,
+        sex: true,
+        joinDate: true,
+      },
+    });
+
+    if (!customer) throw new Error("No customers found.");
+
+    return c.json({
+      success: true,
+      status: 200,
+      customer,
+    });
+  } catch (error) {
+    const err = error as Error;
+
+    return c.json({
+      success: false,
+      status: 400,
+      message:
+        err && err.message ? err.message : "Error while fetching customers.",
+    });
+  }
+}
+
+export async function GetCustomerMemberships(c: Context) {
+  const params = c.req.param();
+
+  const { success, data } = z_id.safeParse(params);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const customerMemberships = await prisma.userMembership.findMany({
+      where: {
+        userId: data.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        startDate: true,
+        endDate: true,
+        membership: {
+          select: {
+            name: true,
+          },
+        },
+        paymentAmount: true,
+        priceAtPurchase: true,
+      },
+    });
+
+    if (!customerMemberships.length) throw new Error("No customers found.");
+
+    return c.json({
+      success: true,
+      status: 200,
+      customerMemberships,
+    });
+  } catch (error) {
+    const err = error as Error;
+
+    return c.json({
+      success: false,
+      status: 400,
+      message:
+        err && err.message ? err.message : "Error while fetching customers.",
+    });
+  }
+}
+
 export async function DeleteCustomerMembership(c: Context) {
   const body = await c.req.json();
 

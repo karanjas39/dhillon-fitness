@@ -5,8 +5,8 @@ function CustomerTableHeader() {
     <TableHeader>
       <TableRow>
         <TableHead className="w-[200px]">Name</TableHead>
-        <TableHead>Phone</TableHead>
-        <TableHead>Membership Plan</TableHead>
+        <TableHead>Phone Number</TableHead>
+        <TableHead>Latest Membership Plan</TableHead>
         <TableHead className="text-right">Status</TableHead>
       </TableRow>
     </TableHeader>

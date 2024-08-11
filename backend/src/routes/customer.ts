@@ -3,6 +3,8 @@ import {
   CreateCustomer,
   DeleteCustomerMembership,
   GetAllCustomers,
+  GetCustomerDetails,
+  GetCustomerMemberships,
   RenewCustomerMembership,
 } from "../controllers/customer";
 import { GetExpiredMemberships } from "../controllers/membership";
@@ -14,6 +16,8 @@ const customer = new Hono<{
 }>();
 
 customer.post("/create", CreateCustomer);
+customer.get("/detail/:id", GetCustomerDetails);
+customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
 customer.get("/membership/expired", GetExpiredMemberships);
 customer.delete("/membership/delete", DeleteCustomerMembership);
