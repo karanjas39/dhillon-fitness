@@ -16,3 +16,31 @@ export function modifyDateToMonth_Year(isoString: string | undefined): string {
 
   return humanReadableDate;
 }
+
+export function modifyDate(isoString: string | undefined): string {
+  const date = new Date(isoString || "");
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  const humanReadableDate = date.toLocaleString("en-US", options);
+
+  return humanReadableDate;
+}
+
+export function isMembershipExpired(endDate: string) {
+  const endDateTime = new Date(endDate);
+
+  const today = new Date();
+  const todayMidnight = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    0,
+    1
+  );
+  return todayMidnight > endDateTime;
+}
