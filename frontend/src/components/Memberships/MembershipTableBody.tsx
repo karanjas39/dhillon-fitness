@@ -15,7 +15,7 @@ function MembershipTableBody({
   return (
     <TableBody className="w-full">
       {memberships.map((membership) => (
-        <TableRow>
+        <TableRow key={membership.id}>
           <TableCell>{membership.name}</TableCell>
           <TableCell>{membership.description}</TableCell>
           <TableCell>{membership.durationDays}</TableCell>

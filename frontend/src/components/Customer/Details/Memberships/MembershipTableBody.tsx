@@ -7,8 +7,8 @@ function MembershipTableBody({
 }: Pick<Api_CustomerMemberships, "customerMemberships">) {
   return (
     <TableBody className="w-full">
-      {customerMemberships.map((membership) => (
-        <TableRow className="cursor-pointer">
+      {customerMemberships.map((membership, i) => (
+        <TableRow className="cursor-pointer" key={i}>
           <TableCell>{membership.membership.name}</TableCell>
           <TableCell>{modifyDate(membership.startDate)}</TableCell>
           <TableCell>{modifyDate(membership.endDate)}</TableCell>
