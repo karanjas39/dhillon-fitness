@@ -2,6 +2,7 @@ import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tag_all_customers, tagTypes } from "@/store/api/tags";
 import { RootState } from "@/store/index";
+import { Api_AllCustomers } from "@/utils/Types/apiTypes";
 
 export const customerApi = createApi({
   reducerPath: "customerApi",

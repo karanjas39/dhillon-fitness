@@ -31,7 +31,7 @@ function MonthlyStats() {
   return (
     <div>
       <div className="flex flex-col mb-4 mt-4">
-        <h2 className="sm:text-2xl text-xl font-bold">Today's Sale</h2>
+        <h2 className="sm:text-2xl text-xl font-bold">Today&lsquo;s Sale</h2>
         <p className="text-muted-foreground sm:text-lg text-base font-semibold">
           Total revenue generated today
         </p>
@@ -39,7 +39,7 @@ function MonthlyStats() {
       {!isLoading && data?.success ? (
         <Card x-chunk="dashboard-05-chunk-1">
           <CardHeader className="pb-2">
-            <CardDescription>Today's Sale</CardDescription>
+            <CardDescription>Today&lsquo;s Sale</CardDescription>
             <CardTitle className="text-4xl">
               &#8377; {data.totalIncome}
             </CardTitle>

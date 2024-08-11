@@ -13,7 +13,7 @@ function ProtectedRoutes({ children }: ChildrenProp) {
 
   useEffect(() => {
     if (!token && pathName !== "/") router.push("/");
-  }, [token]);
+  }, [token, router, pathName]);
 
   return <>{children}</>;
 }

@@ -39,7 +39,7 @@ function SignIn() {
 
   useEffect(() => {
     if (token) router.push("/dashboard");
-  }, [token]);
+  }, [token, router]);
 
   async function onSubmit(values: z_signin_type) {
     try {
