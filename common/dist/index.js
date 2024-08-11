@@ -14,7 +14,8 @@ exports.z_createUser = zod_1.z.object({
     phone: zod_1.z.string().min(10).max(10),
     address: zod_1.z.string(),
     sex: zod_1.z.enum(["male", "female"]),
-    balance: zod_1.z.number(),
+    membershipId: zod_1.z.string().uuid(),
+    paymentAmount: zod_1.z.number(),
 });
 exports.z_updateUser = zod_1.z.object({
     id: zod_1.z.string().uuid(),

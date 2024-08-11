@@ -18,20 +18,23 @@ export declare const z_createUser: z.ZodObject<{
     phone: z.ZodString;
     address: z.ZodString;
     sex: z.ZodEnum<["male", "female"]>;
-    balance: z.ZodNumber;
+    membershipId: z.ZodString;
+    paymentAmount: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     name: string;
     phone: string;
     address: string;
     sex: "male" | "female";
-    balance: number;
+    membershipId: string;
+    paymentAmount: number;
     email?: string | undefined;
 }, {
     name: string;
     phone: string;
     address: string;
     sex: "male" | "female";
-    balance: number;
+    membershipId: string;
+    paymentAmount: number;
     email?: string | undefined;
 }>;
 export declare const z_updateUser: z.ZodObject<{
@@ -77,13 +80,13 @@ export declare const z_createUserMembership: z.ZodObject<{
     membershipId: z.ZodString;
     paymentAmount: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    userId: string;
     membershipId: string;
     paymentAmount: number;
+    userId: string;
 }, {
-    userId: string;
     membershipId: string;
     paymentAmount: number;
+    userId: string;
 }>;
 export declare const z_updateUserMembership: z.ZodObject<{
     id: z.ZodString;

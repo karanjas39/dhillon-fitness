@@ -6,7 +6,9 @@ import {
   z_createUser_type,
   z_createUserMembership,
   z_createUserMembership_type,
+  z_id,
 } from "@singhjaskaran/dhillonfitness-common";
+import { getCurrentDate } from "../helpers/helper";
 
 export async function CreateCustomer(c: Context) {
   const body: z_createUser_type = await c.req.json();
@@ -26,28 +28,67 @@ export async function CreateCustomer(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
+    const isMembershipExist = await prisma.membership.findUnique({
+      where: {
+        id: data.membershipId,
+        active: true,
+      },
+    });
+
+    if (!isMembershipExist) throw new Error("No such membership plan exist.");
+
+    const balance =
+      data.paymentAmount > isMembershipExist.price
+        ? data.paymentAmount - isMembershipExist.price
+        : isMembershipExist.price - data.paymentAmount;
+
     const newUser = await prisma.user.create({
-      data,
+      data: {
+        name: data.name,
+        address: data.address,
+        phone: data.phone,
+        sex: data.sex,
+        balance,
+        email: data.email ? data.email : null,
+      },
     });
 
     if (!newUser) throw new Error("Failed to create new customer.");
+
+    const { startDate, endDate } = getCurrentDate();
+    endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
+    endDate.setHours(23, 59, 59, 999);
+
+    const newUserMembership = await prisma.userMembership.create({
+      data: {
+        userId: newUser.id,
+        paymentAmount: data.paymentAmount,
+        membershipId: data.membershipId,
+        endDate,
+        startDate,
+        priceAtPurchase: isMembershipExist.price,
+      },
+    });
+
+    if (!newUserMembership)
+      throw new Error("Customer created but membership not added.");
 
     return c.json({
       success: true,
       status: 200,
       message: "New customer is created successfuly.",
-      userId: newUser.id,
     });
   } catch (error) {
+    const err = error as Error;
     return c.json({
       success: false,
       status: 400,
-      message: error,
+      message: err.message ? err.message : "Failed to create new Customer.",
     });
   }
 }
 
-export async function CreateCustomerMembership(c: Context) {
+export async function RenewCustomerMembership(c: Context) {
   const body: z_createUserMembership_type = await c.req.json();
 
   const { success, data } = z_createUserMembership.safeParse(body);
@@ -73,12 +114,7 @@ export async function CreateCustomerMembership(c: Context) {
 
     if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-    const now = new Date();
-    const utcOffsetMinutes = now.getTimezoneOffset();
-    const indiaOffsetMinutes = 330;
-    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
-    const startDate = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
-    const endDate = new Date(startDate);
+    const { startDate, endDate } = getCurrentDate();
     endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
     endDate.setHours(23, 59, 59, 999);
 
@@ -158,6 +194,10 @@ export async function GetAllCustomers(c: Context) {
         name: true,
         phone: true,
         memberships: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
           select: {
             membership: {
               select: {
@@ -185,6 +225,47 @@ export async function GetAllCustomers(c: Context) {
       status: 400,
       message:
         err && err.message ? err.message : "Error while fetching customers.",
+    });
+  }
+}
+
+export async function DeleteCustomerMembership(c: Context) {
+  const body = await c.req.json();
+
+  const { success, data } = z_id.safeParse(body);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    await prisma.userMembership.delete({
+      where: {
+        id: data.id,
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "This Customer membership is deleted successfuly.",
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message
+        ? err.message.toString()
+        : "Failed while deleting customer membership.",
     });
   }
 }
