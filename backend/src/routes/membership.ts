@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import {
   CreateMembership,
   deleteMembership,
-  GetMembershipById,
+  GetAllMemberships,
   GetMembershipIds,
   UpdateMembership,
 } from "../controllers/membership";
@@ -17,6 +17,6 @@ membership.post("/create", CreateMembership);
 membership.put("/update", UpdateMembership);
 membership.delete("/delete", deleteMembership);
 membership.get("/ids", GetMembershipIds);
-membership.get("/:id", GetMembershipById);
+membership.get("/all", GetAllMemberships);
 
 export default membership;

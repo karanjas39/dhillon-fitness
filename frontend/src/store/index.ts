@@ -4,19 +4,22 @@ import authReducer from "@/store/slices/authSlice";
 import { authApi } from "@/store/api/authApi";
 import { statsApi } from "@/store/api/statsApi";
 import { customerApi } from "./api/customerApi";
+import { membershipApi } from "./api/membershipApi";
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [statsApi.reducerPath]: statsApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
+    [membershipApi.reducerPath]: membershipApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
       statsApi.middleware,
-      customerApi.middleware
+      customerApi.middleware,
+      membershipApi.middleware
     ),
 });
 

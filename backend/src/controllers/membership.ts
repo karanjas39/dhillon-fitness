@@ -134,44 +134,28 @@ export async function GetMembershipIds(c: Context) {
   }
 }
 
-export async function GetMembershipById(c: Context) {
-  const params = c.req.param();
-
-  const { success, data } = z_id.safeParse(params);
-
-  if (!success) {
-    return c.json({
-      success: false,
-      status: 404,
-      message: "Invalid inputs are passed.",
-    });
-  }
-
+export async function GetAllMemberships(c: Context) {
   try {
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const membership = await prisma.membership.findUnique({
+    const memberships = await prisma.membership.findMany({
       where: {
-        id: data.id,
         active: true,
       },
     });
-
-    if (!membership) throw new Error("No such active membership found.");
-
     return c.json({
       success: true,
       status: 200,
-      membership,
+      memberships,
     });
   } catch (error) {
     const err = error as Error;
     return c.json({
       success: false,
       status: 400,
-      message: err.message ? err.message : "Failed while fetching membership.",
+      message: err.message ? err.message : "Failed while fetching memberships.",
     });
   }
 }

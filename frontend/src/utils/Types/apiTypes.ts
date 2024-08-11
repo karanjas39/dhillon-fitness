@@ -57,3 +57,16 @@ export interface Api_CustomerMemberships extends GeneralResponse {
     priceAtPurchase: number;
   }[];
 }
+
+export interface Api_AllMemberships extends GeneralResponse {
+  memberships: {
+    id: string;
+    name: string;
+    description: string;
+    durationDays: number;
+    price: number;
+    active: boolean;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
