@@ -32,3 +32,28 @@ export interface Api_AllCustomers extends GeneralResponse {
     }[];
   }[];
 }
+
+export interface Api_CustomerDetail extends GeneralResponse {
+  customer: {
+    id: string;
+    name: string;
+    phone: string;
+    address: string;
+    balance: number;
+    email: string;
+    sex: string;
+    joinDate: string;
+  };
+}
+
+export interface Api_CustomerMemberships extends GeneralResponse {
+  customerMemberships: {
+    startDate: string;
+    endDate: string;
+    membership: {
+      name: string;
+    };
+    paymentAmount: number;
+    priceAtPurchase: number;
+  }[];
+}

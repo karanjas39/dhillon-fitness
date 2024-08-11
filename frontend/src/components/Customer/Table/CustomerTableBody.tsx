@@ -1,25 +1,21 @@
 "use client";
 
-import Loader from "@/components/Loader/Loader";
 import { Badge } from "@/components/ui/badge";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { customerApi } from "@/store/api/customerApi";
 import { isMembershipExpired } from "@/utils/helper";
+import { Api_AllCustomers } from "@/utils/Types/apiTypes";
 import { useRouter } from "next/navigation";
 
-function CustomerTableRow() {
-  const { data, isLoading } = customerApi.useGetAllCustomersQuery();
+function CustomerTableRow({ customers }: Pick<Api_AllCustomers, "customers">) {
   const router = useRouter();
 
   function handleRowClick(id: string) {
     router.push(`/customer/detail/${id}`);
   }
 
-  if (isLoading && !data) return <Loader className="w-full self-center" />;
-
   return (
     <TableBody className="w-full">
-      {data?.customers.map((customer) => (
+      {customers.map((customer) => (
         <TableRow
           onClick={() => handleRowClick(customer.id)}
           key={customer.id}
