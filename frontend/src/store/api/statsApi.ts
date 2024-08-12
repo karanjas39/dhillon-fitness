@@ -1,8 +1,17 @@
 import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tag_daily_stats, tag_yearly_stats, tagTypes } from "@/store/api/tags";
+import {
+  tag_daily_stats,
+  tag_membership_stats,
+  tag_yearly_stats,
+  tagTypes,
+} from "@/store/api/tags";
 import { RootState } from "@/store/index";
-import { Api_DailyStatType, Api_YearlyStatType } from "@/utils/Types/apiTypes";
+import {
+  Api_DailyStatType,
+  Api_MembershipStat,
+  Api_YearlyStatType,
+} from "@/utils/Types/apiTypes";
 
 export const statsApi = createApi({
   reducerPath: "statsApi",
@@ -25,6 +34,10 @@ export const statsApi = createApi({
     getDailyStats: builder.query<Api_DailyStatType, void>({
       query: () => "/stats/daily",
       providesTags: [tag_daily_stats],
+    }),
+    getMembershipStats: builder.query<Api_MembershipStat, void>({
+      query: () => "/stats/membership/today",
+      providesTags: [tag_membership_stats],
     }),
   }),
 });

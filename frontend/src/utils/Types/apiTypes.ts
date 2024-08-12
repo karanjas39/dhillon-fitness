@@ -19,6 +19,11 @@ export interface Api_DailyStatType extends GeneralResponse {
   date: Date;
 }
 
+export interface Api_MembershipStat extends GeneralResponse {
+  expiredTodayCount: number;
+  liveUntilTodayCount: number;
+}
+
 export interface Api_AllCustomers extends GeneralResponse {
   customers: {
     id: string;
