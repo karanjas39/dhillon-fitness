@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { modifyDate } from "@/utils/helper";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
   return (
@@ -38,13 +37,12 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
           title="Joined On"
           value={modifyDate(customer.joinDate)}
         />
-        <Button className="self-end mt-4">Edit Details</Button>
       </CardContent>
     </Card>
   );
 }
 
-function CardContentDiv({
+export function CardContentDiv({
   title,
   value,
 }: {

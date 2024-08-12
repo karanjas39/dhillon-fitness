@@ -25,6 +25,7 @@ function CustomerDetails() {
             <TabsList>
               <TabsTrigger value="details">Details</TabsTrigger>
               <TabsTrigger value="memberships">Memberships</TabsTrigger>
+              <TabsTrigger value="editDetail">Edit Details</TabsTrigger>
             </TabsList>
             <TabsContent value="details">
               <CustomerDetail customer={data.customer} />
@@ -32,6 +33,7 @@ function CustomerDetails() {
             <TabsContent value="memberships">
               <MembershipTable id={params.id} />
             </TabsContent>
+            <TabsContent value="editDetail">Helllo</TabsContent>
           </Tabs>
         </Section>
       )}

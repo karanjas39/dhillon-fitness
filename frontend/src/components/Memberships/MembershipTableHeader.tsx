@@ -4,13 +4,10 @@ function MembershipTableHeader() {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-[200px]">Name</TableHead>
-        <TableHead className="w-[250px]">Description</TableHead>
-        <TableHead>Days</TableHead>
-        <TableHead>Created On</TableHead>
-        <TableHead>Updated On</TableHead>
-        <TableHead>Price</TableHead>
-        <TableHead className="text-right">Actions</TableHead>
+        <TableHead className="w-[300px]">Name</TableHead>
+        <TableHead className="text-center">Days</TableHead>
+        <TableHead className="text-center">Price</TableHead>
+        <TableHead className="text-right">Status</TableHead>
       </TableRow>
     </TableHeader>
   );

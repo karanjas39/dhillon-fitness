@@ -103,9 +103,11 @@ export async function UpdateMembership(c: Context) {
 }
 
 export async function GetAllMemberships(c: Context) {
-  const body = await c.req.json();
+  const params = c.req.param();
 
-  const { success, data } = z_onlyActive.safeParse(body);
+  const { success, data } = z_onlyActive.safeParse({
+    onlyActive: params.onlyActive === "false" ? false : true,
+  });
 
   if (!success) {
     return c.json({
@@ -130,7 +132,6 @@ export async function GetAllMemberships(c: Context) {
           id: true,
           name: true,
           price: true,
-          durationDays: true,
         },
       });
     } else {

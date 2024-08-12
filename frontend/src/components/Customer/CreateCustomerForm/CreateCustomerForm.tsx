@@ -47,7 +47,9 @@ function CreateCustomerForm() {
       sex: "male",
     },
   });
-  const { data, isLoading } = membershipApi.useGetAllMembershipIdsQuery();
+  const { data, isLoading } = membershipApi.useGetAllMembershipIdsQuery({
+    onlyActive: true,
+  });
 
   async function onSubmit(values: z_createUser_type) {
     try {
