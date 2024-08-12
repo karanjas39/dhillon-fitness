@@ -117,3 +117,49 @@ export async function GetDailySales(c: Context) {
     });
   }
 }
+
+export async function GetMembershipStats(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const now = new Date();
+    const utcOffsetMinutes = now.getTimezoneOffset();
+    const indiaOffsetMinutes = 330;
+    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
+    const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
+
+    const endOfToday = new Date(currentIST.setHours(23, 59, 59, 999));
+
+    const expiredTodayCount = await prisma.userMembership.count({
+      where: {
+        endDate: {
+          lte: endOfToday,
+        },
+      },
+    });
+
+    const liveUntilTodayCount = await prisma.userMembership.count({
+      where: {
+        endDate: {
+          gt: currentIST,
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      expiredTodayCount,
+      liveUntilTodayCount,
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message || "Failed to retrieve membership stats.",
+    });
+  }
+}

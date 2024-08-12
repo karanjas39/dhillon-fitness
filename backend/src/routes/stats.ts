@@ -1,5 +1,9 @@
 import { Hono } from "hono";
-import { GetDailySales, GetYearlySales } from "../controllers/stats";
+import {
+  GetDailySales,
+  GetMembershipStats,
+  GetYearlySales,
+} from "../controllers/stats";
 
 const stats = new Hono<{
   Bindings: {
@@ -12,5 +16,6 @@ const stats = new Hono<{
 
 stats.get("/yearly", GetYearlySales);
 stats.get("/daily", GetDailySales);
+stats.get("/membership/today", GetMembershipStats);
 
 export default stats;
