@@ -43,7 +43,7 @@ export const customerApi = createApi({
         method: "POST",
         body: query,
       }),
-      invalidatesTags: [tag_all_customers],
+      // invalidatesTags: [tag_all_customers],
     }),
     createCustomerMembership: builder.mutation<
       GeneralResponse,
@@ -56,6 +56,7 @@ export const customerApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_memberships, id: arg.userId },
+        tag_customer_detail,
       ],
     }),
     updateCustomer: builder.mutation<GeneralResponse, z_updateUser_type>({
@@ -66,6 +67,7 @@ export const customerApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.id },
+        tag_all_customers,
       ],
     }),
     getCustomerDetails: builder.query<Api_CustomerDetail, { id: string }>({

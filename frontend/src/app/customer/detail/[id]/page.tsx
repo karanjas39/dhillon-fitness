@@ -7,6 +7,8 @@ import CustomerDetail from "@/components/Customer/Details/CustomerDetail";
 import { customerApi } from "@/store/api/customerApi";
 import Loader from "@/components/Loader/Loader";
 import MembershipTable from "@/components/Customer/Details/Memberships/MembershipTable";
+import EditCustomerForm from "@/components/Customer/Details/Edit/EditCustomerForm";
+import AddMembershipDialog from "@/components/Customer/Details/AddMembership/AddMembershipDialog";
 
 function CustomerDetails() {
   const params = useParams<{ id: string }>();
@@ -20,7 +22,12 @@ function CustomerDetails() {
     <>
       {data?.success && (
         <Section className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold mt-3 mb-3">{data.customer.name}</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-bold mt-3 mb-3">
+              {data.customer.name}
+            </h1>
+            <AddMembershipDialog id={params.id} />
+          </div>
           <Tabs defaultValue="details">
             <TabsList>
               <TabsTrigger value="details">Details</TabsTrigger>
@@ -33,7 +40,9 @@ function CustomerDetails() {
             <TabsContent value="memberships">
               <MembershipTable id={params.id} />
             </TabsContent>
-            <TabsContent value="editDetail">Helllo</TabsContent>
+            <TabsContent value="editDetail">
+              <EditCustomerForm customer={data.customer} />
+            </TabsContent>
           </Tabs>
         </Section>
       )}
