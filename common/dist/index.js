@@ -20,10 +20,11 @@ exports.z_createUser = zod_1.z.object({
 exports.z_updateUser = zod_1.z.object({
     id: zod_1.z.string().uuid(),
     name: zod_1.z.string().optional(),
-    email: zod_1.z.string().email().optional(),
+    email: zod_1.z.string().email().or(zod_1.z.literal("").optional()),
     phone: zod_1.z.string().min(10).max(10).optional(),
     address: zod_1.z.string().optional(),
     sex: zod_1.z.enum(["male", "female"]).optional(),
+    // balance: z.coerce.number().optional(),
 });
 exports.z_createMembership = zod_1.z.object({
     name: zod_1.z.string(),

@@ -40,7 +40,7 @@ export declare const z_createUser: z.ZodObject<{
 export declare const z_updateUser: z.ZodObject<{
     id: z.ZodString;
     name: z.ZodOptional<z.ZodString>;
-    email: z.ZodOptional<z.ZodString>;
+    email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
     phone: z.ZodOptional<z.ZodString>;
     address: z.ZodOptional<z.ZodString>;
     sex: z.ZodOptional<z.ZodEnum<["male", "female"]>>;

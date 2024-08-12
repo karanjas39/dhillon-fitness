@@ -6,8 +6,8 @@ import {
   GetCustomerDetails,
   GetCustomerMemberships,
   RenewCustomerMembership,
+  UpdateCustomer,
 } from "../controllers/customer";
-import { GetExpiredMemberships } from "../controllers/membership";
 
 const customer = new Hono<{
   Bindings: {
@@ -16,10 +16,10 @@ const customer = new Hono<{
 }>();
 
 customer.post("/create", CreateCustomer);
+customer.put("/update", UpdateCustomer);
 customer.get("/detail/:id", GetCustomerDetails);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
-customer.get("/membership/expired", GetExpiredMemberships);
 customer.delete("/membership/delete", DeleteCustomerMembership);
 customer.get("/all", GetAllCustomers);
 
