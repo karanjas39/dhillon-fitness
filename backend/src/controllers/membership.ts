@@ -78,7 +78,6 @@ export async function UpdateMembership(c: Context) {
     const updatedMembership = await prisma.membership.update({
       where: {
         id: id,
-        active: true,
       },
       data: {
         ...dataToUpdate,

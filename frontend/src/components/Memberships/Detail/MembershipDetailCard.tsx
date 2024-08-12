@@ -24,15 +24,14 @@ function MembershipDetailCard({
       <CardContent className="flex flex-col gap-2">
         <CardContentDiv title="Description" value={membership.description} />
         <CardContentDiv title="Price" value={membership.price} />
+        <CardContentDiv title="Days" value={membership.durationDays} />
         <div className="flex items-center justify-between">
           <p className="font-bold">Status</p>
-          <p className="text-muted-foreground">
-            {!membership.active ? (
-              <Badge variant="destructive">Not Active</Badge>
-            ) : (
-              <Badge variant="constructive">Active</Badge>
-            )}
-          </p>
+          {!membership.active ? (
+            <Badge variant="destructive">Not Active</Badge>
+          ) : (
+            <Badge variant="constructive">Active</Badge>
+          )}
         </div>
         <CardContentDiv
           title="Created On"

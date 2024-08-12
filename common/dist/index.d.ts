@@ -133,25 +133,25 @@ export declare const z_id: z.ZodObject<{
 }>;
 export declare const z_updateMembership: z.ZodObject<{
     id: z.ZodString;
-    name: z.ZodNullable<z.ZodOptional<z.ZodString>>;
-    description: z.ZodNullable<z.ZodOptional<z.ZodString>>;
-    durationDays: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
-    price: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
-    active: z.ZodNullable<z.ZodOptional<z.ZodBoolean>>;
+    name: z.ZodOptional<z.ZodString>;
+    description: z.ZodOptional<z.ZodString>;
+    durationDays: z.ZodOptional<z.ZodNumber>;
+    price: z.ZodOptional<z.ZodNumber>;
+    active: z.ZodOptional<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
     id: string;
-    name?: string | null | undefined;
-    description?: string | null | undefined;
-    durationDays?: number | null | undefined;
-    price?: number | null | undefined;
-    active?: boolean | null | undefined;
+    name?: string | undefined;
+    description?: string | undefined;
+    durationDays?: number | undefined;
+    price?: number | undefined;
+    active?: boolean | undefined;
 }, {
     id: string;
-    name?: string | null | undefined;
-    description?: string | null | undefined;
-    durationDays?: number | null | undefined;
-    price?: number | null | undefined;
-    active?: boolean | null | undefined;
+    name?: string | undefined;
+    description?: string | undefined;
+    durationDays?: number | undefined;
+    price?: number | undefined;
+    active?: boolean | undefined;
 }>;
 export declare const z_updatePassword: z.ZodObject<{
     newPassword: z.ZodString;
