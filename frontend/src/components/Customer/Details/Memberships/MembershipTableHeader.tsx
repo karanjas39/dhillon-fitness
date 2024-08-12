@@ -5,8 +5,8 @@ function MembershipTableHeader() {
     <TableHeader>
       <TableRow>
         <TableHead className="w-[250px]">Membership Plan</TableHead>
-        <TableHead>Start Date</TableHead>
-        <TableHead>End Date</TableHead>
+        <TableHead className="w-[200px]">Start Date</TableHead>
+        <TableHead className="w-[200px]">End Date</TableHead>
         <TableHead>Actual Price</TableHead>
         <TableHead className="text-right">Amount Paid</TableHead>
       </TableRow>

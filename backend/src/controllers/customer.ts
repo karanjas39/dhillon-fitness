@@ -37,10 +37,7 @@ export async function CreateCustomer(c: Context) {
 
     if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-    const balance =
-      data.paymentAmount > isMembershipExist.price
-        ? data.paymentAmount - isMembershipExist.price
-        : isMembershipExist.price - data.paymentAmount;
+    const balance = data.paymentAmount - isMembershipExist.price;
 
     const newUser = await prisma.user.create({
       data: {

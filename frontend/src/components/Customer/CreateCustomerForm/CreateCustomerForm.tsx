@@ -26,8 +26,15 @@ import {
 } from "@singhjaskaran/dhillonfitness-common";
 import { membershipApi } from "@/store/api/membershipApi";
 import Loader from "@/components/Loader/Loader";
+import { customerApi } from "@/store/api/customerApi";
+import { useToast } from "@/components/ui/use-toast";
 
 function CreateCustomerForm() {
+  const [createCustomer, { isLoading: isCreatingCustomer }] =
+    customerApi.useCreateNewCustomerMutation();
+
+  const { toast } = useToast();
+
   const form = useForm<z_createUser_type>({
     resolver: zodResolver(z_createUser),
     defaultValues: {
@@ -42,8 +49,18 @@ function CreateCustomerForm() {
   });
   const { data, isLoading } = membershipApi.useGetAllMembershipIdsQuery();
 
-  function onSubmit(values: z_createUser_type) {
-    console.log(values);
+  async function onSubmit(values: z_createUser_type) {
+    try {
+      const response = await createCustomer(values).unwrap();
+      console.log(response);
+      if (response && response.success) {
+        toast({ description: "New customer has been created successfuly." });
+        form.reset();
+      } else throw new Error(response.message);
+    } catch (error) {
+      const err = error as Error;
+      toast({ description: err.message });
+    }
   }
 
   if (isLoading && !data) return <Loader />;
@@ -186,7 +203,9 @@ function CreateCustomerForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Create</Button>
+            <Button type="submit">
+              {isCreatingCustomer ? "Creating customer..." : "Create customer"}
+            </Button>
           </form>
         </Form>
       )}

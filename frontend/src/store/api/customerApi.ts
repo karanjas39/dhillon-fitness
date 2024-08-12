@@ -6,7 +6,9 @@ import {
   Api_AllCustomers,
   Api_CustomerDetail,
   Api_CustomerMemberships,
+  GeneralResponse,
 } from "@/utils/Types/apiTypes";
+import { z_createUser_type } from "@singhjaskaran/dhillonfitness-common";
 
 export const customerApi = createApi({
   reducerPath: "customerApi",
@@ -25,6 +27,14 @@ export const customerApi = createApi({
     getAllCustomers: builder.query<Api_AllCustomers, void>({
       query: () => "/customer/all",
       providesTags: [tag_all_customers],
+    }),
+    createNewCustomer: builder.mutation<GeneralResponse, z_createUser_type>({
+      query: (query) => ({
+        url: "/customer/create",
+        method: "POST",
+        body: query,
+      }),
+      invalidatesTags: [tag_all_customers],
     }),
     getCustomerDetails: builder.query<Api_CustomerDetail, { id: string }>({
       query: (query) => `/customer/detail/${query.id}`,
