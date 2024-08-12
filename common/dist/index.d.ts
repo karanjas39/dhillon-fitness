@@ -75,6 +75,13 @@ export declare const z_createMembership: z.ZodObject<{
     price: number;
     description?: string | undefined;
 }>;
+export declare const z_onlyActive: z.ZodObject<{
+    onlyActive: z.ZodBoolean;
+}, "strip", z.ZodTypeAny, {
+    onlyActive: boolean;
+}, {
+    onlyActive: boolean;
+}>;
 export declare const z_createUserMembership: z.ZodObject<{
     userId: z.ZodString;
     membershipId: z.ZodString;
@@ -166,3 +173,4 @@ export type z_createUserMembership_type = z.infer<typeof z_createUserMembership>
 export type z_updateUserMembership_type = z.infer<typeof z_updateUserMembership>;
 export type z_signin_type = z.infer<typeof z_signin>;
 export type z_id_type = z.infer<typeof z_id>;
+export type z_onlyActive_type = z.infer<typeof z_onlyActive>;

@@ -3,7 +3,7 @@ import {
   CreateMembership,
   deleteMembership,
   GetAllMemberships,
-  GetMembershipIds,
+  GetMembershipById,
   UpdateMembership,
 } from "../controllers/membership";
 
@@ -16,7 +16,7 @@ const membership = new Hono<{
 membership.post("/create", CreateMembership);
 membership.put("/update", UpdateMembership);
 membership.delete("/delete", deleteMembership);
-membership.get("/ids", GetMembershipIds);
-membership.get("/all", GetAllMemberships);
+membership.get("/ids", GetAllMemberships);
+membership.get("/detail/:id", GetMembershipById);
 
 export default membership;

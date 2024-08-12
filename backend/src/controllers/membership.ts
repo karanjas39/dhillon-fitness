@@ -4,6 +4,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import {
   z_createMembership,
   z_id,
+  z_onlyActive,
   z_updateMembership,
 } from "@singhjaskaran/dhillonfitness-common";
 
@@ -101,22 +102,49 @@ export async function UpdateMembership(c: Context) {
   }
 }
 
-export async function GetMembershipIds(c: Context) {
+export async function GetAllMemberships(c: Context) {
+  const body = await c.req.json();
+
+  const { success, data } = z_onlyActive.safeParse(body);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
   try {
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const membershipIds = await prisma.membership.findMany({
-      where: {
-        active: true,
-      },
-      select: {
-        id: true,
-        name: true,
-        price: true,
-      },
-    });
+    let membershipIds;
+
+    if (data.onlyActive) {
+      membershipIds = await prisma.membership.findMany({
+        where: {
+          active: true,
+        },
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          durationDays: true,
+        },
+      });
+    } else {
+      membershipIds = await prisma.membership.findMany({
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          durationDays: true,
+          active: true,
+        },
+      });
+    }
+
     return c.json({
       success: true,
       status: 200,
@@ -134,28 +162,40 @@ export async function GetMembershipIds(c: Context) {
   }
 }
 
-export async function GetAllMemberships(c: Context) {
+export async function GetMembershipById(c: Context) {
+  const params = c.req.param();
+
+  const { success, data } = z_id.safeParse(params);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
   try {
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const memberships = await prisma.membership.findMany({
+    const membership = await prisma.membership.findUnique({
       where: {
-        active: true,
+        id: data.id,
       },
     });
     return c.json({
       success: true,
       status: 200,
-      memberships,
+      membership,
     });
   } catch (error) {
     const err = error as Error;
     return c.json({
       success: false,
       status: 400,
-      message: err.message ? err.message : "Failed while fetching memberships.",
+      message: err.message ? err.message : "Failed while fetching membership.",
     });
   }
 }

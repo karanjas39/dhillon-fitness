@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_createMembership = exports.z_updateUser = exports.z_createUser = exports.z_createAdmin = void 0;
+exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_createMembership = exports.z_updateUser = exports.z_createUser = exports.z_createAdmin = void 0;
 const zod_1 = require("zod");
 // SCHEMAS
 exports.z_createAdmin = zod_1.z.object({
@@ -30,6 +30,9 @@ exports.z_createMembership = zod_1.z.object({
     description: zod_1.z.string().optional(),
     durationDays: zod_1.z.number(),
     price: zod_1.z.number(),
+});
+exports.z_onlyActive = zod_1.z.object({
+    onlyActive: zod_1.z.boolean(),
 });
 exports.z_createUserMembership = zod_1.z.object({
     userId: zod_1.z.string().uuid(),

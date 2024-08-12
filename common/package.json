@@ -1,6 +1,6 @@
 {
   "name": "@singhjaskaran/dhillonfitness-common",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "This is common folder for types of frontend and backend of dhillon-fitness repo",
   "main": "dist/index.js",
   "scripts": {
