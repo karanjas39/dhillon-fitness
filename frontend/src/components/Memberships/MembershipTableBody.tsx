@@ -18,6 +18,7 @@ function MembershipTableBody({ ids }: Pick<Api_MembershipIds, "ids">) {
         <TableRow
           key={membership.id}
           onClick={() => handleRowClick(membership.id)}
+          className="cursor-pointer"
         >
           <TableCell>{membership.name}</TableCell>
           <TableCell className="text-center">

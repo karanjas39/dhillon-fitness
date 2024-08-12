@@ -1,6 +1,10 @@
 import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tag_membership_detail, tagTypes } from "@/store/api/tags";
+import {
+  tag_all_memberships,
+  tag_membership_detail,
+  tagTypes,
+} from "@/store/api/tags";
 import { RootState } from "@/store/index";
 import {
   Api_MembershipDetails,
@@ -8,6 +12,7 @@ import {
   GeneralResponse,
 } from "@/utils/Types/apiTypes";
 import {
+  z_createMembership_type,
   z_id_type,
   z_onlyActive_type,
   z_updateMembership_type,
@@ -35,6 +40,7 @@ export const membershipApi = createApi({
     }),
     getAllMembershipIds: builder.query<Api_MembershipIds, z_onlyActive_type>({
       query: (query) => `/membership/ids/${query.onlyActive}`,
+      providesTags: [tag_all_memberships],
     }),
     updateMembership: builder.mutation<
       GeneralResponse,
@@ -47,7 +53,19 @@ export const membershipApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: tag_membership_detail, id: arg.id },
+        tag_all_memberships,
       ],
+    }),
+    createMembership: builder.mutation<
+      GeneralResponse,
+      z_createMembership_type
+    >({
+      query: (query) => ({
+        url: "/membership/create",
+        method: "POST",
+        body: query,
+      }),
+      invalidatesTags: [tag_all_memberships],
     }),
   }),
 });

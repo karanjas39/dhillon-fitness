@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import {
   CreateMembership,
-  deleteMembership,
   GetAllMemberships,
   GetMembershipById,
   UpdateMembership,
@@ -15,7 +14,6 @@ const membership = new Hono<{
 
 membership.post("/create", CreateMembership);
 membership.put("/update", UpdateMembership);
-membership.delete("/delete", deleteMembership);
 membership.get("/ids/:onlyActive", GetAllMemberships);
 membership.get("/detail/:id", GetMembershipById);
 

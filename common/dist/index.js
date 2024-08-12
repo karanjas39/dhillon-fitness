@@ -28,8 +28,8 @@ exports.z_updateUser = zod_1.z.object({
 exports.z_createMembership = zod_1.z.object({
     name: zod_1.z.string(),
     description: zod_1.z.string().optional(),
-    durationDays: zod_1.z.number(),
-    price: zod_1.z.number(),
+    durationDays: zod_1.z.coerce.number(),
+    price: zod_1.z.coerce.number(),
 });
 exports.z_onlyActive = zod_1.z.object({
     onlyActive: zod_1.z.boolean(),
@@ -37,14 +37,15 @@ exports.z_onlyActive = zod_1.z.object({
 exports.z_createUserMembership = zod_1.z.object({
     userId: zod_1.z.string().uuid(),
     membershipId: zod_1.z.string().uuid(),
-    paymentAmount: zod_1.z.number(),
+    paymentAmount: zod_1.z.coerce.number(),
 });
 exports.z_updateUserMembership = zod_1.z.object({
     id: zod_1.z.string().uuid(),
     membershipId: zod_1.z.string().uuid().optional(),
     startDate: zod_1.z.string().datetime().optional(),
     endDate: zod_1.z.string().datetime().optional(),
-    priceAtPurchase: zod_1.z.number().optional(),
+    priceAtPurchase: zod_1.z.coerce.number().optional(),
+    paymentAmount: zod_1.z.coerce.number().optional(),
 });
 exports.z_signin = zod_1.z.object({
     email: zod_1.z.string().email(),

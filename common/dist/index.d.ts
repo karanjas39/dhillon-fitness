@@ -101,15 +101,18 @@ export declare const z_updateUserMembership: z.ZodObject<{
     startDate: z.ZodOptional<z.ZodString>;
     endDate: z.ZodOptional<z.ZodString>;
     priceAtPurchase: z.ZodOptional<z.ZodNumber>;
+    paymentAmount: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     id: string;
     membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
     startDate?: string | undefined;
     endDate?: string | undefined;
     priceAtPurchase?: number | undefined;
 }, {
     id: string;
     membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
     startDate?: string | undefined;
     endDate?: string | undefined;
     priceAtPurchase?: number | undefined;

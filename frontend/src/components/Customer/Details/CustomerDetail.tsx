@@ -21,13 +21,11 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         <CardContentDiv title="Address" value={customer.address} />
         <div className="flex items-center justify-between">
           <p className="font-bold">Balance</p>
-          <p className="text-muted-foreground">
-            {customer.balance < 0 ? (
-              <Badge variant="destructive">{Math.abs(customer.balance)}</Badge>
-            ) : (
-              <Badge variant="constructive">{customer.balance}</Badge>
-            )}
-          </p>
+          {customer.balance < 0 ? (
+            <Badge variant="destructive">{Math.abs(customer.balance)}</Badge>
+          ) : (
+            <Badge variant="constructive">{customer.balance}</Badge>
+          )}
         </div>
         {customer.email && (
           <CardContentDiv title="Email" value={customer.email} />
