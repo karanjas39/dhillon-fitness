@@ -14,6 +14,11 @@ export const NavLinks = [
     title: "Memberships",
     auth: true,
   },
+  {
+    link: "/settings",
+    title: "Settings",
+    auth: true,
+  },
 ];
 
 export const navButtons = [
