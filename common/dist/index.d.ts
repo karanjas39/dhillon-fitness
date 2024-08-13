@@ -12,30 +12,56 @@ export declare const z_createAdmin: z.ZodObject<{
     name: string;
     password: string;
 }>;
-export declare const z_createUser: z.ZodObject<{
+export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     name: z.ZodString;
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
+    dob: z.ZodString;
     phone: z.ZodString;
     address: z.ZodString;
     sex: z.ZodEnum<["male", "female"]>;
-    membershipId: z.ZodString;
-    paymentAmount: z.ZodNumber;
+    membershipId: z.ZodOptional<z.ZodString>;
+    paymentAmount: z.ZodOptional<z.ZodNumber>;
+    startDate: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     name: string;
+    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
-    membershipId: string;
-    paymentAmount: number;
     email?: string | undefined;
+    membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
+    startDate?: string | undefined;
 }, {
     name: string;
+    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
-    membershipId: string;
-    paymentAmount: number;
     email?: string | undefined;
+    membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
+    startDate?: string | undefined;
+}>, {
+    name: string;
+    dob: string;
+    phone: string;
+    address: string;
+    sex: "male" | "female";
+    email?: string | undefined;
+    membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
+    startDate?: string | undefined;
+}, {
+    name: string;
+    dob: string;
+    phone: string;
+    address: string;
+    sex: "male" | "female";
+    email?: string | undefined;
+    membershipId?: string | undefined;
+    paymentAmount?: number | undefined;
+    startDate?: string | undefined;
 }>;
 export declare const z_updateUser: z.ZodObject<{
     id: z.ZodString;
@@ -43,11 +69,13 @@ export declare const z_updateUser: z.ZodObject<{
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
     phone: z.ZodOptional<z.ZodString>;
     address: z.ZodOptional<z.ZodString>;
+    dob: z.ZodOptional<z.ZodString>;
     sex: z.ZodOptional<z.ZodEnum<["male", "female"]>>;
 }, "strip", z.ZodTypeAny, {
     id: string;
     email?: string | undefined;
     name?: string | undefined;
+    dob?: string | undefined;
     phone?: string | undefined;
     address?: string | undefined;
     sex?: "male" | "female" | undefined;
@@ -55,9 +83,20 @@ export declare const z_updateUser: z.ZodObject<{
     id: string;
     email?: string | undefined;
     name?: string | undefined;
+    dob?: string | undefined;
     phone?: string | undefined;
     address?: string | undefined;
     sex?: "male" | "female" | undefined;
+}>;
+export declare const z_clearBalance: z.ZodObject<{
+    userId: z.ZodString;
+    amount: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    userId: string;
+    amount: number;
+}, {
+    userId: string;
+    amount: number;
 }>;
 export declare const z_createMembership: z.ZodObject<{
     name: z.ZodString;
@@ -75,6 +114,16 @@ export declare const z_createMembership: z.ZodObject<{
     price: number;
     description?: string | undefined;
 }>;
+export declare const z_userActivation: z.ZodObject<{
+    userId: z.ZodString;
+    active: z.ZodBoolean;
+}, "strip", z.ZodTypeAny, {
+    userId: string;
+    active: boolean;
+}, {
+    userId: string;
+    active: boolean;
+}>;
 export declare const z_onlyActive: z.ZodObject<{
     onlyActive: z.ZodBoolean;
 }, "strip", z.ZodTypeAny, {
@@ -86,13 +135,16 @@ export declare const z_createUserMembership: z.ZodObject<{
     userId: z.ZodString;
     membershipId: z.ZodString;
     paymentAmount: z.ZodNumber;
+    startDate: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     membershipId: string;
     paymentAmount: number;
+    startDate: string;
     userId: string;
 }, {
     membershipId: string;
     paymentAmount: number;
+    startDate: string;
     userId: string;
 }>;
 export declare const z_updateUserMembership: z.ZodObject<{
@@ -170,6 +222,8 @@ export declare const z_updatePassword: z.ZodObject<{
     confirmNewPassword?: string | undefined;
 }>;
 export type z_createAdmin_type = z.infer<typeof z_createAdmin>;
+export type z_clearBalance_type = z.infer<typeof z_clearBalance>;
+export type z_userActivation_type = z.infer<typeof z_userActivation>;
 export type z_updatePassword_type = z.infer<typeof z_updatePassword>;
 export type z_createUser_type = z.infer<typeof z_createUser>;
 export type z_updateUser_type = z.infer<typeof z_updateUser>;

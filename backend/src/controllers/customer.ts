@@ -8,6 +8,7 @@ import {
   z_createUserMembership_type,
   z_id,
   z_updateUser,
+  z_userActivation,
 } from "@singhjaskaran/dhillonfitness-common";
 import { getCurrentDate } from "../helpers/helper";
 
@@ -29,16 +30,23 @@ export async function CreateCustomer(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const isMembershipExist = await prisma.membership.findUnique({
-      where: {
-        id: data.membershipId,
-        active: true,
-      },
-    });
+    let balance: number;
+    let isMembershipExist;
 
-    if (!isMembershipExist) throw new Error("No such membership plan exist.");
+    if (data.paymentAmount) {
+      isMembershipExist = await prisma.membership.findUnique({
+        where: {
+          id: data.membershipId,
+          active: true,
+        },
+      });
 
-    const balance = data.paymentAmount - isMembershipExist.price;
+      if (!isMembershipExist) throw new Error("No such membership plan exist.");
+
+      balance = data.paymentAmount - isMembershipExist.price;
+    } else {
+      balance = 0;
+    }
 
     const newUser = await prisma.user.create({
       data: {
@@ -48,28 +56,31 @@ export async function CreateCustomer(c: Context) {
         sex: data.sex,
         balance,
         email: data.email ? data.email : null,
+        dob: data.dob,
       },
     });
 
     if (!newUser) throw new Error("Failed to create new customer.");
 
-    const { startDate, endDate } = getCurrentDate();
-    endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
-    endDate.setHours(23, 59, 59, 999);
+    if (isMembershipExist && data.paymentAmount) {
+      const { startDate, endDate } = getCurrentDate();
+      endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
+      endDate.setHours(23, 59, 59, 999);
 
-    const newUserMembership = await prisma.userMembership.create({
-      data: {
-        userId: newUser.id,
-        paymentAmount: data.paymentAmount,
-        membershipId: data.membershipId,
-        endDate,
-        startDate,
-        priceAtPurchase: isMembershipExist.price,
-      },
-    });
+      const newUserMembership = await prisma.userMembership.create({
+        data: {
+          userId: newUser.id,
+          paymentAmount: data.paymentAmount,
+          membershipId: isMembershipExist.id,
+          endDate,
+          startDate,
+          priceAtPurchase: isMembershipExist.price,
+        },
+      });
 
-    if (!newUserMembership)
-      throw new Error("Customer created but membership not added.");
+      if (!newUserMembership)
+        throw new Error("Customer created but membership not added.");
+    }
 
     return c.json({
       success: true,
@@ -157,17 +168,20 @@ export async function RenewCustomerMembership(c: Context) {
 
     if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-    const { startDate, endDate } = getCurrentDate();
+    const { endDate } = getCurrentDate();
+    const startDate = data.startDate;
     endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
     endDate.setHours(23, 59, 59, 999);
 
     const isUser = await prisma.user.findUnique({
       where: {
         id: data.userId,
+        active: true,
       },
     });
 
-    if (!isUser) throw new Error("No such customer exist.");
+    if (!isUser)
+      throw new Error("No such customer exist or user is deactivated.");
 
     let newBalance;
 
@@ -196,9 +210,11 @@ export async function RenewCustomerMembership(c: Context) {
 
     const newUserMembership = await prisma.userMembership.create({
       data: {
-        ...data,
-        endDate,
+        userId: data.userId,
+        membershipId: data.membershipId,
         startDate,
+        endDate,
+        paymentAmount: data.paymentAmount,
         priceAtPurchase: isMembershipExist.price,
       },
     });
@@ -236,6 +252,7 @@ export async function GetAllCustomers(c: Context) {
         id: true,
         name: true,
         phone: true,
+        active: true,
         memberships: {
           orderBy: {
             createdAt: "desc",
@@ -302,7 +319,9 @@ export async function GetCustomerDetails(c: Context) {
         balance: true,
         email: true,
         sex: true,
-        joinDate: true,
+        createdAt: true,
+        dob: true,
+        active: true,
       },
     });
 
@@ -382,10 +401,10 @@ export async function GetCustomerMemberships(c: Context) {
   }
 }
 
-export async function DeleteCustomerMembership(c: Context) {
+export async function CustomerActivation(c: Context) {
   const body = await c.req.json();
 
-  const { success, data } = z_id.safeParse(body);
+  const { success, data } = z_userActivation.safeParse(body);
 
   if (!success) {
     return c.json({
@@ -400,16 +419,26 @@ export async function DeleteCustomerMembership(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    await prisma.userMembership.delete({
+    const updatedCustomer = await prisma.user.update({
       where: {
-        id: data.id,
+        id: data.userId,
+      },
+      data: {
+        active: data.active,
       },
     });
+
+    if (!updatedCustomer)
+      throw new Error(
+        `Failed to ${data.active ? "activate" : "deactivate"} customer.`
+      );
 
     return c.json({
       success: true,
       status: 200,
-      message: "This Customer membership is deleted successfuly.",
+      message: `Customer is ${
+        data.active ? "activated" : "deactivated"
+      } successfuly.`,
     });
   } catch (error) {
     const err = error as Error;
@@ -418,7 +447,7 @@ export async function DeleteCustomerMembership(c: Context) {
       status: 400,
       message: err.message
         ? err.message.toString()
-        : "Failed while deleting customer membership.",
+        : "Failed while customer activation.",
     });
   }
 }

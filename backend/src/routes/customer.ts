@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import {
   CreateCustomer,
-  DeleteCustomerMembership,
+  CustomerActivation,
   GetAllCustomers,
   GetCustomerDetails,
   GetCustomerMemberships,
@@ -20,7 +20,7 @@ customer.put("/update", UpdateCustomer);
 customer.get("/detail/:id", GetCustomerDetails);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
-customer.delete("/membership/delete", DeleteCustomerMembership);
+customer.post("/membership/activation", CustomerActivation);
 customer.get("/all", GetAllCustomers);
 
 export default customer;

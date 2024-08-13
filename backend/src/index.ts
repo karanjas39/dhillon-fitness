@@ -13,8 +13,8 @@ app.use("*", cors());
 app.use("/api/v1/admin/*", authMiddleware);
 
 app.route("/api/v1/auth", auth);
-app.route("/api/v1/admin/membership", membership);
 app.route("/api/v1/admin/customer", customer);
+app.route("/api/v1/admin/membership", membership);
 app.route("/api/v1/admin", admin);
 app.route("/api/v1/admin/stats", stats);
 
