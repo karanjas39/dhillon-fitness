@@ -9,7 +9,7 @@ function Membership() {
       <div className="flex items-center justify-between">
         <h1 className="sm:text-2xl text-lg font-bold">Membership Management</h1>
         <Link href="/membership/create">
-          <Button>Add Membership</Button>
+          <Button>Create Membership Plan</Button>
         </Link>
       </div>
       <MembershipTable />

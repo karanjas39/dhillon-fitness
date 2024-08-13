@@ -22,7 +22,6 @@ function MembershipDetailCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <CardContentDiv title="Description" value={membership.description} />
         <CardContentDiv title="Price" value={membership.price} />
         <CardContentDiv title="Days" value={membership.durationDays} />
         <div className="flex items-center justify-between">

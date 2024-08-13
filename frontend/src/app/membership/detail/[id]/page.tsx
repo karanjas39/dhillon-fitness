@@ -20,9 +20,14 @@ function MembershipDetail() {
     <>
       {data?.success && (
         <Section>
-          <h1 className="text-4xl font-bold mt-3 mb-3">
-            {data.membership.name}
-          </h1>
+          <div className="mt-3 mb-4 flex flex-col gap-1">
+            <h1 className="text-4xl font-bold">{data.membership.name}</h1>
+            {data.membership.description && (
+              <p className="text-sm text-muted-foreground">
+                {data.membership.description}
+              </p>
+            )}
+          </div>
           <Tabs defaultValue="details">
             <TabsList>
               <TabsTrigger value="details">Details</TabsTrigger>
