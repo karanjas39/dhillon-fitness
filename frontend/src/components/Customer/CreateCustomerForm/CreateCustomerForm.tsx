@@ -161,27 +161,6 @@ function CreateCustomerForm() {
             />
             <FormField
               control={form.control}
-              name="paymentAmount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Amount Paid</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Amount paid"
-                      type="text"
-                      min={0}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the total amount paid by customer
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="membershipId"
               render={({ field }) => (
                 <FormItem>
@@ -201,6 +180,27 @@ function CreateCustomerForm() {
                     </Select>
                   </FormControl>
                   <FormDescription>Select the membership plan</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="paymentAmount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amount Paid</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Amount paid"
+                      type="text"
+                      min={0}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the total amount paid by customer
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

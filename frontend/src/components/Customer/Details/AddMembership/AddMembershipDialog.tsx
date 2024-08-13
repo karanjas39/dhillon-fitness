@@ -75,7 +75,7 @@ function AddMembershipDialog({ id }: { id: string }) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Add Membership</Button>
+        <Button>Renew Membership</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -95,26 +95,6 @@ function AddMembershipDialog({ id }: { id: string }) {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex flex-col gap-5"
                   >
-                    <FormField
-                      control={form.control}
-                      name="paymentAmount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Amount paid</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="amount paid"
-                              type="text"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            Enter amount paid by customer
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                     <FormField
                       control={form.control}
                       name="membershipId"
@@ -140,6 +120,26 @@ function AddMembershipDialog({ id }: { id: string }) {
                           </FormControl>
                           <FormDescription>
                             Select the suitable memebrship plan
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="paymentAmount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Amount paid</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="amount paid"
+                              type="text"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Enter amount paid by customer
                           </FormDescription>
                           <FormMessage />
                         </FormItem>

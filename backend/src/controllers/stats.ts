@@ -140,13 +140,20 @@ export async function GetMembershipStats(c: Context) {
       },
     });
 
-    const liveUntilTodayCount = await prisma.userMembership.count({
-      where: {
-        endDate: {
-          gt: currentIST,
+    const distinctUsersWithLiveMemberships =
+      await prisma.userMembership.findMany({
+        where: {
+          endDate: {
+            gt: currentIST,
+          },
         },
-      },
-    });
+        select: {
+          userId: true,
+        },
+        distinct: ["userId"],
+      });
+
+    const liveUntilTodayCount = distinctUsersWithLiveMemberships.length;
 
     return c.json({
       success: true,

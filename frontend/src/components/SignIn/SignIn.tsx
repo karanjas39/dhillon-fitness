@@ -17,11 +17,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "../ui/use-toast";
 import { authApi } from "@/store/api/authApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setToken } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { RootState } from "@/store";
 
 function SignIn() {
   const form = useForm<z_signin_type>({
@@ -33,13 +31,8 @@ function SignIn() {
   });
   const { toast } = useToast();
   const [SignIn, { isLoading }] = authApi.useSignInMutation();
-  const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    if (token) router.push("/dashboard");
-  }, [token, router]);
 
   async function onSubmit(values: z_signin_type) {
     try {
