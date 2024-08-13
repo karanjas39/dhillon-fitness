@@ -17,6 +17,7 @@ import {
   z_createUser_type,
   z_createUserMembership_type,
   z_updateUser_type,
+  z_userActivation_type,
 } from "@singhjaskaran/dhillonfitness-common";
 
 export const customerApi = createApi({
@@ -74,6 +75,20 @@ export const customerApi = createApi({
       query: (query) => `/customer/detail/${query.id}`,
       providesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.id },
+      ],
+    }),
+    customerActivation: builder.mutation<
+      GeneralResponse,
+      z_userActivation_type
+    >({
+      query: (query) => ({
+        url: "/customer/membership/activation",
+        method: "POST",
+        body: query,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: tag_customer_detail, id: arg.userId },
+        tag_all_customers,
       ],
     }),
     getCustomerMemberships: builder.query<

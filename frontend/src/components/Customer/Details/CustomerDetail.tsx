@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/card";
 import { modifyDate } from "@/utils/helper";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import CustomerActivation from "./CustomerActivation";
 
 function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
   return (
@@ -36,6 +38,10 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
           title="Joined On"
           value={modifyDate(customer.createdAt)}
         />
+        <div className="self-end mt-3 flex gap-3">
+          <CustomerActivation active={customer.active} />
+          <Button>Clear Balance</Button>
+        </div>
       </CardContent>
     </Card>
   );

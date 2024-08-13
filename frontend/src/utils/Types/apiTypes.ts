@@ -50,6 +50,7 @@ export interface Api_CustomerDetail extends GeneralResponse {
     sex: string;
     createdAt: string;
     dob: string;
+    active: boolean;
   };
 }
 

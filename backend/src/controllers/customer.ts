@@ -420,6 +420,39 @@ export async function CustomerActivation(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
+    const now = new Date();
+    const utcOffsetMinutes = now.getTimezoneOffset();
+    const indiaOffsetMinutes = 330;
+    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
+    const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
+
+    const userWithMembershipAndBalance = await prisma.user.findUnique({
+      where: {
+        id: data.userId,
+      },
+      select: {
+        balance: true,
+        memberships: {
+          where: {
+            endDate: {
+              gt: currentIST,
+            },
+          },
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (
+      userWithMembershipAndBalance &&
+      (userWithMembershipAndBalance.balance !== 0 ||
+        userWithMembershipAndBalance.memberships.length > 0)
+    ) {
+      throw new Error("Customer has an active membership or pending balance.");
+    }
+
     const updatedCustomer = await prisma.user.update({
       where: {
         id: data.userId,
