@@ -12,18 +12,26 @@ exports.z_createUser = zod_1.z
     .object({
     name: zod_1.z.string(),
     email: zod_1.z.string().email().or(zod_1.z.literal("").optional()),
-    dob: zod_1.z.string().datetime(),
+    dob: zod_1.z.string().datetime({ precision: 3 }),
     phone: zod_1.z.string().min(10).max(10),
     address: zod_1.z.string(),
     sex: zod_1.z.enum(["male", "female"]),
-    membershipId: zod_1.z.string().uuid().optional(),
-    paymentAmount: zod_1.z.coerce.number().optional(),
-    startDate: zod_1.z.string().datetime().optional(),
+    membershipId: zod_1.z.string().uuid().or(zod_1.z.literal("").optional()),
+    paymentAmount: zod_1.z.coerce.number().or(zod_1.z.literal(0).optional()),
+    startDate: zod_1.z
+        .string()
+        .datetime({ precision: 3 })
+        .or(zod_1.z.literal("").optional()),
 })
     .refine((data) => {
     const { membershipId, paymentAmount, startDate } = data;
-    const allProvided = membershipId && paymentAmount && startDate;
-    const noneProvided = !membershipId && paymentAmount === undefined && !startDate;
+    const allProvided = membershipId !== "" &&
+        paymentAmount !== undefined &&
+        paymentAmount !== 0 &&
+        startDate !== "";
+    const noneProvided = membershipId === "" &&
+        (paymentAmount === undefined || paymentAmount === 0) &&
+        startDate === "";
     return allProvided || noneProvided;
 }, {
     message: "If one of 'membershipId', 'paymentAmount', or 'startDate' is provided, all must be provided.",

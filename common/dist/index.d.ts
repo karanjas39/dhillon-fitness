@@ -19,9 +19,9 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     phone: z.ZodString;
     address: z.ZodString;
     sex: z.ZodEnum<["male", "female"]>;
-    membershipId: z.ZodOptional<z.ZodString>;
-    paymentAmount: z.ZodOptional<z.ZodNumber>;
-    startDate: z.ZodOptional<z.ZodString>;
+    membershipId: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
+    paymentAmount: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodLiteral<0>>]>;
+    startDate: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
 }, "strip", z.ZodTypeAny, {
     name: string;
     dob: string;

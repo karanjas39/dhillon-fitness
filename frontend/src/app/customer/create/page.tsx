@@ -5,7 +5,7 @@ function CreateCustomer() {
   return (
     <Section>
       <div>
-        <h1 className="text-lg sm:text-2xl font-bold">Create Customer</h1>
+        <h1 className="text-lg sm:text-2xl font-bold">Add new Customer</h1>
       </div>
       <CreateCustomerForm />
     </Section>

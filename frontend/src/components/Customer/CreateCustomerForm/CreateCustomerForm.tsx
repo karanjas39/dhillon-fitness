@@ -28,6 +28,7 @@ import { membershipApi } from "@/store/api/membershipApi";
 import Loader from "@/components/Loader/Loader";
 import { customerApi } from "@/store/api/customerApi";
 import { useToast } from "@/components/ui/use-toast";
+import { format, parseISO } from "date-fns";
 
 function CreateCustomerForm() {
   const [createCustomer, { isLoading: isCreatingCustomer }] =
@@ -45,8 +46,11 @@ function CreateCustomerForm() {
       paymentAmount: 0,
       phone: "",
       sex: "male",
+      dob: "",
+      startDate: "",
     },
   });
+
   const { data, isLoading } = membershipApi.useGetAllMembershipIdsQuery({
     onlyActive: true,
   });
@@ -54,7 +58,6 @@ function CreateCustomerForm() {
   async function onSubmit(values: z_createUser_type) {
     try {
       const response = await createCustomer(values).unwrap();
-      console.log(response);
       if (response && response.success) {
         toast({ description: "New customer has been created successfuly." });
         form.reset();
@@ -68,13 +71,17 @@ function CreateCustomerForm() {
   if (isLoading && !data) return <Loader />;
 
   return (
-    <div className="sm:w-[40%] w-[90%] mx-auto mt-4">
+    <div className="sm:w-[50%] w-[90%] mx-auto mt-4">
       {data?.success && data.ids.length && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
+            // onSubmit={() => onSubmit(form.getValues())}
             className="flex flex-col gap-5 mt-7 w-full"
           >
+            <h1 className="text-3xl font-bold text-center mt-4 mb-4">
+              Customer Details
+            </h1>
             <FormField
               control={form.control}
               name="name"
@@ -85,6 +92,43 @@ function CreateCustomerForm() {
                     <Input placeholder="Name" type="text" {...field} />
                   </FormControl>
                   <FormDescription>Enter customer name here</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dob"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Date of birth</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Date of Birth"
+                      type="date"
+                      value={
+                        field.value
+                          ? format(parseISO(field.value), "yyyy-MM-dd")
+                          : ""
+                      }
+                      onChange={(e) => {
+                        const dateString = e.target.value;
+                        if (dateString) {
+                          const [year, month, day] = dateString.split("-");
+                          const isoDate = new Date(
+                            `${year}-${month}-${day}T00:00:00Z`
+                          ).toISOString();
+                          console.log(isoDate);
+                          field.onChange(isoDate);
+                        } else {
+                          field.onChange("");
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter customer date of birth here
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -159,6 +203,12 @@ function CreateCustomerForm() {
                 </FormItem>
               )}
             />
+            <div className="text-center mt-4 mb-4">
+              <h1 className="text-3xl font-bold">Membership Details</h1>
+              <p className="text-sm text-muted-foreground">
+                Adding membership plan is optional here.
+              </p>
+            </div>
             <FormField
               control={form.control}
               name="membershipId"
@@ -200,6 +250,42 @@ function CreateCustomerForm() {
                   </FormControl>
                   <FormDescription>
                     Enter the total amount paid by customer
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Starts on</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Starts on"
+                      type="date"
+                      value={
+                        field.value
+                          ? format(parseISO(field.value), "yyyy-MM-dd")
+                          : ""
+                      }
+                      onChange={(e) => {
+                        const dateString = e.target.value;
+                        if (dateString) {
+                          const [year, month, day] = dateString.split("-");
+                          const isoDate = new Date(
+                            `${year}-${month}-${day}T00:00:00Z`
+                          ).toISOString();
+                          field.onChange(isoDate);
+                        } else {
+                          field.onChange("");
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter when the membership will start
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

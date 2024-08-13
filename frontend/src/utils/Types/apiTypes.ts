@@ -29,6 +29,7 @@ export interface Api_AllCustomers extends GeneralResponse {
     id: string;
     name: string;
     phone: string;
+    active: boolean;
     memberships: {
       membership: {
         name: string;
@@ -47,7 +48,8 @@ export interface Api_CustomerDetail extends GeneralResponse {
     balance: number;
     email: string;
     sex: string;
-    joinDate: string;
+    createdAt: string;
+    dob: string;
   };
 }
 

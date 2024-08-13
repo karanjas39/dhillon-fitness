@@ -17,11 +17,19 @@ function MembershipTable({ id }: { id: string }) {
       {data?.success && (
         <ScrollArea className="max-h-[500px]  min-h-max max-w-full overflow-x-auto overflow-y-auto mt-3 pr-4 pb-4">
           <Table className="min-w-[600px] sm:min-w-[800px] md:min-w-[1000px]">
-            <TableCaption>A list of all the customer memberships</TableCaption>
-            <MembershipTableHeader />
-            <MembershipTableBody
-              customerMemberships={data?.customerMemberships}
-            />
+            <TableCaption>
+              {data.customerMemberships.length
+                ? "A list of all the customer memberships"
+                : "No membership plan is activated yet."}
+            </TableCaption>
+            {data.customerMemberships.length ? (
+              <>
+                <MembershipTableHeader />
+                <MembershipTableBody
+                  customerMemberships={data?.customerMemberships}
+                />
+              </>
+            ) : null}
           </Table>
           <ScrollBar orientation="vertical" />
           <ScrollBar orientation="horizontal" />

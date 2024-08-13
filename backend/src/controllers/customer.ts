@@ -57,14 +57,16 @@ export async function CreateCustomer(c: Context) {
         balance,
         email: data.email ? data.email : null,
         dob: data.dob,
+        active: data.membershipId ? true : false,
       },
     });
 
     if (!newUser) throw new Error("Failed to create new customer.");
 
-    if (isMembershipExist && data.paymentAmount) {
-      const { startDate, endDate } = getCurrentDate();
-      endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
+    if (isMembershipExist && data.paymentAmount && data.startDate) {
+      const { endDate } = getCurrentDate();
+      const startDate = new Date(data.startDate);
+      endDate.setDate(startDate.getDate() + isMembershipExist.durationDays);
       endDate.setHours(23, 59, 59, 999);
 
       const newUserMembership = await prisma.userMembership.create({
@@ -253,6 +255,7 @@ export async function GetAllCustomers(c: Context) {
         name: true,
         phone: true,
         active: true,
+        dob: true,
         memberships: {
           orderBy: {
             createdAt: "desc",
@@ -381,8 +384,6 @@ export async function GetCustomerMemberships(c: Context) {
         priceAtPurchase: true,
       },
     });
-
-    if (!customerMemberships.length) throw new Error("No customers found.");
 
     return c.json({
       success: true,

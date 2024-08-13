@@ -17,6 +17,7 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         <CardDescription>Here are the details of customer</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
+        <CardContentDiv title="DOB" value={modifyDate(customer.dob)} />
         <CardContentDiv title="Phone Number" value={customer.phone} />
         <CardContentDiv title="Address" value={customer.address} />
         <div className="flex items-center justify-between">
@@ -33,7 +34,7 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         <CardContentDiv title="Gender" value={customer.sex} />
         <CardContentDiv
           title="Joined On"
-          value={modifyDate(customer.joinDate)}
+          value={modifyDate(customer.createdAt)}
         />
       </CardContent>
     </Card>

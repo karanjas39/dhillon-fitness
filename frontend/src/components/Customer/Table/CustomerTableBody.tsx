@@ -15,26 +15,28 @@ function CustomerTableRow({ customers }: Pick<Api_AllCustomers, "customers">) {
 
   return (
     <TableBody className="w-full">
-      {customers.map((customer, i) => (
-        <TableRow
-          onClick={() => handleRowClick(customer.id)}
-          key={customer.id}
-          className="cursor-pointer"
-        >
-          <TableCell>{i + 1}</TableCell>
-          <TableCell>{customer.name}</TableCell>
-          <TableCell className="text-center">
-            {modifyDate(customer.memberships[0].endDate)}
-          </TableCell>
-          <TableCell className="text-right">
-            {isMembershipExpired(customer.memberships[0].endDate) ? (
-              <Badge variant="destructive">Expired</Badge>
-            ) : (
-              <Badge variant="secondary">Live</Badge>
-            )}
-          </TableCell>
-        </TableRow>
-      ))}
+      {customers.map((customer, i) =>
+        customer.active ? (
+          <TableRow
+            onClick={() => handleRowClick(customer.id)}
+            key={customer.id}
+            className="cursor-pointer"
+          >
+            <TableCell>{i + 1}.</TableCell>
+            <TableCell>{customer.name}</TableCell>
+            <TableCell className="text-center">
+              {modifyDate(customer.memberships[0].endDate)}
+            </TableCell>
+            <TableCell className="text-right">
+              {isMembershipExpired(customer.memberships[0].endDate) ? (
+                <Badge variant="destructive">Expired</Badge>
+              ) : (
+                <Badge variant="secondary">Live</Badge>
+              )}
+            </TableCell>
+          </TableRow>
+        ) : null
+      )}
     </TableBody>
   );
 }
