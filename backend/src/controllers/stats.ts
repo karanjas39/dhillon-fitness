@@ -90,7 +90,7 @@ export async function GetDailySales(c: Context) {
         paymentAmount: true,
       },
       where: {
-        startDate: {
+        createdAt: {
           gte: startOfDay,
           lte: endOfDay,
         },

@@ -10,9 +10,15 @@ function MembershipTableBody({
       {customerMemberships.map((membership, i) => (
         <TableRow className="cursor-pointer" key={i}>
           <TableCell>{membership.membership.name}</TableCell>
-          <TableCell>{modifyDate(membership.startDate)}</TableCell>
-          <TableCell>{modifyDate(membership.endDate)}</TableCell>
-          <TableCell>{membership.priceAtPurchase}</TableCell>
+          <TableCell className="text-center">
+            {modifyDate(membership.startDate)}
+          </TableCell>
+          <TableCell className="text-center">
+            {modifyDate(membership.endDate)}
+          </TableCell>
+          <TableCell className="text-center">
+            {membership.priceAtPurchase}
+          </TableCell>
           <TableCell className="text-right">
             {membership.paymentAmount}
           </TableCell>

@@ -27,6 +27,7 @@ import {
 import { Api_CustomerDetail } from "@/utils/Types/apiTypes";
 import { useToast } from "@/components/ui/use-toast";
 import { customerApi } from "@/store/api/customerApi";
+import { format, parseISO } from "date-fns";
 
 function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
   const form = useForm<z_updateUser_type>({
@@ -36,6 +37,7 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
       name: customer.name,
       email: customer.email ? customer.email : "",
       address: customer.address,
+      dob: customer.dob,
       phone: customer.phone,
       sex:
         customer.sex === "male" || customer.sex === "female"
@@ -76,6 +78,42 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
                   <Input placeholder="name" type="text" {...field} />
                 </FormControl>
                 <FormDescription>Enter updated name here</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="dob"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of birth</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Date of Birth"
+                    type="date"
+                    value={
+                      field.value
+                        ? format(parseISO(field.value), "yyyy-MM-dd")
+                        : ""
+                    }
+                    onChange={(e) => {
+                      const dateString = e.target.value;
+                      if (dateString) {
+                        const [year, month, day] = dateString.split("-");
+                        const isoDate = new Date(
+                          `${year}-${month}-${day}T00:00:00Z`
+                        ).toISOString();
+                        field.onChange(isoDate);
+                      } else {
+                        field.onChange("");
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Enter updated date of birth here
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

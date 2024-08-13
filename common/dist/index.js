@@ -43,7 +43,7 @@ exports.z_updateUser = zod_1.z.object({
     email: zod_1.z.string().email().or(zod_1.z.literal("").optional()),
     phone: zod_1.z.string().min(10).max(10).optional(),
     address: zod_1.z.string().optional(),
-    dob: zod_1.z.string().datetime().optional(),
+    dob: zod_1.z.string().datetime({ precision: 3 }).optional(),
     sex: zod_1.z.enum(["male", "female"]).optional(),
 });
 exports.z_clearBalance = zod_1.z.object({

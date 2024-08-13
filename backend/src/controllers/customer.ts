@@ -66,7 +66,7 @@ export async function CreateCustomer(c: Context) {
     if (isMembershipExist && data.paymentAmount && data.startDate) {
       const { endDate } = getCurrentDate();
       const startDate = new Date(data.startDate);
-      endDate.setDate(startDate.getDate() + isMembershipExist.durationDays);
+      endDate.setDate(startDate.getDate() + isMembershipExist.durationDays - 1);
       endDate.setHours(23, 59, 59, 999);
 
       const newUserMembership = await prisma.userMembership.create({
@@ -172,7 +172,7 @@ export async function RenewCustomerMembership(c: Context) {
 
     const { endDate } = getCurrentDate();
     const startDate = data.startDate;
-    endDate.setDate(endDate.getDate() + isMembershipExist.durationDays);
+    endDate.setDate(endDate.getDate() + isMembershipExist.durationDays - 1);
     endDate.setHours(23, 59, 59, 999);
 
     const isUser = await prisma.user.findUnique({

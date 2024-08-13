@@ -36,6 +36,7 @@ import { customerApi } from "@/store/api/customerApi";
 import { membershipApi } from "@/store/api/membershipApi";
 import Loader from "@/components/Loader/Loader";
 import { useToast } from "@/components/ui/use-toast";
+import { format, parseISO } from "date-fns";
 
 function AddMembershipDialog({ id }: { id: string }) {
   const form = useForm<z_createUserMembership_type>({
@@ -44,6 +45,7 @@ function AddMembershipDialog({ id }: { id: string }) {
       membershipId: "",
       paymentAmount: 0,
       userId: id,
+      startDate: "",
     },
   });
 
@@ -75,7 +77,7 @@ function AddMembershipDialog({ id }: { id: string }) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Renew Membership</Button>
+        <Button onClick={() => form.reset()}>Renew Membership</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -140,6 +142,43 @@ function AddMembershipDialog({ id }: { id: string }) {
                           </FormControl>
                           <FormDescription>
                             Enter amount paid by customer
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Starts on</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Starts on"
+                              type="date"
+                              value={
+                                field.value
+                                  ? format(parseISO(field.value), "yyyy-MM-dd")
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                const dateString = e.target.value;
+                                if (dateString) {
+                                  const [year, month, day] =
+                                    dateString.split("-");
+                                  const isoDate = new Date(
+                                    `${year}-${month}-${day}T00:00:00Z`
+                                  ).toISOString();
+                                  field.onChange(isoDate);
+                                } else {
+                                  field.onChange("");
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Enter date when plan starts
                           </FormDescription>
                           <FormMessage />
                         </FormItem>

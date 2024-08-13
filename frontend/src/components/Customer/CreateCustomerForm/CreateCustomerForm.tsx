@@ -118,7 +118,6 @@ function CreateCustomerForm() {
                           const isoDate = new Date(
                             `${year}-${month}-${day}T00:00:00Z`
                           ).toISOString();
-                          console.log(isoDate);
                           field.onChange(isoDate);
                         } else {
                           field.onChange("");

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 function CustomerTableRow({ customers }: Pick<Api_AllCustomers, "customers">) {
   const router = useRouter();
+  let serialNumber = 1;
 
   function handleRowClick(id: string) {
     router.push(`/customer/detail/${id}`);
@@ -22,7 +23,7 @@ function CustomerTableRow({ customers }: Pick<Api_AllCustomers, "customers">) {
             key={customer.id}
             className="cursor-pointer"
           >
-            <TableCell>{i + 1}.</TableCell>
+            <TableCell>{serialNumber++}.</TableCell>
             <TableCell>{customer.name}</TableCell>
             <TableCell className="text-center">
               {modifyDate(customer.memberships[0].endDate)}
