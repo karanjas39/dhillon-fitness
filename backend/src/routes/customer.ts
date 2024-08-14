@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import {
+  ClearUserBalance,
   CreateCustomer,
   CustomerActivation,
   GetAllCustomers,
@@ -18,6 +19,7 @@ const customer = new Hono<{
 customer.post("/create", CreateCustomer);
 customer.put("/update", UpdateCustomer);
 customer.get("/detail/:id", GetCustomerDetails);
+customer.post("/balance-adjustment", ClearUserBalance);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
 customer.post("/membership/activation", CustomerActivation);

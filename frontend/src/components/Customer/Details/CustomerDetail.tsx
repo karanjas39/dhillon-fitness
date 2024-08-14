@@ -40,7 +40,7 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         />
         <div className="self-end mt-3 flex gap-3">
           <CustomerActivation active={customer.active} />
-          <Button>Clear Balance</Button>
+          {customer.balance != 0 ? <Button>Clear Balance</Button> : null}
         </div>
       </CardContent>
     </Card>

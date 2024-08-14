@@ -49,6 +49,7 @@ exports.z_updateUser = zod_1.z.object({
 exports.z_clearBalance = zod_1.z.object({
     userId: zod_1.z.string().uuid(),
     amount: zod_1.z.coerce.number(),
+    type: zod_1.z.enum(["refund", "payment"]),
 });
 exports.z_createMembership = zod_1.z.object({
     name: zod_1.z.string(),

@@ -1,4 +1,4 @@
-import CreateCustomerForm from "@/components/Customer/CreateCustomerForm/CreateCustomerForm";
+import CreateCustomerForm from "@/components/Customer/Create/CreateCustomerForm";
 import Section from "@/components/Layouts/Section";
 
 function CreateCustomer() {

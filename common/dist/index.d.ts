@@ -91,10 +91,13 @@ export declare const z_updateUser: z.ZodObject<{
 export declare const z_clearBalance: z.ZodObject<{
     userId: z.ZodString;
     amount: z.ZodNumber;
+    type: z.ZodEnum<["refund", "payment"]>;
 }, "strip", z.ZodTypeAny, {
+    type: "refund" | "payment";
     userId: string;
     amount: number;
 }, {
+    type: "refund" | "payment";
     userId: string;
     amount: number;
 }>;

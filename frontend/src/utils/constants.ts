@@ -34,9 +34,8 @@ export const navButtons = [
   },
 ];
 
-// export const BACKEND_URL = "http://127.0.0.1:8787/api/v1";
-// export const BACKEND_URL = "http://127.0.0.1:8787/api/v1";
-export const BACKEND_URL =
-  "https://dhillon-fitness.bootneck000.workers.dev/api/v1";
+export const BACKEND_URL = "http://127.0.0.1:8787/api/v1";
+// export const BACKEND_URL =
+//   "https://dhillon-fitness.bootneck000.workers.dev/api/v1";
 
 export const APP_NAME = "DHILLON FITNESS";

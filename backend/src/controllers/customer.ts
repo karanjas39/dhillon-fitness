@@ -2,6 +2,7 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import {
+  z_clearBalance,
   z_createUser,
   z_createUser_type,
   z_createUserMembership,
@@ -482,6 +483,87 @@ export async function CustomerActivation(c: Context) {
       message: err.message
         ? err.message.toString()
         : "Failed while customer activation.",
+    });
+  }
+}
+
+export async function ClearUserBalance(c: Context) {
+  const body = await c.req.json();
+  const { success, data } = z_clearBalance.safeParse(body);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 400,
+      message: "Invalid input data.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const { userId, amount, type } = data;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        memberships: {
+          where: {
+            endDate: {
+              gt: new Date(),
+            },
+          },
+          orderBy: {
+            endDate: "asc",
+          },
+          take: 1,
+        },
+      },
+    });
+
+    if (!user) throw new Error("Customer not found.");
+
+    let updatedBalance;
+
+    if (type === "refund" && user.balance > 0) {
+      updatedBalance = user.balance - amount;
+    } else if (type === "payment" && user.balance < 0) {
+      updatedBalance = user.balance + amount;
+    } else
+      throw new Error(
+        "Invalid transaction type or balance conditions not met."
+      );
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { balance: updatedBalance },
+    });
+
+    if (user.memberships.length > 0) {
+      const activeMembership = user.memberships[0];
+
+      await prisma.userMembership.update({
+        where: { id: activeMembership.id },
+        data: {
+          paymentAmount:
+            type === "refund" ? { decrement: amount } : { increment: amount },
+        },
+      });
+    }
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "Balance and membership payment updated successfully.",
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 500,
+      message: err.message || "An error occurred while updating the balance.",
     });
   }
 }
