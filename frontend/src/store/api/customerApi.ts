@@ -14,6 +14,7 @@ import {
   GeneralResponse,
 } from "@/utils/Types/apiTypes";
 import {
+  z_clearBalance_type,
   z_createUser_type,
   z_createUserMembership_type,
   z_updateUser_type,
@@ -89,6 +90,19 @@ export const customerApi = createApi({
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.userId },
         tag_all_customers,
+      ],
+    }),
+    clearCustomerBalance: builder.mutation<
+      GeneralResponse,
+      z_clearBalance_type
+    >({
+      query: (query) => ({
+        url: "/customer/balance-adjustment",
+        method: "POST",
+        body: query,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: tag_customer_detail, id: arg.userId },
       ],
     }),
     getCustomerMemberships: builder.query<

@@ -11,7 +11,7 @@ import {
   z_updateUser,
   z_userActivation,
 } from "@singhjaskaran/dhillonfitness-common";
-import { getCurrentDate } from "../helpers/helper";
+import { calculateEndDate, getCurrentDate } from "../helpers/helper";
 
 export async function CreateCustomer(c: Context) {
   const body: z_createUser_type = await c.req.json();
@@ -65,10 +65,10 @@ export async function CreateCustomer(c: Context) {
     if (!newUser) throw new Error("Failed to create new customer.");
 
     if (isMembershipExist && data.paymentAmount && data.startDate) {
-      const { endDate } = getCurrentDate();
-      const startDate = new Date(data.startDate);
-      endDate.setDate(startDate.getDate() + isMembershipExist.durationDays - 1);
-      endDate.setHours(23, 59, 59, 999);
+      const endDate = calculateEndDate(
+        data.startDate,
+        isMembershipExist.durationDays
+      );
 
       const newUserMembership = await prisma.userMembership.create({
         data: {
@@ -76,7 +76,7 @@ export async function CreateCustomer(c: Context) {
           paymentAmount: data.paymentAmount,
           membershipId: isMembershipExist.id,
           endDate,
-          startDate,
+          startDate: data.startDate,
           priceAtPurchase: isMembershipExist.price,
         },
       });
@@ -171,10 +171,10 @@ export async function RenewCustomerMembership(c: Context) {
 
     if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-    const { endDate } = getCurrentDate();
-    const startDate = data.startDate;
-    endDate.setDate(endDate.getDate() + isMembershipExist.durationDays - 1);
-    endDate.setHours(23, 59, 59, 999);
+    const endDate = calculateEndDate(
+      data.startDate,
+      isMembershipExist.durationDays
+    );
 
     const isUser = await prisma.user.findUnique({
       where: {
@@ -215,7 +215,7 @@ export async function RenewCustomerMembership(c: Context) {
       data: {
         userId: data.userId,
         membershipId: data.membershipId,
-        startDate,
+        startDate: data.startDate,
         endDate,
         paymentAmount: data.paymentAmount,
         priceAtPurchase: isMembershipExist.price,
@@ -516,7 +516,7 @@ export async function ClearUserBalance(c: Context) {
             },
           },
           orderBy: {
-            endDate: "asc",
+            endDate: "desc",
           },
           take: 1,
         },
@@ -525,16 +525,19 @@ export async function ClearUserBalance(c: Context) {
 
     if (!user) throw new Error("Customer not found.");
 
-    let updatedBalance;
+    let updatedBalance = user.balance;
 
-    if (type === "refund" && user.balance > 0) {
-      updatedBalance = user.balance - amount;
-    } else if (type === "payment" && user.balance < 0) {
-      updatedBalance = user.balance + amount;
-    } else
-      throw new Error(
-        "Invalid transaction type or balance conditions not met."
-      );
+    if (type === "refund") {
+      if (user.balance > 0) {
+        updatedBalance = user.balance - amount;
+      } else
+        throw new Error("Refund not possible as the balance is not positive.");
+    } else if (type === "payment") {
+      if (user.balance < 0 || user.balance === 0) {
+        updatedBalance = user.balance + amount;
+      } else
+        throw new Error("Payment not possible as the balance is not negative.");
+    } else throw new Error("Invalid transaction type.");
 
     await prisma.user.update({
       where: { id: userId },
@@ -543,12 +546,18 @@ export async function ClearUserBalance(c: Context) {
 
     if (user.memberships.length > 0) {
       const activeMembership = user.memberships[0];
+      let newPaymentAmount: number;
+
+      if (type === "refund") {
+        newPaymentAmount = activeMembership.paymentAmount - amount;
+      } else {
+        newPaymentAmount = activeMembership.paymentAmount + amount;
+      }
 
       await prisma.userMembership.update({
         where: { id: activeMembership.id },
         data: {
-          paymentAmount:
-            type === "refund" ? { decrement: amount } : { increment: amount },
+          paymentAmount: newPaymentAmount,
         },
       });
     }

@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/card";
 import { modifyDate } from "@/utils/helper";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import CustomerActivation from "./CustomerActivation";
+import ClearBalance from "./ClearBalance";
 
 function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
   return (
@@ -40,7 +40,9 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         />
         <div className="self-end mt-3 flex gap-3">
           <CustomerActivation active={customer.active} />
-          {customer.balance != 0 ? <Button>Clear Balance</Button> : null}
+          {customer.balance != 0 ? (
+            <ClearBalance balance={customer.balance} userId={customer.id} />
+          ) : null}
         </div>
       </CardContent>
     </Card>

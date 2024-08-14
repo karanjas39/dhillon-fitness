@@ -19,20 +19,17 @@ export async function GetYearlySales(c: Context) {
           gte: startOfYear,
           lte: endOfYear,
         },
-        paymentAmount: {
-          gte: 0,
-        },
       },
       select: {
-        startDate: true,
         paymentAmount: true,
+        createdAt: true,
       },
     });
 
     const monthlyIncome = Array(12).fill(0);
 
     for (const entry of yearlyData) {
-      const month = new Date(entry.startDate).getMonth();
+      const month = new Date(entry.createdAt).getMonth();
       monthlyIncome[month] += entry.paymentAmount;
     }
 
@@ -93,9 +90,6 @@ export async function GetDailySales(c: Context) {
         createdAt: {
           gte: startOfDay,
           lte: endOfDay,
-        },
-        paymentAmount: {
-          gte: 0,
         },
       },
     });

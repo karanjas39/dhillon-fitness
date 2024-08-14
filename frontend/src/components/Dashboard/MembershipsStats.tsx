@@ -3,7 +3,6 @@
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,14 +19,14 @@ function MembershipsStats() {
           Memberships Overview for Today
         </h2>
         <p className="text-muted-foreground sm:text-lg text-base font-semibold">
-          Total memberships expiring today and currently active
+          Total memberships expiring today and currently active members
         </p>
       </div>
       {!isLoading && data?.success ? (
         <div className="grid grid-cols-2 gap-2">
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
-              <CardDescription>Expired Memberships</CardDescription>
+              <CardDescription>Members with expired membership</CardDescription>
               <CardTitle className="text-4xl">
                 {data.expiredTodayCount}
               </CardTitle>
@@ -35,7 +34,7 @@ function MembershipsStats() {
           </Card>
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
-              <CardDescription>Live Memberships</CardDescription>
+              <CardDescription>Members with live memberships</CardDescription>
               <CardTitle className="text-4xl">
                 {data.liveUntilTodayCount}
               </CardTitle>
