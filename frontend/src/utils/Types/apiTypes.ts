@@ -58,6 +58,7 @@ export interface Api_CustomerMemberships extends GeneralResponse {
   customerMemberships: {
     startDate: string;
     endDate: string;
+    id: string;
     membership: {
       name: string;
     };

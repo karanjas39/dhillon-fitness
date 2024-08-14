@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { modifyDate } from "@/utils/helper";
 import { Api_CustomerMemberships } from "@/utils/Types/apiTypes";
+import EditMembership from "@/components/Customer/Details/Memberships/Edit/EditMembership";
 
 function MembershipTableBody({
   customerMemberships,
@@ -24,7 +24,11 @@ function MembershipTableBody({
             {membership.paymentAmount}
           </TableCell>
           <TableCell className="text-right">
-            <Button variant="secondary">Edit details</Button>
+            <EditMembership
+              startDate={membership.startDate}
+              endDate={membership.endDate}
+              id={membership.id}
+            />
           </TableCell>
         </TableRow>
       ))}

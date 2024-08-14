@@ -73,8 +73,8 @@ exports.z_createUserMembership = zod_1.z.object({
 exports.z_updateUserMembership = zod_1.z.object({
     id: zod_1.z.string().uuid(),
     membershipId: zod_1.z.string().uuid().optional(),
-    startDate: zod_1.z.string().datetime().optional(),
-    endDate: zod_1.z.string().datetime().optional(),
+    startDate: zod_1.z.string().datetime({ precision: 3 }).optional(),
+    endDate: zod_1.z.string().datetime({ precision: 3 }).optional(),
     priceAtPurchase: zod_1.z.coerce.number().optional(),
     paymentAmount: zod_1.z.coerce.number().optional(),
 });

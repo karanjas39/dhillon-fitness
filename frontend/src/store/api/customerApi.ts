@@ -18,6 +18,7 @@ import {
   z_createUser_type,
   z_createUserMembership_type,
   z_updateUser_type,
+  z_updateUserMembership_type,
   z_userActivation_type,
 } from "@singhjaskaran/dhillonfitness-common";
 
@@ -105,6 +106,19 @@ export const customerApi = createApi({
         { type: tag_customer_detail, id: arg.userId },
       ],
     }),
+    // updateCustomerMembership: builder.mutation<
+    //   GeneralResponse,
+    //   z_updateUserMembership_type
+    // >({
+    //   query: (query) => ({
+    //     url: "/customer/balance-adjustment",
+    //     method: "POST",
+    //     body: query,
+    //   }),
+    //   invalidatesTags: (result, error, arg) => [
+    //     { type: tag_customer_detail, id: arg.userId },
+    //   ],
+    // }),
     getCustomerMemberships: builder.query<
       Api_CustomerMemberships,
       { id: string }

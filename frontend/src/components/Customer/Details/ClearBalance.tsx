@@ -70,7 +70,7 @@ function ClearBalance({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button onClick={() => form.reset()}>Clear Balance</Button>
+        <Button>Clear Balance</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

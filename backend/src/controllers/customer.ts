@@ -374,6 +374,7 @@ export async function GetCustomerMemberships(c: Context) {
         createdAt: "desc",
       },
       select: {
+        id: true,
         startDate: true,
         endDate: true,
         membership: {
