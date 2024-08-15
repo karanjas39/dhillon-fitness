@@ -44,7 +44,10 @@ function SignIn() {
       } else throw new Error(response.message);
     } catch (error) {
       const err = error as Error;
-      toast({ description: err.message, variant: "destructive" });
+      toast({
+        description: err.message || "Failed to signin right now.",
+        variant: "destructive",
+      });
     }
   }
 
