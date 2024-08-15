@@ -76,7 +76,7 @@ function AddMembershipDialog({ id }: { id: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button onClick={() => form.reset()}>Renew Membership</Button>
       </DialogTrigger>
       <DialogContent>

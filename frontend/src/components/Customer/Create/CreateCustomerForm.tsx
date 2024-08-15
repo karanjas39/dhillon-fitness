@@ -76,7 +76,6 @@ function CreateCustomerForm() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            // onSubmit={() => onSubmit(form.getValues())}
             className="flex flex-col gap-5 mt-7 w-full"
           >
             <h1 className="text-3xl font-bold text-center mt-4 mb-4">
@@ -171,7 +170,17 @@ function CreateCustomerForm() {
                 <FormItem>
                   <FormLabel>Phone number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Phone" type="text" {...field} />
+                    <Input
+                      placeholder="Phone"
+                      type="text"
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        if (value.length <= 10) {
+                          field.onChange(value);
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter customer phone number here (excluding +91)
@@ -180,6 +189,7 @@ function CreateCustomerForm() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="sex"

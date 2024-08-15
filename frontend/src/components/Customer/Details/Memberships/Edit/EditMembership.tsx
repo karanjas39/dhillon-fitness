@@ -25,6 +25,7 @@ import {
   z_updateUserMembership_type,
 } from "@singhjaskaran/dhillonfitness-common";
 import { format, parseISO } from "date-fns";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
 function EditMembership({
   startDate,
@@ -65,8 +66,10 @@ function EditMembership({
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button variant="secondary">Edit details</Button>
+      <DialogTrigger asChild>
+        <Button variant="secondary" className="mr-2">
+          <Pencil2Icon />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

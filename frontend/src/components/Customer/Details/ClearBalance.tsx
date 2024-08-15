@@ -69,7 +69,7 @@ function ClearBalance({
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>Clear Balance</Button>
       </DialogTrigger>
       <DialogContent>

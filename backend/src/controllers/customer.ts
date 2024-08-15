@@ -31,10 +31,10 @@ export async function CreateCustomer(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    let balance: number;
+    let balance: number = 0;
     let isMembershipExist;
 
-    if (data.paymentAmount) {
+    if (data.membershipId && data.startDate) {
       isMembershipExist = await prisma.membership.findUnique({
         where: {
           id: data.membershipId,
@@ -44,9 +44,9 @@ export async function CreateCustomer(c: Context) {
 
       if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-      balance = data.paymentAmount - isMembershipExist.price;
-    } else {
-      balance = 0;
+      balance = data.paymentAmount
+        ? data.paymentAmount - isMembershipExist.price
+        : 0 - isMembershipExist.price;
     }
 
     const newUser = await prisma.user.create({
@@ -64,7 +64,7 @@ export async function CreateCustomer(c: Context) {
 
     if (!newUser) throw new Error("Failed to create new customer.");
 
-    if (isMembershipExist && data.paymentAmount && data.startDate) {
+    if (isMembershipExist && data.startDate) {
       const endDate = calculateEndDate(
         data.startDate,
         isMembershipExist.durationDays
@@ -73,7 +73,7 @@ export async function CreateCustomer(c: Context) {
       const newUserMembership = await prisma.userMembership.create({
         data: {
           userId: newUser.id,
-          paymentAmount: data.paymentAmount,
+          paymentAmount: data.paymentAmount || 0,
           membershipId: isMembershipExist.id,
           endDate,
           startDate: data.startDate,
