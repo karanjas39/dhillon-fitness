@@ -19,14 +19,14 @@ function MembershipsStats() {
           Memberships Overview for Today
         </h2>
         <p className="text-muted-foreground sm:text-lg text-base font-semibold">
-          Total memberships expiring today and currently active members
+          Total memberships expiring today and currently live memberships
         </p>
       </div>
       {!isLoading && data?.success ? (
         <div className="grid grid-cols-2 gap-2">
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
-              <CardDescription>Members with expired membership</CardDescription>
+              <CardDescription>Expired Memberships</CardDescription>
               <CardTitle className="text-4xl">
                 {data.expiredTodayCount}
               </CardTitle>
@@ -34,7 +34,7 @@ function MembershipsStats() {
           </Card>
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
-              <CardDescription>Members with live memberships</CardDescription>
+              <CardDescription>Live Memberships</CardDescription>
               <CardTitle className="text-4xl">
                 {data.liveUntilTodayCount}
               </CardTitle>

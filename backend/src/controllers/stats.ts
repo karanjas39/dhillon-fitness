@@ -124,12 +124,23 @@ export async function GetMembershipStats(c: Context) {
     const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
     const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
 
-    const endOfToday = new Date(currentIST.setHours(23, 59, 59, 999));
+    const startOfToday = new Date(currentIST);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date(currentIST);
+    endOfToday.setHours(23, 59, 59, 999);
+
+    const startOfYesterday = new Date(startOfToday);
+    startOfYesterday.setDate(startOfToday.getDate() - 1);
+
+    const endOfYesterday = new Date(endOfToday);
+    endOfYesterday.setDate(endOfToday.getDate() - 1);
 
     const expiredTodayCount = await prisma.userMembership.count({
       where: {
         endDate: {
-          lte: endOfToday,
+          gte: startOfYesterday,
+          lt: startOfToday,
         },
       },
     });
@@ -161,6 +172,52 @@ export async function GetMembershipStats(c: Context) {
       success: false,
       status: 400,
       message: err.message || "Failed to retrieve membership stats.",
+    });
+  }
+}
+
+export async function GetTodaysBirthdayCount(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    // Get current date in IST
+    const now = new Date();
+    const utcOffsetMinutes = now.getTimezoneOffset();
+    const indiaOffsetMinutes = 330;
+    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
+    const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
+
+    // Calculate start and end of today in IST
+    const startOfToday = new Date(currentIST);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date(currentIST);
+    endOfToday.setHours(23, 59, 59, 999);
+
+    // Count users with birthdays today
+    const birthdayCount = await prisma.user.count({
+      where: {
+        dob: {
+          gte: startOfToday,
+          lte: endOfToday,
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      birthdayCount,
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 500,
+      message:
+        err.message || "An error occurred while retrieving the birthday count.",
     });
   }
 }

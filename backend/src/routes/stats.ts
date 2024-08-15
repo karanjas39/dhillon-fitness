@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import {
   GetDailySales,
   GetMembershipStats,
+  GetTodaysBirthdayCount,
   GetYearlySales,
 } from "../controllers/stats";
 
@@ -17,5 +18,6 @@ const stats = new Hono<{
 stats.get("/yearly", GetYearlySales);
 stats.get("/daily", GetDailySales);
 stats.get("/membership/today", GetMembershipStats);
+stats.get("/customer/birthday", GetTodaysBirthdayCount);
 
 export default stats;
