@@ -5,7 +5,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
+  token: typeof window !== "undefined" ? sessionStorage.getItem("token") : null,
 };
 
 const authSlice = createSlice({
@@ -15,12 +15,12 @@ const authSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
       if (action.payload) {
-        localStorage.setItem("token", action.payload);
+        sessionStorage.setItem("token", action.payload);
       }
     },
     clearToken: (state) => {
       state.token = null;
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
   },
 });
