@@ -386,7 +386,7 @@ export async function GetAllCustomers(c: Context) {
         dob: true,
         memberships: {
           orderBy: {
-            createdAt: "desc",
+            endDate: "desc",
           },
           take: 1,
           select: {

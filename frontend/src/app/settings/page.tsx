@@ -1,4 +1,6 @@
 import Section from "@/components/Layouts/Section";
+import ChangePassword from "@/components/Settings/ChangePassword";
+import GeneralSettings from "@/components/Settings/GeneralSettings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Settings() {
@@ -12,8 +14,12 @@ function Settings() {
           <TabsTrigger value="security">Change Password</TabsTrigger>
           <TabsTrigger value="general">General Settings</TabsTrigger>
         </TabsList>
-        <TabsContent value="security">Security</TabsContent>
-        <TabsContent value="general">General</TabsContent>
+        <TabsContent value="security">
+          <ChangePassword />
+        </TabsContent>
+        <TabsContent value="general">
+          <GeneralSettings />
+        </TabsContent>
       </Tabs>
     </Section>
   );
