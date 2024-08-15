@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_createAdmin = void 0;
+exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_createAdmin = void 0;
 const zod_1 = require("zod");
 // SCHEMAS
 exports.z_createAdmin = zod_1.z.object({
@@ -74,6 +74,10 @@ exports.z_updateUserMembership = zod_1.z.object({
     endDate: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
     priceAtPurchase: zod_1.z.coerce.number().optional(),
     paymentAmount: zod_1.z.coerce.number().optional(),
+});
+exports.z_deleteUserMembership = zod_1.z.object({
+    id: zod_1.z.string().trim().uuid(),
+    userId: zod_1.z.string().trim().uuid(),
 });
 exports.z_signin = zod_1.z.object({
     email: zod_1.z.string().trim().email(),

@@ -17,6 +17,8 @@ import {
   z_clearBalance_type,
   z_createUser_type,
   z_createUserMembership_type,
+  z_deleteUserMembership_type,
+  z_id_type,
   z_updateUser_type,
   z_updateUserMembership_type,
   z_userActivation_type,
@@ -84,7 +86,7 @@ export const customerApi = createApi({
       z_userActivation_type
     >({
       query: (query) => ({
-        url: "/customer/membership/activation",
+        url: "/customer/activation",
         method: "POST",
         body: query,
       }),
@@ -105,6 +107,17 @@ export const customerApi = createApi({
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.userId },
       ],
+    }),
+    deleteCustomerMembership: builder.mutation<
+      GeneralResponse,
+      z_deleteUserMembership_type
+    >({
+      query: (query) => ({
+        url: "/customer/membership/delete",
+        method: "DELETE",
+        body: query,
+      }),
+      invalidatesTags: [tag_customer_detail, tag_customer_memberships],
     }),
     // updateCustomerMembership: builder.mutation<
     //   GeneralResponse,

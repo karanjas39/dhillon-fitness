@@ -172,6 +172,16 @@ export declare const z_updateUserMembership: z.ZodObject<{
     endDate?: string | undefined;
     priceAtPurchase?: number | undefined;
 }>;
+export declare const z_deleteUserMembership: z.ZodObject<{
+    id: z.ZodString;
+    userId: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    userId: string;
+}, {
+    id: string;
+    userId: string;
+}>;
 export declare const z_signin: z.ZodObject<{
     email: z.ZodString;
     password: z.ZodString;
@@ -231,6 +241,7 @@ export type z_updatePassword_type = z.infer<typeof z_updatePassword>;
 export type z_createUser_type = z.infer<typeof z_createUser>;
 export type z_updateUser_type = z.infer<typeof z_updateUser>;
 export type z_createMembership_type = z.infer<typeof z_createMembership>;
+export type z_deleteUserMembership_type = z.infer<typeof z_deleteUserMembership>;
 export type z_updateMembership_type = z.infer<typeof z_updateMembership>;
 export type z_createUserMembership_type = z.infer<typeof z_createUserMembership>;
 export type z_updateUserMembership_type = z.infer<typeof z_updateUserMembership>;

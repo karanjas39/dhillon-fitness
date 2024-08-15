@@ -3,6 +3,7 @@ import {
   ClearUserBalance,
   CreateCustomer,
   CustomerActivation,
+  DeleteCustomerMembership,
   GetAllCustomers,
   GetCustomerDetails,
   GetCustomerMemberships,
@@ -22,7 +23,8 @@ customer.get("/detail/:id", GetCustomerDetails);
 customer.post("/balance-adjustment", ClearUserBalance);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
-customer.post("/membership/activation", CustomerActivation);
+customer.delete("/membership/delete", DeleteCustomerMembership);
+customer.post("/activation", CustomerActivation);
 customer.get("/all", GetAllCustomers);
 
 export default customer;

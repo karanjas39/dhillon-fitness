@@ -7,6 +7,7 @@ import {
   z_createUser_type,
   z_createUserMembership,
   z_createUserMembership_type,
+  z_deleteUserMembership,
   z_id,
   z_updateUser,
   z_userActivation,
@@ -240,6 +241,83 @@ export async function RenewCustomerMembership(c: Context) {
         err && err.message
           ? err.message
           : "Error while creating user membership.",
+    });
+  }
+}
+
+export async function DeleteCustomerMembership(c: Context) {
+  const body = await c.req.json();
+
+  const { success, data } = z_deleteUserMembership.safeParse(body);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: data.userId,
+      },
+      select: {
+        balance: true,
+        memberships: {
+          where: {
+            id: data.id,
+          },
+          select: {
+            paymentAmount: true,
+            priceAtPurchase: true,
+          },
+        },
+      },
+    });
+
+    if (!user) throw new Error("Customer not found.");
+    if (user.memberships.length === 0) throw new Error("Membership not found.");
+
+    if (user.balance != 0) {
+      const membership = user.memberships[0];
+
+      const balanceAdjustment =
+        membership.priceAtPurchase - membership.paymentAmount;
+
+      const newBalance = user.balance + balanceAdjustment;
+
+      await prisma.user.update({
+        where: { id: data.userId },
+        data: { balance: newBalance },
+      });
+    }
+
+    await prisma.userMembership.delete({
+      where: { id: data.id },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "Customer membership is deleted successfuly.",
+      user,
+    });
+  } catch (error) {
+    const err = error as Error;
+
+    return c.json({
+      success: false,
+      status: 400,
+      message:
+        err && err.message
+          ? err.message
+          : "Error while deleting user membership.",
     });
   }
 }
