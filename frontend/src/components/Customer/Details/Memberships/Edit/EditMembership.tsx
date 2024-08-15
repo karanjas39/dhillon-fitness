@@ -26,6 +26,7 @@ import {
 } from "@singhjaskaran/dhillonfitness-common";
 import { format, parseISO } from "date-fns";
 import { Pencil2Icon } from "@radix-ui/react-icons";
+import { customerApi } from "@/store/api/customerApi";
 
 function EditMembership({
   startDate,
@@ -45,23 +46,21 @@ function EditMembership({
     },
   });
   const { toast } = useToast();
-
-  let [year, month, day] = startDate.split("-");
+  const [updateCustomerMembership, { isLoading }] =
+    customerApi.useUpdateCustomerMembershipMutation();
 
   async function onSubmit(values: z_updateUserMembership_type) {
-    console.log(values);
-    // try {
-    //   const response = await clearBalance(values).unwrap();
-    //   if (response && response.success) {
-    //     toast({
-    //       description: "Customer payment is cleared successfuly.",
-    //     });
-    //     form.reset();
-    //   } else throw new Error(response.message);
-    // } catch (error) {
-    //   const err = error as Error;
-    //   toast({ description: err.message });
-    // }
+    try {
+      const response = await updateCustomerMembership(values).unwrap();
+      if (response && response.success) {
+        toast({
+          description: "Customer membership is updated successfuly.",
+        });
+      } else throw new Error(response.message);
+    } catch (error) {
+      const err = error as Error;
+      toast({ description: err.message });
+    }
   }
 
   return (
@@ -160,7 +159,9 @@ function EditMembership({
                   </FormItem>
                 )}
               />
-              <Button type="submit">Update</Button>
+              <Button type="submit">
+                {isLoading ? "Updating membership..." : "Update"}
+              </Button>
             </form>
           </Form>
         </div>

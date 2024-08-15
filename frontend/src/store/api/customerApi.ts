@@ -128,6 +128,7 @@ export const customerApi = createApi({
         method: "PATCH",
         body: query,
       }),
+      invalidatesTags: [tag_customer_memberships],
     }),
     getCustomerMemberships: builder.query<
       Api_CustomerMemberships,
