@@ -9,6 +9,7 @@ import {
   GetCustomerMemberships,
   RenewCustomerMembership,
   UpdateCustomer,
+  UpdateCustomerMembership,
 } from "../controllers/customer";
 
 const customer = new Hono<{
@@ -24,6 +25,7 @@ customer.post("/balance-adjustment", ClearUserBalance);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
 customer.delete("/membership/delete", DeleteCustomerMembership);
+customer.patch("/membership/update", UpdateCustomerMembership);
 customer.post("/activation", CustomerActivation);
 customer.get("/all", GetAllCustomers);
 

@@ -119,19 +119,16 @@ export const customerApi = createApi({
       }),
       invalidatesTags: [tag_customer_detail, tag_customer_memberships],
     }),
-    // updateCustomerMembership: builder.mutation<
-    //   GeneralResponse,
-    //   z_updateUserMembership_type
-    // >({
-    //   query: (query) => ({
-    //     url: "/customer/balance-adjustment",
-    //     method: "POST",
-    //     body: query,
-    //   }),
-    //   invalidatesTags: (result, error, arg) => [
-    //     { type: tag_customer_detail, id: arg.userId },
-    //   ],
-    // }),
+    updateCustomerMembership: builder.mutation<
+      GeneralResponse,
+      z_updateUserMembership_type
+    >({
+      query: (query) => ({
+        url: "/customer/membership/update",
+        method: "PATCH",
+        body: query,
+      }),
+    }),
     getCustomerMemberships: builder.query<
       Api_CustomerMemberships,
       { id: string }
