@@ -182,34 +182,30 @@ export async function GetTodaysBirthdayCount(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    // Get current date in IST
     const now = new Date();
     const utcOffsetMinutes = now.getTimezoneOffset();
     const indiaOffsetMinutes = 330;
     const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
     const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
 
-    // Calculate start and end of today in IST
-    const startOfToday = new Date(currentIST);
-    startOfToday.setHours(0, 0, 0, 0);
+    const todayDay = currentIST.getDate();
+    const todayMonth = currentIST.getMonth() + 1;
 
-    const endOfToday = new Date(currentIST);
-    endOfToday.setHours(23, 59, 59, 999);
-
-    // Count users with birthdays today
-    const birthdayCount = await prisma.user.count({
+    const activeUsers = await prisma.user.findMany({
       where: {
-        dob: {
-          gte: startOfToday,
-          lte: endOfToday,
-        },
+        active: true,
       },
     });
+
+    const todayBirthdaysCount = activeUsers.filter((user) => {
+      const dob = new Date(user.dob);
+      return dob.getDate() === todayDay && dob.getMonth() + 1 === todayMonth;
+    }).length;
 
     return c.json({
       success: true,
       status: 200,
-      birthdayCount,
+      birthdayCount: todayBirthdaysCount,
     });
   } catch (error) {
     const err = error as Error;

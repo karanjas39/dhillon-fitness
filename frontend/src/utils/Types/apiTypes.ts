@@ -18,6 +18,9 @@ export interface Api_DailyStatType extends GeneralResponse {
   totalIncome: number;
   date: Date;
 }
+export interface Api_CustomerBirthdayStatType extends GeneralResponse {
+  birthdayCount: number;
+}
 
 export interface Api_MembershipStat extends GeneralResponse {
   expiredTodayCount: number;
