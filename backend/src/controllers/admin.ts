@@ -82,6 +82,11 @@ export async function AdminDetails(c: Context) {
       where: {
         id: adminId,
       },
+      select: {
+        name: true,
+        email: true,
+        dailyTarget: true,
+      },
     });
 
     if (!admin) throw new Error("Admin not found.");

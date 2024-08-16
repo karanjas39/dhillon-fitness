@@ -1,9 +1,16 @@
 import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tagTypes } from "@/store/api/tags";
-import { Api_SignInType } from "@/utils/Types/apiTypes";
+import {
+  Api_AdminDetailType,
+  Api_SignInType,
+  GeneralResponse,
+} from "@/utils/Types/apiTypes";
 import { RootState } from "@/store/index";
-import { z_updatePassword_type } from "@singhjaskaran/dhillonfitness-common";
+import {
+  z_setDailyTarget_type,
+  z_updatePassword_type,
+} from "@singhjaskaran/dhillonfitness-common";
 
 export const adminApi = createApi({
   reducerPath: "adminApi",
@@ -25,6 +32,18 @@ export const adminApi = createApi({
         method: "PATCH",
         body: credentials,
       }),
+    }),
+    updateDailyTarget: builder.mutation<GeneralResponse, z_setDailyTarget_type>(
+      {
+        query: (query) => ({
+          url: "/update/daily-target",
+          method: "PATCH",
+          body: query,
+        }),
+      }
+    ),
+    getAdminDetails: builder.query<Api_AdminDetailType, void>({
+      query: () => "/me",
     }),
   }),
 });

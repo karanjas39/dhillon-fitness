@@ -8,6 +8,14 @@ export interface Api_SignInType extends GeneralResponse {
   token: string;
 }
 
+export interface Api_AdminDetailType extends GeneralResponse {
+  admin: {
+    name: string;
+    email: string;
+    dailyTarget: number;
+  };
+}
+
 export interface Api_YearlyStatType extends GeneralResponse {
   monthlyIncome: {
     totalIncome: number;

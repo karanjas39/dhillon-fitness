@@ -11,22 +11,24 @@ import { Progress } from "@/components/ui/progress";
 import { statsApi } from "@/store/api/statsApi";
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader/Loader";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function MonthlyStats() {
   const { data, isLoading } = statsApi.useGetDailyStatsQuery();
-  const goalIncome = 2000;
+  const { dailyTarget } = useSelector((state: RootState) => state.admin);
   const [progress, setProgress] = useState(13);
 
   useEffect(() => {
-    if (!isLoading && data?.success) {
+    if (!isLoading && data?.success && dailyTarget) {
       const timer = setTimeout(() => {
-        const progressPercentage = (data.totalIncome / goalIncome) * 100;
+        const progressPercentage = (data.totalIncome / dailyTarget) * 100;
         const progress = Math.max(0, Math.min(100, progressPercentage));
         setProgress(progress);
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, dailyTarget]);
 
   return (
     <div>
@@ -36,7 +38,7 @@ function MonthlyStats() {
           Total revenue generated today
         </p>
       </div>
-      {!isLoading && data?.success ? (
+      {!isLoading && data?.success && dailyTarget ? (
         <Card x-chunk="dashboard-05-chunk-1">
           <CardHeader className="pb-2">
             <CardDescription>Today&lsquo;s Sale</CardDescription>
@@ -45,7 +47,7 @@ function MonthlyStats() {
             </CardTitle>
           </CardHeader>
           <CardFooter>
-            <Progress value={progress} max={goalIncome} />
+            <Progress value={progress} max={dailyTarget} />
           </CardFooter>
         </Card>
       ) : (

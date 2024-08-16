@@ -3,9 +3,10 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import authReducer from "@/store/slices/authSlice";
 import { authApi } from "@/store/api/authApi";
 import { statsApi } from "@/store/api/statsApi";
-import { customerApi } from "./api/customerApi";
-import { membershipApi } from "./api/membershipApi";
-import { adminApi } from "./api/adminApt";
+import { customerApi } from "@/store/api/customerApi";
+import { membershipApi } from "@/store/api/membershipApi";
+import { adminApi } from "@/store/api/adminApt";
+import adminReducer from "@/store/slices/adminSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     [membershipApi.reducerPath]: membershipApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
     auth: authReducer,
+    admin: adminReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
