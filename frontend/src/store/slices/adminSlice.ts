@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AdminState {
-  name: string | null;
-  email: string | null;
-  dailyTarget: number | null;
+  name: string | undefined;
+  email: string | undefined;
+  dailyTarget: number | undefined;
 }
 
 const initialState: AdminState = {
-  name: null,
-  email: null,
-  dailyTarget: null,
+  name: undefined,
+  email: undefined,
+  dailyTarget: undefined,
 };
 
 const adminSlice = createSlice({

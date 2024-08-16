@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_setDailyTarget = exports.z_createAdmin = void 0;
+exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_updateAdmin = exports.z_createAdmin = void 0;
 const zod_1 = require("zod");
 // SCHEMAS
 exports.z_createAdmin = zod_1.z.object({
@@ -8,7 +8,9 @@ exports.z_createAdmin = zod_1.z.object({
     name: zod_1.z.string().trim(),
     password: zod_1.z.string().trim().min(6),
 });
-exports.z_setDailyTarget = zod_1.z.object({
+exports.z_updateAdmin = zod_1.z.object({
+    email: zod_1.z.string().trim().email(),
+    name: zod_1.z.string().trim(),
     dailyTarget: zod_1.z.number(),
 });
 exports.z_createUser = zod_1.z

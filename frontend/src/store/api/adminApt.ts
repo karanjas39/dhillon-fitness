@@ -8,7 +8,7 @@ import {
 } from "@/utils/Types/apiTypes";
 import { RootState } from "@/store/index";
 import {
-  z_setDailyTarget_type,
+  z_updateAdmin_type,
   z_updatePassword_type,
 } from "@singhjaskaran/dhillonfitness-common";
 
@@ -33,15 +33,13 @@ export const adminApi = createApi({
         body: credentials,
       }),
     }),
-    updateDailyTarget: builder.mutation<GeneralResponse, z_setDailyTarget_type>(
-      {
-        query: (query) => ({
-          url: "/update/daily-target",
-          method: "PATCH",
-          body: query,
-        }),
-      }
-    ),
+    updateAdmin: builder.mutation<GeneralResponse, z_updateAdmin_type>({
+      query: (query) => ({
+        url: "/update",
+        method: "PATCH",
+        body: query,
+      }),
+    }),
     getAdminDetails: builder.query<Api_AdminDetailType, void>({
       query: () => "/me",
     }),

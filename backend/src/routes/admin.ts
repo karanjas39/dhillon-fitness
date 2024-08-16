@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import {
   AdminDetails,
   ChangePassword,
-  UpdateDailyTarget,
+  UpdateAdmin,
 } from "../controllers/admin";
 
 const admin = new Hono<{
@@ -15,7 +15,7 @@ const admin = new Hono<{
 }>();
 
 admin.patch("/update/password", ChangePassword);
-admin.patch("/update/daily-target", UpdateDailyTarget);
+admin.patch("/update", UpdateAdmin);
 admin.get("/me", AdminDetails);
 
 export default admin;
