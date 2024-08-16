@@ -1,13 +1,22 @@
 import Image from "next/image";
-import LogoImage from "/public/logo.png";
+import LogoDark from "../../../public/logo-dark.png";
+import LogoLight from "../../../public/logo-light.png";
 import Link from "next/link";
-import { APP_NAME } from "@/utils/constants";
+import { useTheme } from "next-themes";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function Logo() {
+  const { resolvedTheme } = useTheme();
+  const { token } = useSelector((state: RootState) => state.auth);
+
   return (
-    <Link href="/" className="flex items-center gap-3">
-      <Image src={LogoImage} alt="Logo image" width={40} />
-      <p className="sm:text-xl text-base font-bold">{APP_NAME}</p>
+    <Link href={token ? "/dashboard" : "/"} className="flex items-center gap-3">
+      {resolvedTheme === "light" ? (
+        <Image src={LogoLight} alt="Logo" width={250} />
+      ) : (
+        <Image src={LogoDark} alt="Logo" width={250} />
+      )}
     </Link>
   );
 }
