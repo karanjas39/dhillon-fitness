@@ -53,7 +53,7 @@ model Admin {
   email          String          @unique
   password       String          
   name           String
-  dailyTarget    Float       @default(0)
+  dailyTarget    Float           @default(0)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }

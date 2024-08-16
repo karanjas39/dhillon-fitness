@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_createAdmin = void 0;
+exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_setDailyTarget = exports.z_createAdmin = void 0;
 const zod_1 = require("zod");
 // SCHEMAS
 exports.z_createAdmin = zod_1.z.object({
@@ -8,19 +8,21 @@ exports.z_createAdmin = zod_1.z.object({
     name: zod_1.z.string().trim(),
     password: zod_1.z.string().trim().min(6),
 });
+exports.z_setDailyTarget = zod_1.z.object({
+    dailyTarget: zod_1.z.number(),
+});
 exports.z_createUser = zod_1.z
     .object({
-    name: zod_1.z.string().trim().trim(),
-    email: zod_1.z.string().trim().trim().email().or(zod_1.z.literal("").optional()),
-    dob: zod_1.z.string().trim().trim().datetime({ precision: 3 }),
-    phone: zod_1.z.string().trim().trim().min(10).max(10),
-    address: zod_1.z.string().trim().trim(),
+    name: zod_1.z.string().trim(),
+    email: zod_1.z.string().trim().email().or(zod_1.z.literal("").optional()),
+    dob: zod_1.z.string().trim().datetime({ precision: 3 }),
+    phone: zod_1.z.string().trim().min(10).max(10),
+    address: zod_1.z.string().trim(),
     sex: zod_1.z.enum(["male", "female"]),
-    membershipId: zod_1.z.string().trim().trim().uuid().or(zod_1.z.literal("").optional()),
+    membershipId: zod_1.z.string().trim().uuid().or(zod_1.z.literal("").optional()),
     paymentAmount: zod_1.z.coerce.number().or(zod_1.z.literal(0).optional()),
     startDate: zod_1.z
         .string()
-        .trim()
         .trim()
         .datetime({ precision: 3 })
         .or(zod_1.z.literal("").optional()),

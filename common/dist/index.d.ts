@@ -12,6 +12,13 @@ export declare const z_createAdmin: z.ZodObject<{
     name: string;
     password: string;
 }>;
+export declare const z_setDailyTarget: z.ZodObject<{
+    dailyTarget: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    dailyTarget: number;
+}, {
+    dailyTarget: number;
+}>;
 export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     name: z.ZodString;
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
@@ -235,6 +242,7 @@ export declare const z_updatePassword: z.ZodObject<{
     confirmNewPassword?: string | undefined;
 }>;
 export type z_createAdmin_type = z.infer<typeof z_createAdmin>;
+export type z_setDailyTarget_type = z.infer<typeof z_setDailyTarget>;
 export type z_clearBalance_type = z.infer<typeof z_clearBalance>;
 export type z_userActivation_type = z.infer<typeof z_userActivation>;
 export type z_updatePassword_type = z.infer<typeof z_updatePassword>;
