@@ -28,17 +28,19 @@ export interface Api_MembershipStat extends GeneralResponse {
 }
 
 export interface Api_AllCustomers extends GeneralResponse {
-  customers: {
-    id: string;
-    name: string;
-    phone: string;
-    active: boolean;
-    memberships: {
-      membership: {
-        name: string;
-      };
-      endDate: string;
-    }[];
+  customers: customerType[];
+}
+
+export interface customerType {
+  id: string;
+  name: string;
+  phone: string;
+  active: boolean;
+  memberships: {
+    membership: {
+      name: string;
+    };
+    endDate: string;
   }[];
 }
 

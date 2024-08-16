@@ -1,4 +1,4 @@
-import CustomerTable from "@/components/Customer/Table/CustomerTable";
+import CustomerTable from "@/components/Customer/Customers";
 import Section from "@/components/Layouts/Section";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
