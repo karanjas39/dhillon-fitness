@@ -1,6 +1,6 @@
 import { BACKEND_URL } from "@/utils/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tagTypes } from "@/store/api/tags";
+import { tag_admin_details, tagTypes } from "@/store/api/tags";
 import {
   Api_AdminDetailType,
   Api_SignInType,
@@ -39,9 +39,11 @@ export const adminApi = createApi({
         method: "PATCH",
         body: query,
       }),
+      invalidatesTags: [tag_admin_details],
     }),
     getAdminDetails: builder.query<Api_AdminDetailType, void>({
       query: () => "/me",
+      providesTags: [tag_admin_details],
     }),
   }),
 });

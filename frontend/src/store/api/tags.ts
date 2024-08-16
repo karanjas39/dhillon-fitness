@@ -1,5 +1,6 @@
 export const tag_yearly_stats = "yearly_stats";
 export const tag_daily_stats = "daily_stats";
+export const tag_admin_details = "adminDetails";
 export const tag_customer_birthday_stats = "customer_birthday_stat";
 export const tag_membership_stats = "membership_stats";
 export const tag_all_customers = "all_customers";
@@ -11,6 +12,7 @@ export const tag_all_memberships = "all_memberships";
 export const tagTypes = [
   tag_yearly_stats,
   tag_daily_stats,
+  tag_admin_details,
   tag_customer_birthday_stats,
   tag_membership_stats,
   tag_all_customers,

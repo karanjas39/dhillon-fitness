@@ -72,7 +72,7 @@ export const customerApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.id },
-        tag_all_customers,
+        // tag_all_customers,
       ],
     }),
     getCustomerDetails: builder.query<Api_CustomerDetail, { id: string }>({
@@ -92,7 +92,7 @@ export const customerApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: tag_customer_detail, id: arg.userId },
-        tag_all_customers,
+        // tag_all_customers,
       ],
     }),
     clearCustomerBalance: builder.mutation<
