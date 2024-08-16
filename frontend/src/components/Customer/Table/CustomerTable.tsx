@@ -15,13 +15,6 @@ function CustomerTable() {
 
   return (
     <div className="mt-4 w-full flex flex-col gap-2">
-      <div className="self-end sm:w-[30%] w-[80%]">
-        <Input
-          className="w-full"
-          placeholder="Search by phone number"
-          type="text"
-        />
-      </div>
       {data?.success && (
         <ScrollArea className="max-h-[500px]  min-h-max max-w-full overflow-x-auto overflow-y-auto mt-2 pr-4 pb-4">
           <Table className="min-w-[600px] sm:min-w-[800px] md:min-w-[1000px]">

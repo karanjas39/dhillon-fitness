@@ -6,9 +6,9 @@ CREATE TABLE "User" (
     "email" TEXT,
     "address" TEXT NOT NULL,
     "sex" TEXT NOT NULL,
-    "balance" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "active" BOOLEAN NOT NULL DEFAULT true,
     "dob" TIMESTAMP(3) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "balance" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
