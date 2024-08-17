@@ -118,28 +118,20 @@ export async function GetMembershipStats(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const now = new Date();
-    const utcOffsetMinutes = now.getTimezoneOffset();
-    const indiaOffsetMinutes = 330;
-    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
-    const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
+    const startDateParam = c.req.param("startDate");
+    const decodedStartDateParam = decodeURIComponent(startDateParam);
+    const startDate = new Date(decodedStartDateParam);
 
-    const startOfToday = new Date(currentIST);
+    const startOfToday = new Date(startDate);
     startOfToday.setHours(0, 0, 0, 0);
 
-    const endOfToday = new Date(currentIST);
+    const endOfToday = new Date(startDate);
     endOfToday.setHours(23, 59, 59, 999);
-
-    const startOfYesterday = new Date(startOfToday);
-    startOfYesterday.setDate(startOfToday.getDate() - 1);
-
-    const endOfYesterday = new Date(endOfToday);
-    endOfYesterday.setDate(endOfToday.getDate() - 1);
 
     const expiredTodayCount = await prisma.userMembership.count({
       where: {
         endDate: {
-          gte: startOfYesterday,
+          gte: new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000),
           lt: startOfToday,
         },
       },
@@ -149,7 +141,7 @@ export async function GetMembershipStats(c: Context) {
       await prisma.userMembership.findMany({
         where: {
           endDate: {
-            gt: currentIST,
+            gte: endOfToday,
           },
         },
         select: {

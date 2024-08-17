@@ -42,7 +42,11 @@ export const statsApi = createApi({
       providesTags: [tag_daily_stats],
     }),
     getMembershipStats: builder.query<Api_MembershipStat, void>({
-      query: () => "/stats/membership/today",
+      query: () => {
+        const startDate = new Date().toISOString();
+        const encodedStartDate = encodeURIComponent(startDate);
+        return `/stats/membership/today/${encodedStartDate}`;
+      },
       providesTags: [tag_membership_stats],
     }),
   }),

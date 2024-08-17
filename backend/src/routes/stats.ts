@@ -17,7 +17,7 @@ const stats = new Hono<{
 
 stats.get("/yearly", GetYearlySales);
 stats.get("/daily", GetDailySales);
-stats.get("/membership/today", GetMembershipStats);
+stats.get("/membership/today/:startDate", GetMembershipStats);
 stats.get("/customer/birthday", GetTodaysBirthdayCount);
 
 export default stats;

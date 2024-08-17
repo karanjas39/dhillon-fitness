@@ -18,9 +18,9 @@ function CustomerBirthday() {
         <h2 className="sm:text-2xl text-xl font-bold">
           Today&lsquo;s Birthdays
         </h2>
-        <p className="text-muted-foreground sm:text-lg text-base font-semibold">
+        {/* <p className="text-muted-foreground sm:text-lg text-base font-semibold">
           Customers with birthdays today
-        </p>
+        </p> */}
       </div>
       {!isLoading && data?.success ? (
         <Card x-chunk="dashboard-05-chunk-1">

@@ -18,9 +18,9 @@ function MembershipsStats() {
         <h2 className="sm:text-2xl text-xl font-bold">
           Memberships Overview for Today
         </h2>
-        <p className="text-muted-foreground sm:text-lg text-base font-semibold">
-          Total memberships expiring today and currently live memberships
-        </p>
+        {/* <p className="text-muted-foreground sm:text-lg text-sm font-semibold">
+          Memberships expiring today and currently live memberships
+        </p> */}
       </div>
       {!isLoading && data?.success ? (
         <div className="grid grid-cols-2 gap-2">
