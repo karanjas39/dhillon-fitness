@@ -9,8 +9,13 @@ function Logo() {
 
   return (
     <Link href={token ? "/dashboard" : ""} className="flex items-center">
-      <Image src={LogoImage} alt="Gym logo" width={50} />
-      <p className="font-bold text-2xl">DHILLON FITNESS</p>
+      <Image
+        src={LogoImage}
+        alt="Gym logo"
+        width={50}
+        className="hidden sm:block"
+      />
+      <p className="font-bold sm:text-2xl text-xl">DHILLON FITNESS</p>
     </Link>
   );
 }

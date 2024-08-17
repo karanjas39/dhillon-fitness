@@ -58,10 +58,10 @@ function AdminDetails() {
 
   return (
     <div className="mt-6 mb-3 w-full flex flex-col">
-      <h1 className="text-4xl font-bold">
+      <h1 className="sm:text-4xl text-3xl font-bold">
         {greeting}, {adminName}
       </h1>
-      <p className="mt-2 text-base text-muted-foreground">
+      <p className="mt-2 sm:text-base text-sm text-muted-foreground">
         {motivationalMessage}
       </p>
     </div>

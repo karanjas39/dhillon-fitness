@@ -5,10 +5,18 @@ function MembershipTableHeader() {
     <TableHeader>
       <TableRow>
         <TableHead className="w-[250px]">Membership Plan</TableHead>
-        <TableHead className="text-center">Starts On</TableHead>
-        <TableHead className="text-center">Expire On</TableHead>
-        <TableHead className="text-center">Actual Price</TableHead>
-        <TableHead className="text-center">Amount Paid</TableHead>
+        <TableHead className="text-center sm:w-max w-[300px]">
+          Starts On
+        </TableHead>
+        <TableHead className="text-center sm:w-max w-[300px]">
+          Expire On
+        </TableHead>
+        <TableHead className="text-center sm:w-max w-[300px]">
+          Actual Price
+        </TableHead>
+        <TableHead className="text-center sm:w-max w-[300px]">
+          Amount Paid
+        </TableHead>
       </TableRow>
     </TableHeader>
   );

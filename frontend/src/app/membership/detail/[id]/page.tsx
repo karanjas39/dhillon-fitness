@@ -21,7 +21,7 @@ function MembershipDetail() {
       {data?.success && (
         <Section>
           <div className="mt-3 mb-4 flex flex-col gap-1">
-            <h1 className="text-4xl font-bold capitalize">
+            <h1 className="sm:text-4xl  text-2xl font-bold capitalize">
               {data.membership.name}
             </h1>
             {data.membership.description && (

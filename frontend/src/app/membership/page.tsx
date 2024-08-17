@@ -6,7 +6,7 @@ import Link from "next/link";
 function Membership() {
   return (
     <Section>
-      <div className="flex items-center justify-between">
+      <div className="flex  sm:flex-row flex-col items-start sm:items-center justify-between">
         <h1 className="sm:text-2xl text-lg font-bold">Membership Management</h1>
         <Link href="/membership/create">
           <Button>Create Membership Plan</Button>

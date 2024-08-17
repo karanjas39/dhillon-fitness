@@ -23,11 +23,11 @@ function CustomerDetails() {
     <>
       {data?.success && (
         <Section className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold mt-3 mb-3 capitalize">
+          <div className="flex sm:items-center items-start sm:flex-row flex-col justify-between">
+            <h1 className="sm:text-4xl text-3xl font-bold mt-3 mb-3 capitalize">
               {data.customer.name}
             </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex sm:items-center items-end sm:flex-row flex-col gap-2 self-end">
               <AddMembershipDialog id={params.id} />
               <DeletCustomer />
             </div>
