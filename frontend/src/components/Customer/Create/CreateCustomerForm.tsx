@@ -72,7 +72,7 @@ function CreateCustomerForm() {
 
   return (
     <div className="sm:w-[50%] w-[90%] mx-auto mt-4">
-      {data?.success && data.ids.length && (
+      {data?.success && data.ids.length ? (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -305,6 +305,10 @@ function CreateCustomerForm() {
             </Button>
           </form>
         </Form>
+      ) : (
+        <p className="text-center text-sm text-muted-foreground">
+          No membership plan is created. First create one.
+        </p>
       )}
     </div>
   );

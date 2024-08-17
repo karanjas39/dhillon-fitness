@@ -50,6 +50,14 @@ export const customerApi = createApi({
       }),
       // invalidatesTags: [tag_all_customers],
     }),
+    deleteCustomer: builder.mutation<GeneralResponse, z_id_type>({
+      query: (query) => ({
+        url: "/customer/delete",
+        method: "DELETE",
+        body: query,
+      }),
+      // invalidatesTags: [tag_all_customers],
+    }),
     createCustomerMembership: builder.mutation<
       GeneralResponse,
       z_createUserMembership_type

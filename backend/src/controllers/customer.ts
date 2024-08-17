@@ -147,6 +147,51 @@ export async function UpdateCustomer(c: Context) {
   }
 }
 
+export async function DeleteCustomer(c: Context) {
+  const body = await c.req.json();
+
+  const { success, data } = z_id.safeParse(body);
+
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 404,
+      message: "Invalid inputs are passed.",
+    });
+  }
+
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    await prisma.userMembership.deleteMany({
+      where: {
+        userId: data.id,
+      },
+    });
+
+    await prisma.user.delete({
+      where: {
+        id: data.id,
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "Customer is deleted successfuly.",
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 400,
+      message: err.message ? err.message : "Failed to delete Customer.",
+    });
+  }
+}
+
 export async function RenewCustomerMembership(c: Context) {
   const body: z_createUserMembership_type = await c.req.json();
 

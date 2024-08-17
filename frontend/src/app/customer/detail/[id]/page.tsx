@@ -9,6 +9,7 @@ import Loader from "@/components/Loader/Loader";
 import MembershipTable from "@/components/Customer/Details/Memberships/MembershipTable";
 import EditCustomerForm from "@/components/Customer/Details/Edit/EditCustomerForm";
 import AddMembershipDialog from "@/components/Customer/Details/AddMembership/AddMembershipDialog";
+import DeletCustomer from "@/components/Customer/Details/DeleteCustomer";
 
 function CustomerDetails() {
   const params = useParams<{ id: string }>();
@@ -26,7 +27,10 @@ function CustomerDetails() {
             <h1 className="text-4xl font-bold mt-3 mb-3">
               {data.customer.name}
             </h1>
-            <AddMembershipDialog id={params.id} />
+            <div className="flex items-center gap-2">
+              <AddMembershipDialog id={params.id} />
+              <DeletCustomer />
+            </div>
           </div>
           <Tabs defaultValue="details">
             <TabsList>

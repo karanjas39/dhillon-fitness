@@ -3,6 +3,7 @@ import {
   ClearUserBalance,
   CreateCustomer,
   CustomerActivation,
+  DeleteCustomer,
   DeleteCustomerMembership,
   GetAllCustomers,
   GetCustomerDetails,
@@ -20,6 +21,7 @@ const customer = new Hono<{
 
 customer.post("/create", CreateCustomer);
 customer.put("/update", UpdateCustomer);
+customer.delete("/delete", DeleteCustomer);
 customer.get("/detail/:id", GetCustomerDetails);
 customer.post("/balance-adjustment", ClearUserBalance);
 customer.get("/memberships/:id", GetCustomerMemberships);
