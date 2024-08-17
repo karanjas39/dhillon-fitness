@@ -15,7 +15,7 @@ model User {
   email          String?
   address        String
   sex            String
-  dob            DateTime
+  dob            DateTime?
   active         Boolean        @default(true)
   balance        Float          @default(0)     
   memberships    UserMembership[]

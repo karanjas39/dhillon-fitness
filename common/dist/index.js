@@ -17,7 +17,7 @@ exports.z_createUser = zod_1.z
     .object({
     name: zod_1.z.string().trim(),
     email: zod_1.z.string().trim().email().or(zod_1.z.literal("").optional()),
-    dob: zod_1.z.string().trim().datetime({ precision: 3 }),
+    dob: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
     phone: zod_1.z.string().trim().min(10).max(10),
     address: zod_1.z.string().trim(),
     sex: zod_1.z.enum(["male", "female"]),

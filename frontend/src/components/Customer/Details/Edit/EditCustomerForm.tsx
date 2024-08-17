@@ -37,7 +37,7 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
       name: customer.name,
       email: customer.email ? customer.email : "",
       address: customer.address,
-      dob: customer.dob,
+      dob: customer.dob ? customer.dob : undefined,
       phone: customer.phone,
       sex:
         customer.sex === "male" || customer.sex === "female"
@@ -87,7 +87,7 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
             name="dob"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Date of birth</FormLabel>
+                <FormLabel>Date of Birth</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Date of Birth"
@@ -106,13 +106,13 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
                         ).toISOString();
                         field.onChange(isoDate);
                       } else {
-                        field.onChange("");
+                        field.onChange(undefined);
                       }
                     }}
                   />
                 </FormControl>
                 <FormDescription>
-                  Enter updated date of birth here
+                  Update customer date of birth here (optional)
                 </FormDescription>
                 <FormMessage />
               </FormItem>

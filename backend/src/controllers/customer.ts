@@ -13,7 +13,7 @@ import {
   z_updateUserMembership,
   z_userActivation,
 } from "@singhjaskaran/dhillonfitness-common";
-import { calculateEndDate, getCurrentDate } from "../helpers/helper";
+import { calculateEndDate } from "../helpers/helper";
 
 export async function CreateCustomer(c: Context) {
   const body: z_createUser_type = await c.req.json();
@@ -59,7 +59,7 @@ export async function CreateCustomer(c: Context) {
         sex: data.sex,
         balance,
         email: data.email ? data.email : null,
-        dob: data.dob,
+        dob: data.dob ? data.dob : null,
         active: data.membershipId ? true : false,
       },
     });

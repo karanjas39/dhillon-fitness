@@ -28,7 +28,7 @@ export declare const z_updateAdmin: z.ZodObject<{
 export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     name: z.ZodString;
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
-    dob: z.ZodString;
+    dob: z.ZodOptional<z.ZodString>;
     phone: z.ZodString;
     address: z.ZodString;
     sex: z.ZodEnum<["male", "female"]>;
@@ -37,41 +37,41 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     startDate: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
 }, "strip", z.ZodTypeAny, {
     name: string;
-    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
     startDate?: string | undefined;
 }, {
     name: string;
-    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
     startDate?: string | undefined;
 }>, {
     name: string;
-    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
     startDate?: string | undefined;
 }, {
     name: string;
-    dob: string;
     phone: string;
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
     startDate?: string | undefined;

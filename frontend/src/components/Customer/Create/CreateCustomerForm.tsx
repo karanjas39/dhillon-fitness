@@ -46,7 +46,7 @@ function CreateCustomerForm() {
       paymentAmount: 0,
       phone: "",
       sex: "male",
-      dob: "",
+      dob: undefined,
       startDate: "",
     },
   });
@@ -122,7 +122,7 @@ function CreateCustomerForm() {
               name="dob"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Date of Birth"
@@ -141,7 +141,7 @@ function CreateCustomerForm() {
                           ).toISOString();
                           field.onChange(isoDate);
                         } else {
-                          field.onChange("");
+                          field.onChange(undefined);
                         }
                       }}
                     />
