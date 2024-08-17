@@ -20,7 +20,7 @@ function MembershipTableBody({ ids }: Pick<Api_MembershipIds, "ids">) {
           onClick={() => handleRowClick(membership.id)}
           className="cursor-pointer"
         >
-          <TableCell>{membership.name}</TableCell>
+          <TableCell className="capitalize">{membership.name}</TableCell>
           <TableCell className="text-center">
             {membership.durationDays}
           </TableCell>

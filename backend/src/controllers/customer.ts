@@ -428,7 +428,7 @@ export async function GetAllCustomers(c: Context) {
         name: true,
         phone: true,
         active: true,
-        dob: true,
+        address: true,
         memberships: {
           orderBy: {
             endDate: "desc",

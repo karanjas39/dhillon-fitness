@@ -11,7 +11,9 @@ function MembershipTableBody({
     <TableBody className="w-full">
       {customerMemberships.map((membership, i) => (
         <TableRow key={i}>
-          <TableCell>{membership.membership.name}</TableCell>
+          <TableCell className="capitalize">
+            {membership.membership.name}
+          </TableCell>
           <TableCell className="text-center">
             {modifyDate(membership.startDate)}
           </TableCell>

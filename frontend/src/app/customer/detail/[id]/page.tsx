@@ -24,7 +24,7 @@ function CustomerDetails() {
       {data?.success && (
         <Section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold mt-3 mb-3">
+            <h1 className="text-4xl font-bold mt-3 mb-3 capitalize">
               {data.customer.name}
             </h1>
             <div className="flex items-center gap-2">

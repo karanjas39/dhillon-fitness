@@ -59,7 +59,7 @@ export function CardContentDiv({
   return (
     <div className="flex items-center justify-between">
       <p className="font-bold">{title}</p>
-      <p className="text-muted-foreground">{value}</p>
+      <p className="text-muted-foreground capitalize">{value}</p>
     </div>
   );
 }

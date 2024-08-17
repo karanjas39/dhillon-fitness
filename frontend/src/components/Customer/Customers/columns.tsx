@@ -56,8 +56,19 @@ export const columns: ColumnDef<customerType>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="text-center">{row.original.name}</div>,
+    cell: ({ row }) => (
+      <div className="text-center capitalize">{row.original.name}</div>
+    ),
     filterFn: multiFieldFilter,
+  },
+  {
+    accessorKey: "address",
+    header: () => <div className="text-center font-bold">Address</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-center capitalize">{row.original.address}</div>
+      );
+    },
   },
   {
     accessorKey: "expiryDate",
@@ -68,7 +79,7 @@ export const columns: ColumnDef<customerType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="font-bold"
         >
-          Expiry Date
+          Expire on
           {column.getIsSorted() === "asc" ? (
             <ArrowUpIcon className="ml-2 h-4 w-4" />
           ) : (

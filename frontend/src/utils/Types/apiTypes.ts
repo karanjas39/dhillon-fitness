@@ -44,6 +44,7 @@ export interface customerType {
   name: string;
   phone: string;
   active: boolean;
+  address: string;
   memberships: {
     membership: {
       name: string;

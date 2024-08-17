@@ -97,6 +97,28 @@ function CreateCustomerForm() {
             />
             <FormField
               control={form.control}
+              name="sex"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Gender</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>Select customer gender here</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="dob"
               render={({ field }) => (
                 <FormItem>
@@ -125,7 +147,7 @@ function CreateCustomerForm() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter customer date of birth here
+                    Enter customer date of birth here (optional)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -185,29 +207,6 @@ function CreateCustomerForm() {
                   <FormDescription>
                     Enter customer phone number here (excluding +91)
                   </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="sex"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Gender</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Select customer gender here</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
