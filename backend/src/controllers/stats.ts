@@ -128,14 +128,10 @@ export async function GetMembershipStats(c: Context) {
     const endOfToday = new Date(startDate);
     endOfToday.setHours(23, 59, 59, 999);
 
-    const startOfYesterday = new Date(
-      startOfToday.getTime() - 24 * 60 * 60 * 1000
-    );
-
-    const expiredTodayCount = await prisma.userMembership.findMany({
+    const expiredTodayCount = await prisma.userMembership.count({
       where: {
         endDate: {
-          gte: startOfYesterday,
+          gte: new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000),
           lt: startOfToday,
         },
       },
@@ -159,9 +155,8 @@ export async function GetMembershipStats(c: Context) {
     return c.json({
       success: true,
       status: 200,
-      expiredTodayCount: expiredTodayCount.length,
+      expiredTodayCount,
       liveUntilTodayCount,
-      expiry: expiredTodayCount,
     });
   } catch (error) {
     const err = error as Error;
