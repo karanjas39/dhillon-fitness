@@ -122,24 +122,21 @@ export async function GetMembershipStats(c: Context) {
     const decodedStartDateParam = decodeURIComponent(startDateParam);
     const startDate = new Date(decodedStartDateParam);
 
-    // Set startOfToday to midnight of the provided startDate (e.g., August 18th, 00:00:00)
     const startOfToday = new Date(startDate);
     startOfToday.setHours(0, 0, 0, 0);
 
-    // Set endOfToday to just before midnight of the provided startDate (e.g., August 18th, 23:59:59)
     const endOfToday = new Date(startDate);
     endOfToday.setHours(23, 59, 59, 999);
 
-    // To find memberships that expired at the end of yesterday (e.g., August 17th)
     const startOfYesterday = new Date(
       startOfToday.getTime() - 24 * 60 * 60 * 1000
     );
 
-    const expiredTodayCount = await prisma.userMembership.count({
+    const expiredTodayCount = await prisma.userMembership.findMany({
       where: {
         endDate: {
-          gte: startOfYesterday, // gte to include the whole of yesterday
-          lt: startOfToday, // lt to ensure it's less than the start of today (i.e., August 18th)
+          gte: startOfYesterday,
+          lt: startOfToday,
         },
       },
     });
@@ -162,8 +159,9 @@ export async function GetMembershipStats(c: Context) {
     return c.json({
       success: true,
       status: 200,
-      expiredTodayCount,
+      expiredTodayCount: expiredTodayCount.length,
       liveUntilTodayCount,
+      expiry: expiredTodayCount,
     });
   } catch (error) {
     const err = error as Error;
