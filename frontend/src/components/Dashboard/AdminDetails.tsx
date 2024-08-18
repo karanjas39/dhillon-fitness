@@ -48,7 +48,7 @@ function AdminDetails() {
     if (!isLoading && data && data.success) {
       dispatch(setAdmin(data.admin));
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, dispatch]);
 
   if (isLoading) return <Loader />;
 

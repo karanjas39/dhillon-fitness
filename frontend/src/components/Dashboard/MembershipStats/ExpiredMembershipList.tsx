@@ -49,6 +49,7 @@ function ExpiredMembershipList({
                 <TableRow
                   className="cursor-pointer"
                   onClick={() => router.push(`/customer/detail/${exp.user.id}`)}
+                  key={exp.user.id}
                 >
                   <TableCell className="text-left">{i + 1}.</TableCell>
                   <TableCell className="text-right capitalize">

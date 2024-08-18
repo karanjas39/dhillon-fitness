@@ -51,6 +51,7 @@ function BirthdayList({
                 <TableRow
                   className="cursor-pointer"
                   onClick={() => router.push(`/customer/detail/${birthday.id}`)}
+                  key={birthday.id}
                 >
                   <TableCell className="text-left">{i + 1}.</TableCell>
                   <TableCell className="text-center">
