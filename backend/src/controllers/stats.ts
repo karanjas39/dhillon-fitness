@@ -122,11 +122,19 @@ export async function GetMembershipStats(c: Context) {
     const decodedStartDateParam = decodeURIComponent(startDateParam);
     const startOfToday = new Date(decodedStartDateParam);
 
-    const expiredTodayCount = await prisma.userMembership.count({
+    const expiredTodayCount = await prisma.userMembership.findMany({
       where: {
         endDate: {
           gte: new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000),
           lt: startOfToday,
+        },
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
     });
@@ -149,8 +157,9 @@ export async function GetMembershipStats(c: Context) {
     return c.json({
       success: true,
       status: 200,
-      expiredTodayCount,
+      expiredTodayCount: expiredTodayCount.length,
       liveUntilTodayCount,
+      expired: expiredTodayCount,
     });
   } catch (error) {
     const err = error as Error;
@@ -181,20 +190,26 @@ export async function GetTodaysBirthdayCount(c: Context) {
       where: {
         active: true,
       },
+      select: {
+        dob: true,
+        id: true,
+        name: true,
+      },
     });
 
-    const todayBirthdaysCount = activeUsers.filter((user) => {
+    const todayBirthdays = activeUsers.filter((user) => {
       if (user.dob) {
         const dob = new Date(user.dob);
         return dob.getDate() === todayDay && dob.getMonth() + 1 === todayMonth;
       }
       return false;
-    }).length;
+    });
 
     return c.json({
       success: true,
       status: 200,
-      birthdayCount: todayBirthdaysCount,
+      birthdayCount: todayBirthdays.length,
+      birthdays: todayBirthdays,
     });
   } catch (error) {
     const err = error as Error;

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import Loader from "@/components/Loader/Loader";
 import { statsApi } from "@/store/api/statsApi";
+import BirthdayList from "./BirthdayList";
 
 function CustomerBirthday() {
   const { data, isLoading } = statsApi.useGetCustomerBirthdayQuery();
@@ -18,14 +19,18 @@ function CustomerBirthday() {
         <h2 className="sm:text-2xl text-xl font-bold">
           Today&lsquo;s Birthdays
         </h2>
-        {/* <p className="text-muted-foreground sm:text-lg text-base font-semibold">
-          Customers with birthdays today
-        </p> */}
       </div>
       {!isLoading && data?.success ? (
         <Card x-chunk="dashboard-05-chunk-1">
           <CardHeader className="pb-2">
-            <CardDescription>Total Birthdays</CardDescription>
+            <CardDescription className="flex items-center justify-between">
+              <span>Total Birthday</span>
+              {data.birthdays.length ? (
+                <span>
+                  <BirthdayList birthdays={data.birthdays} />
+                </span>
+              ) : null}
+            </CardDescription>
             <CardTitle className="text-4xl">{data.birthdayCount}</CardTitle>
           </CardHeader>
         </Card>

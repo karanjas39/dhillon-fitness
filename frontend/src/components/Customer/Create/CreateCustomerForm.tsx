@@ -230,7 +230,11 @@ function CreateCustomerForm() {
                       </SelectTrigger>
                       <SelectContent>
                         {data.ids.map((id) => (
-                          <SelectItem value={id.id} key={id.id}>
+                          <SelectItem
+                            value={id.id}
+                            key={id.id}
+                            className="capitalize"
+                          >
                             {id.name} ({id.price})
                           </SelectItem>
                         ))}

@@ -28,11 +28,22 @@ export interface Api_DailyStatType extends GeneralResponse {
 }
 export interface Api_CustomerBirthdayStatType extends GeneralResponse {
   birthdayCount: number;
+  birthdays: {
+    dob: string;
+    id: string;
+    name: string;
+  }[];
 }
 
 export interface Api_MembershipStat extends GeneralResponse {
   expiredTodayCount: number;
   liveUntilTodayCount: number;
+  expired: {
+    user: {
+      id: string;
+      name: string;
+    };
+  }[];
 }
 
 export interface Api_AllCustomers extends GeneralResponse {

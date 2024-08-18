@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { statsApi } from "@/store/api/statsApi";
 import Loader from "@/components/Loader/Loader";
+import ExpiredMembershipList from "./ExpiredMembershipList";
 
 function MembershipsStats() {
   const { data, isLoading } = statsApi.useGetMembershipStatsQuery();
@@ -18,15 +19,19 @@ function MembershipsStats() {
         <h2 className="sm:text-2xl text-xl font-bold">
           Memberships Overview for Today
         </h2>
-        {/* <p className="text-muted-foreground sm:text-lg text-sm font-semibold">
-          Memberships expiring today and currently live memberships
-        </p> */}
       </div>
       {!isLoading && data?.success ? (
         <div className="grid grid-cols-2 gap-2">
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
-              <CardDescription>Expired Memberships</CardDescription>
+              <CardDescription className="flex items-center justify-between">
+                <span>Expired Memberships</span>
+                {data.expired.length ? (
+                  <span>
+                    <ExpiredMembershipList expired={data.expired} />
+                  </span>
+                ) : null}
+              </CardDescription>
               <CardTitle className="text-4xl">
                 {data.expiredTodayCount}
               </CardTitle>
