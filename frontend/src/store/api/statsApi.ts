@@ -44,11 +44,11 @@ export const statsApi = createApi({
     getMembershipStats: builder.query<Api_MembershipStat, void>({
       query: () => {
         const date = new Date();
+        date.setHours(0, 0, 0, 0);
         const localDateISO = date.toISOString();
         const encodedStartDate = encodeURIComponent(localDateISO);
         return `/stats/membership/today/${encodedStartDate}`;
       },
-      providesTags: [tag_membership_stats],
     }),
   }),
 });

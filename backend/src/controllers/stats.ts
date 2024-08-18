@@ -118,15 +118,9 @@ export async function GetMembershipStats(c: Context) {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const startDateParam = c.req.param("startDate");
+    const startDateParam = c.req.param("startOfToday");
     const decodedStartDateParam = decodeURIComponent(startDateParam);
-    const startDate = new Date(decodedStartDateParam);
-
-    const startOfToday = new Date(startDate);
-    startOfToday.setHours(0, 0, 0, 0);
-
-    const endOfToday = new Date(startDate);
-    endOfToday.setHours(23, 59, 59, 999);
+    const startOfToday = new Date(decodedStartDateParam);
 
     const expiredTodayCount = await prisma.userMembership.count({
       where: {
