@@ -122,17 +122,24 @@ export async function GetMembershipStats(c: Context) {
     const decodedStartDateParam = decodeURIComponent(startDateParam);
     const startDate = new Date(decodedStartDateParam);
 
+    // Set startOfToday to midnight of the provided startDate (e.g., August 18th, 00:00:00)
     const startOfToday = new Date(startDate);
     startOfToday.setHours(0, 0, 0, 0);
 
+    // Set endOfToday to just before midnight of the provided startDate (e.g., August 18th, 23:59:59)
     const endOfToday = new Date(startDate);
     endOfToday.setHours(23, 59, 59, 999);
+
+    // To find memberships that expired at the end of yesterday (e.g., August 17th)
+    const startOfYesterday = new Date(
+      startOfToday.getTime() - 24 * 60 * 60 * 1000
+    );
 
     const expiredTodayCount = await prisma.userMembership.count({
       where: {
         endDate: {
-          gte: new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000),
-          lt: startOfToday,
+          gte: startOfYesterday, // gte to include the whole of yesterday
+          lt: startOfToday, // lt to ensure it's less than the start of today (i.e., August 18th)
         },
       },
     });
@@ -141,7 +148,7 @@ export async function GetMembershipStats(c: Context) {
       await prisma.userMembership.findMany({
         where: {
           endDate: {
-            gte: endOfToday,
+            gte: startOfToday,
           },
         },
         select: {
@@ -190,8 +197,11 @@ export async function GetTodaysBirthdayCount(c: Context) {
     });
 
     const todayBirthdaysCount = activeUsers.filter((user) => {
-      const dob = new Date(user.dob);
-      return dob.getDate() === todayDay && dob.getMonth() + 1 === todayMonth;
+      if (user.dob) {
+        const dob = new Date(user.dob);
+        return dob.getDate() === todayDay && dob.getMonth() + 1 === todayMonth;
+      }
+      return false;
     }).length;
 
     return c.json({

@@ -43,8 +43,10 @@ export const statsApi = createApi({
     }),
     getMembershipStats: builder.query<Api_MembershipStat, void>({
       query: () => {
-        const startDate = new Date().toISOString();
-        const encodedStartDate = encodeURIComponent(startDate);
+        const date = new Date();
+        const offset = 330;
+        const localDate = new Date(date.getTime() + offset * 60 * 1000);
+        const encodedStartDate = encodeURIComponent(localDate.toISOString());
         return `/stats/membership/today/${encodedStartDate}`;
       },
       providesTags: [tag_membership_stats],
