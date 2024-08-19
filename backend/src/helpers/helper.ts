@@ -1,27 +1,22 @@
-export function getCurrentDate() {
-  const now = new Date();
-  const utcOffsetMinutes = now.getTimezoneOffset();
-  const indiaOffsetMinutes = 330;
-  const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
-  const startDate = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
-  return startDate;
-}
+import { parseISO, addDays, startOfDay, endOfDay } from "date-fns";
+import { toZonedTime, format } from "date-fns-tz";
 
-export function calculateEndDate(
-  startDateString: string,
-  durationDays: number
-): Date {
-  if (!Number.isInteger(durationDays) || durationDays < 1) {
-    throw new Error("durationDays must be a positive integer.");
-  }
-  const startDate = new Date(startDateString);
-  if (isNaN(startDate.getTime())) {
-    throw new Error("Invalid startDateString provided.");
-  }
-  const endDate = new Date(startDate.getTime());
-  endDate.setDate(startDate.getDate() + durationDays - 1);
+const indiaTimeZone = "Asia/Kolkata";
 
-  endDate.setHours(23, 59, 59, 999);
+export function calculateEndDate(startDateISO: string, durationDays: number) {
+  const startDate = parseISO(startDateISO);
 
-  return endDate;
+  const startDateInIST = startOfDay(toZonedTime(startDate, indiaTimeZone));
+  const endDateInIST = endOfDay(addDays(startDateInIST, durationDays - 1));
+
+  const formattedStartDate = format(
+    startDateInIST,
+    "yyyy-MM-dd'T'00:00:00XXX",
+    { timeZone: indiaTimeZone }
+  );
+  const formattedEndDate = format(endDateInIST, "yyyy-MM-dd'T'00:00:00XXX", {
+    timeZone: indiaTimeZone,
+  });
+
+  return { startDate: formattedStartDate, endDate: formattedEndDate };
 }

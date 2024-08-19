@@ -67,7 +67,7 @@ export async function CreateCustomer(c: Context) {
     if (!newUser) throw new Error("Failed to create new customer.");
 
     if (isMembershipExist && data.startDate) {
-      const endDate = calculateEndDate(
+      const { endDate, startDate } = calculateEndDate(
         data.startDate,
         isMembershipExist.durationDays
       );
@@ -78,7 +78,7 @@ export async function CreateCustomer(c: Context) {
           paymentAmount: data.paymentAmount || 0,
           membershipId: isMembershipExist.id,
           endDate,
-          startDate: data.startDate,
+          startDate,
           priceAtPurchase: isMembershipExist.price,
         },
       });
@@ -218,7 +218,7 @@ export async function RenewCustomerMembership(c: Context) {
 
     if (!isMembershipExist) throw new Error("No such membership plan exist.");
 
-    const endDate = calculateEndDate(
+    const { endDate, startDate } = calculateEndDate(
       data.startDate,
       isMembershipExist.durationDays
     );
@@ -262,7 +262,7 @@ export async function RenewCustomerMembership(c: Context) {
       data: {
         userId: data.userId,
         membershipId: data.membershipId,
-        startDate: data.startDate,
+        startDate,
         endDate,
         paymentAmount: data.paymentAmount,
         priceAtPurchase: isMembershipExist.price,
