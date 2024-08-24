@@ -43,8 +43,14 @@ export function DataTable<TData extends customerType, TValue>({
   const [globalFilter, setGlobalFilter] = React.useState<string | undefined>(
     undefined
   );
+  const filteredData = React.useMemo(() => {
+    return data.filter(
+      (row) => row.active || (globalFilter && globalFilter !== "")
+    );
+  }, [data, globalFilter]);
+
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

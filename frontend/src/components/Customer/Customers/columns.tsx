@@ -179,24 +179,7 @@ export const columns: ColumnDef<customerType>[] = [
   },
   {
     accessorKey: "active",
-    header: ({ column }) => {
-      return (
-        <div className="text-right">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="font-bold"
-          >
-            Active status
-            {column.getIsSorted() === "asc" ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            )}
-          </Button>
-        </div>
-      );
-    },
+    header: () => <div className="text-right font-bold">Active status</div>,
     cell: ({ row }) => {
       const isActive = row.original.active;
       return (
@@ -207,17 +190,5 @@ export const columns: ColumnDef<customerType>[] = [
         </div>
       );
     },
-    accessorFn: (row) => {
-      return row.active ? "Active" : "Inactive";
-    },
-    sortingFn: (a, b) => {
-      const aActive = a.original.active;
-      const bActive = b.original.active;
-      if (aActive === bActive) {
-        return 0;
-      }
-      return aActive ? 1 : -1;
-    },
-    enableSorting: true,
   },
 ];
