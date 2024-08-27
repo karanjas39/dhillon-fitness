@@ -21,7 +21,7 @@ export const z_createUser = z
     phone: z.string().trim().min(10).max(10),
     address: z.string().trim(),
     sex: z.enum(["male", "female"]),
-    membershipId: z.string().trim().uuid().or(z.literal("").optional()),
+    membershipId: z.string().trim().cuid().or(z.literal("").optional()),
     paymentAmount: z.coerce.number().or(z.literal(0).optional()),
     startDate: z
       .string()
@@ -44,7 +44,7 @@ export const z_createUser = z
   );
 
 export const z_updateUser = z.object({
-  id: z.string().trim().uuid(),
+  id: z.string().trim().cuid(),
   name: z.string().trim().optional(),
   email: z.string().trim().email().or(z.literal("").optional()),
   phone: z.string().trim().min(10).max(10).optional(),
@@ -83,8 +83,8 @@ export const z_createUserMembership = z.object({
 });
 
 export const z_updateUserMembership = z.object({
-  id: z.string().trim().uuid(),
-  membershipId: z.string().trim().uuid().optional(),
+  id: z.string().trim().cuid(),
+  membershipId: z.string().trim().cuid().optional(),
   startDate: z.string().trim().datetime({ precision: 3 }).optional(),
   endDate: z.string().trim().datetime({ precision: 3 }).optional(),
   priceAtPurchase: z.number().optional(),
@@ -102,11 +102,11 @@ export const z_signin = z.object({
 });
 
 export const z_id = z.object({
-  id: z.string().trim().uuid(),
+  id: z.string().trim().cuid(),
 });
 
 export const z_updateMembership = z.object({
-  id: z.string().trim().uuid(),
+  id: z.string().trim().cuid(),
   name: z.string().trim().optional(),
   description: z.string().trim().optional(),
   durationDays: z.number().optional(),

@@ -9,26 +9,26 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
+  id             String          @id @default(cuid())
   name           String
   phone          String          @unique
   email          String?
   address        String
-  sex            String
+  sex            String          
   dob            DateTime?
-  active         Boolean        @default(true)
-  balance        Float          @default(0)     
+  active         Boolean         @default(true)
+  balance        Decimal         @default(0)
   memberships    UserMembership[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
 
 model Membership {
-  id             String          @id @default(uuid())
+  id             String          @id @default(cuid())
   name           String
   description    String?
-  durationDays   Int
-  price          Float
+  durationMonths Int
+  price          Decimal         @default(0)
   userMemberships UserMembership[]
   active         Boolean         @default(true)
   createdAt      DateTime        @default(now())
@@ -36,24 +36,24 @@ model Membership {
 }
 
 model UserMembership {
-  id             String          @id @default(uuid())
+  id             String          @id @default(cuid())
   user           User            @relation(fields: [userId], references: [id])
   userId         String
   membership     Membership      @relation(fields: [membershipId], references: [id])
   membershipId   String
   startDate      DateTime        @default(now())
   endDate        DateTime
-  paymentAmount   Float
-  priceAtPurchase Float
+  paymentAmount   Decimal         @default(0)
+  priceAtPurchase Decimal         @default(0) 
   createdAt      DateTime        @default(now())
 }
 
 model Admin {
-  id             String          @id @default(uuid())
+  id             String          @id @default(cuid())
   email          String          @unique
   password       String          
   name           String
-  dailyTarget    Float           @default(0)
+  dailyTarget    Decimal         @default(0)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
