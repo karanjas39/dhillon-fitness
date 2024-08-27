@@ -1,6 +1,7 @@
 import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { parseISO, startOfDay, addMonths, subDays } from "date-fns";
 
 export async function GetYearlySales(c: Context) {
   try {
@@ -120,12 +121,14 @@ export async function GetMembershipStats(c: Context) {
 
     const startDateParam = c.req.param("startOfToday");
     const decodedStartDateParam = decodeURIComponent(startDateParam);
-    const startOfToday = new Date(decodedStartDateParam);
+    const startDate = parseISO(decodedStartDateParam);
+
+    const startOfToday = startOfDay(startDate);
 
     const expiredTodayCount = await prisma.userMembership.findMany({
       where: {
         endDate: {
-          gte: new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000),
+          gte: subDays(startOfToday, 1),
           lt: startOfToday,
         },
       },

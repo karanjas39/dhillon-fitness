@@ -79,7 +79,7 @@ export const columns: ColumnDef<customerType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="font-bold"
         >
-          Expire on
+          Plan Expires on
           {column.getIsSorted() === "asc" ? (
             <ArrowUpIcon className="ml-2 h-4 w-4" />
           ) : (

@@ -17,8 +17,8 @@ export function modifyDate(isoString: string | undefined): string {
 export function modifyEndDate(isoString: string | undefined): string {
   if (!isoString) return "";
   const date = parseISO(isoString);
-  const incrementedDate = addDays(date, 1);
-  const humanReadableDate = format(incrementedDate, "MMMM d, yyyy");
+  // const incrementedDate = addDays(date, 1);
+  const humanReadableDate = format(date, "MMMM d, yyyy");
   return humanReadableDate;
 }
 
