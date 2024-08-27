@@ -5,7 +5,7 @@ function MembershipTableHeader() {
     <TableHeader>
       <TableRow>
         <TableHead className="w-[300px]">Name</TableHead>
-        <TableHead className="text-center">Days</TableHead>
+        <TableHead className="text-center">Months</TableHead>
         <TableHead className="text-center">Price</TableHead>
         <TableHead className="text-right">Status</TableHead>
       </TableRow>

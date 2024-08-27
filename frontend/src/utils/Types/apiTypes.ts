@@ -97,7 +97,7 @@ export interface Api_MembershipDetails extends GeneralResponse {
     id: string;
     name: string;
     description: string;
-    durationDays: number;
+    durationMonths: number;
     price: number;
     active: boolean;
     createdAt: string;
@@ -109,7 +109,7 @@ export interface Api_MembershipIds extends GeneralResponse {
     id: string;
     name: string;
     price: number;
-    durationDays?: number;
+    durationMonths?: number;
     active?: boolean;
   }[];
 }

@@ -55,15 +55,15 @@ export const z_updateUser = z.object({
 
 export const z_clearBalance = z.object({
   userId: z.string(),
-  amount: z.number(),
+  amount: z.coerce.number(),
   type: z.enum(["refund", "payment"]),
 });
 
 export const z_createMembership = z.object({
   name: z.string().trim(),
   description: z.string().trim().optional(),
-  durationMonths: z.number(),
-  price: z.number(),
+  durationMonths: z.coerce.number(),
+  price: z.coerce.number(),
 });
 
 export const z_userActivation = z.object({
@@ -78,7 +78,7 @@ export const z_onlyActive = z.object({
 export const z_createUserMembership = z.object({
   userId: z.string(),
   membershipId: z.string(),
-  paymentAmount: z.number(),
+  paymentAmount: z.coerce.number(),
   startDate: z.string().trim().datetime({ precision: 3 }),
 });
 
@@ -87,8 +87,8 @@ export const z_updateUserMembership = z.object({
   membershipId: z.string().trim().cuid().optional(),
   startDate: z.string().trim().datetime({ precision: 3 }).optional(),
   endDate: z.string().trim().datetime({ precision: 3 }).optional(),
-  priceAtPurchase: z.number().optional(),
-  paymentAmount: z.number().optional(),
+  priceAtPurchase: z.coerce.number().optional(),
+  paymentAmount: z.coerce.number().optional(),
 });
 
 export const z_deleteUserMembership = z.object({
@@ -109,8 +109,8 @@ export const z_updateMembership = z.object({
   id: z.string().trim().cuid(),
   name: z.string().trim().optional(),
   description: z.string().trim().optional(),
-  durationMonths: z.number().optional(),
-  price: z.number().optional(),
+  durationMonths: z.coerce.number().optional(),
+  price: z.coerce.number().optional(),
   active: z.boolean().optional(),
 });
 

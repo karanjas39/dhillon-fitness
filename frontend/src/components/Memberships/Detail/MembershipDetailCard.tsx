@@ -23,7 +23,7 @@ function MembershipDetailCard({
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <CardContentDiv title="Price" value={membership.price} />
-        <CardContentDiv title="Days" value={membership.durationDays} />
+        <CardContentDiv title="Months" value={membership.durationMonths} />
         <div className="flex items-center justify-between">
           <p className="font-bold">Status</p>
           {!membership.active ? (

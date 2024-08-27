@@ -49,14 +49,14 @@ exports.z_updateUser = zod_1.z.object({
 });
 exports.z_clearBalance = zod_1.z.object({
     userId: zod_1.z.string(),
-    amount: zod_1.z.number(),
+    amount: zod_1.z.coerce.number(),
     type: zod_1.z.enum(["refund", "payment"]),
 });
 exports.z_createMembership = zod_1.z.object({
     name: zod_1.z.string().trim(),
     description: zod_1.z.string().trim().optional(),
-    durationMonths: zod_1.z.number(),
-    price: zod_1.z.number(),
+    durationMonths: zod_1.z.coerce.number(),
+    price: zod_1.z.coerce.number(),
 });
 exports.z_userActivation = zod_1.z.object({
     userId: zod_1.z.string(),
@@ -68,7 +68,7 @@ exports.z_onlyActive = zod_1.z.object({
 exports.z_createUserMembership = zod_1.z.object({
     userId: zod_1.z.string(),
     membershipId: zod_1.z.string(),
-    paymentAmount: zod_1.z.number(),
+    paymentAmount: zod_1.z.coerce.number(),
     startDate: zod_1.z.string().trim().datetime({ precision: 3 }),
 });
 exports.z_updateUserMembership = zod_1.z.object({
@@ -76,8 +76,8 @@ exports.z_updateUserMembership = zod_1.z.object({
     membershipId: zod_1.z.string().trim().cuid().optional(),
     startDate: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
     endDate: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
-    priceAtPurchase: zod_1.z.number().optional(),
-    paymentAmount: zod_1.z.number().optional(),
+    priceAtPurchase: zod_1.z.coerce.number().optional(),
+    paymentAmount: zod_1.z.coerce.number().optional(),
 });
 exports.z_deleteUserMembership = zod_1.z.object({
     id: zod_1.z.string(),
@@ -94,8 +94,8 @@ exports.z_updateMembership = zod_1.z.object({
     id: zod_1.z.string().trim().cuid(),
     name: zod_1.z.string().trim().optional(),
     description: zod_1.z.string().trim().optional(),
-    durationMonths: zod_1.z.number().optional(),
-    price: zod_1.z.number().optional(),
+    durationMonths: zod_1.z.coerce.number().optional(),
+    price: zod_1.z.coerce.number().optional(),
     active: zod_1.z.boolean().optional(),
 });
 exports.z_updatePassword = zod_1.z.object({

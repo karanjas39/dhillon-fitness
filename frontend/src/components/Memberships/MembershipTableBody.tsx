@@ -22,7 +22,7 @@ function MembershipTableBody({ ids }: Pick<Api_MembershipIds, "ids">) {
         >
           <TableCell className="capitalize">{membership.name}</TableCell>
           <TableCell className="text-center">
-            {membership.durationDays}
+            {membership.durationMonths}
           </TableCell>
           <TableCell className="text-center">{membership.price}</TableCell>
           <TableCell className="text-right">

@@ -30,7 +30,7 @@ function EditMembership({
     defaultValues: {
       active: membership.active,
       description: membership.description,
-      durationDays: membership.durationDays,
+      durationMonths: membership.durationMonths,
       name: membership.name,
       price: membership.price,
       id: membership.id,
@@ -95,15 +95,15 @@ function EditMembership({
               />
               <FormField
                 control={form.control}
-                name="durationDays"
+                name="durationMonths"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Days</FormLabel>
+                    <FormLabel>Months</FormLabel>
                     <FormControl>
-                      <Input placeholder="days" type="text" {...field} />
+                      <Input placeholder="Months" type="text" {...field} />
                     </FormControl>
                     <FormDescription>
-                      This is the membership days span
+                      This is the membership months span
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

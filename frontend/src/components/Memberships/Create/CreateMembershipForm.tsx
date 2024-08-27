@@ -25,7 +25,7 @@ function CreateMembershipForm() {
     resolver: zodResolver(z_createMembership),
     defaultValues: {
       description: "",
-      durationDays: 0,
+      durationMonths: 0,
       name: "",
       price: 0,
     },
@@ -35,6 +35,7 @@ function CreateMembershipForm() {
     membershipApi.useCreateMembershipMutation();
 
   async function onSubmit(values: z_createMembership_type) {
+    console.log(values);
     try {
       const response = await createMembership(values).unwrap();
       if (response && response.success) {
@@ -86,14 +87,14 @@ function CreateMembershipForm() {
           />
           <FormField
             control={form.control}
-            name="durationDays"
+            name="durationMonths"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Days</FormLabel>
+                <FormLabel>Months</FormLabel>
                 <FormControl>
-                  <Input placeholder="Days" type="text" {...field} />
+                  <Input placeholder="Months" type="text" {...field} />
                 </FormControl>
-                <FormDescription>Enter membership days here</FormDescription>
+                <FormDescription>Enter membership months here</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
