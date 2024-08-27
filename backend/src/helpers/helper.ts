@@ -1,13 +1,14 @@
-import { parseISO, addDays, startOfDay, endOfDay } from "date-fns";
+import { parseISO, startOfDay, endOfDay, addMonths } from "date-fns";
 import { toZonedTime, format } from "date-fns-tz";
 
 const indiaTimeZone = "Asia/Kolkata";
 
-export function calculateEndDate(startDateISO: string, durationDays: number) {
+export function calculateEndDate(startDateISO: string, durationMonths: number) {
   const startDate = parseISO(startDateISO);
 
   const startDateInIST = startOfDay(toZonedTime(startDate, indiaTimeZone));
-  const endDateInIST = endOfDay(addDays(startDateInIST, durationDays - 1));
+
+  const endDateInIST = endOfDay(addMonths(startDateInIST, durationMonths));
 
   const formattedStartDate = format(
     startDateInIST,

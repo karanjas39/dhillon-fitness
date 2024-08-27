@@ -21,7 +21,7 @@ exports.z_createUser = zod_1.z
     phone: zod_1.z.string().trim().min(10).max(10),
     address: zod_1.z.string().trim(),
     sex: zod_1.z.enum(["male", "female"]),
-    membershipId: zod_1.z.string().trim().uuid().or(zod_1.z.literal("").optional()),
+    membershipId: zod_1.z.string().trim().cuid().or(zod_1.z.literal("").optional()),
     paymentAmount: zod_1.z.coerce.number().or(zod_1.z.literal(0).optional()),
     startDate: zod_1.z
         .string()
@@ -39,7 +39,7 @@ exports.z_createUser = zod_1.z
     path: ["membershipId", "startDate"],
 });
 exports.z_updateUser = zod_1.z.object({
-    id: zod_1.z.string().trim().uuid(),
+    id: zod_1.z.string().trim().cuid(),
     name: zod_1.z.string().trim().optional(),
     email: zod_1.z.string().trim().email().or(zod_1.z.literal("").optional()),
     phone: zod_1.z.string().trim().min(10).max(10).optional(),
@@ -48,54 +48,54 @@ exports.z_updateUser = zod_1.z.object({
     sex: zod_1.z.enum(["male", "female"]).optional(),
 });
 exports.z_clearBalance = zod_1.z.object({
-    userId: zod_1.z.string().trim().uuid(),
-    amount: zod_1.z.coerce.number(),
+    userId: zod_1.z.string(),
+    amount: zod_1.z.number(),
     type: zod_1.z.enum(["refund", "payment"]),
 });
 exports.z_createMembership = zod_1.z.object({
     name: zod_1.z.string().trim(),
     description: zod_1.z.string().trim().optional(),
-    durationDays: zod_1.z.coerce.number(),
-    price: zod_1.z.coerce.number(),
+    durationMonths: zod_1.z.number(),
+    price: zod_1.z.number(),
 });
 exports.z_userActivation = zod_1.z.object({
-    userId: zod_1.z.string().trim().uuid(),
+    userId: zod_1.z.string(),
     active: zod_1.z.boolean(),
 });
 exports.z_onlyActive = zod_1.z.object({
     onlyActive: zod_1.z.boolean(),
 });
 exports.z_createUserMembership = zod_1.z.object({
-    userId: zod_1.z.string().trim().uuid(),
-    membershipId: zod_1.z.string().trim().uuid(),
-    paymentAmount: zod_1.z.coerce.number(),
-    startDate: zod_1.z.string().trim().datetime(),
+    userId: zod_1.z.string(),
+    membershipId: zod_1.z.string(),
+    paymentAmount: zod_1.z.number(),
+    startDate: zod_1.z.string().trim().datetime({ precision: 3 }),
 });
 exports.z_updateUserMembership = zod_1.z.object({
-    id: zod_1.z.string().trim().uuid(),
-    membershipId: zod_1.z.string().trim().uuid().optional(),
+    id: zod_1.z.string().trim().cuid(),
+    membershipId: zod_1.z.string().trim().cuid().optional(),
     startDate: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
     endDate: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
-    priceAtPurchase: zod_1.z.coerce.number().optional(),
-    paymentAmount: zod_1.z.coerce.number().optional(),
+    priceAtPurchase: zod_1.z.number().optional(),
+    paymentAmount: zod_1.z.number().optional(),
 });
 exports.z_deleteUserMembership = zod_1.z.object({
-    id: zod_1.z.string().trim().uuid(),
-    userId: zod_1.z.string().trim().uuid(),
+    id: zod_1.z.string(),
+    userId: zod_1.z.string(),
 });
 exports.z_signin = zod_1.z.object({
     email: zod_1.z.string().trim().email(),
     password: zod_1.z.string().trim().min(6),
 });
 exports.z_id = zod_1.z.object({
-    id: zod_1.z.string().trim().uuid(),
+    id: zod_1.z.string().trim().cuid(),
 });
 exports.z_updateMembership = zod_1.z.object({
-    id: zod_1.z.string().trim().uuid(),
+    id: zod_1.z.string().trim().cuid(),
     name: zod_1.z.string().trim().optional(),
     description: zod_1.z.string().trim().optional(),
-    durationDays: zod_1.z.coerce.number().optional(),
-    price: zod_1.z.coerce.number().optional(),
+    durationMonths: zod_1.z.number().optional(),
+    price: zod_1.z.number().optional(),
     active: zod_1.z.boolean().optional(),
 });
 exports.z_updatePassword = zod_1.z.object({

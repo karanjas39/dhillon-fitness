@@ -62,7 +62,7 @@ export const z_clearBalance = z.object({
 export const z_createMembership = z.object({
   name: z.string().trim(),
   description: z.string().trim().optional(),
-  durationDays: z.number(),
+  durationMonths: z.number(),
   price: z.number(),
 });
 
@@ -109,7 +109,7 @@ export const z_updateMembership = z.object({
   id: z.string().trim().cuid(),
   name: z.string().trim().optional(),
   description: z.string().trim().optional(),
-  durationDays: z.number().optional(),
+  durationMonths: z.number().optional(),
   price: z.number().optional(),
   active: z.boolean().optional(),
 });

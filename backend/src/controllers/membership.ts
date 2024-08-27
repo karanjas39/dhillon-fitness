@@ -28,7 +28,7 @@ export async function CreateMembership(c: Context) {
 
     const newMembership = await prisma.membership.create({
       data: {
-        durationDays: data.durationDays,
+        durationMonths: data.durationMonths,
         name: data.name,
         price: data.price,
         description: data.description ? data.description : "",
@@ -139,7 +139,7 @@ export async function GetAllMemberships(c: Context) {
           id: true,
           name: true,
           price: true,
-          durationDays: true,
+          durationMonths: true,
           active: true,
         },
       });

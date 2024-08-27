@@ -17,7 +17,7 @@ model User {
   sex            String          
   dob            DateTime?
   active         Boolean         @default(true)
-  balance        Decimal         @default(0)
+  balance        Float         @default(0)
   memberships    UserMembership[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
@@ -28,7 +28,7 @@ model Membership {
   name           String
   description    String?
   durationMonths Int
-  price          Decimal         @default(0)
+  price          Float         @default(0)
   userMemberships UserMembership[]
   active         Boolean         @default(true)
   createdAt      DateTime        @default(now())
@@ -43,8 +43,8 @@ model UserMembership {
   membershipId   String
   startDate      DateTime        @default(now())
   endDate        DateTime
-  paymentAmount   Decimal         @default(0)
-  priceAtPurchase Decimal         @default(0) 
+  paymentAmount   Float         @default(0)
+  priceAtPurchase Float         @default(0) 
   createdAt      DateTime        @default(now())
 }
 
@@ -53,7 +53,7 @@ model Admin {
   email          String          @unique
   password       String          
   name           String
-  dailyTarget    Decimal         @default(0)
+  dailyTarget    Float         @default(0)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }

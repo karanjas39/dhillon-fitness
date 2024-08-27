@@ -69,7 +69,7 @@ export async function CreateCustomer(c: Context) {
     if (isMembershipExist && data.startDate) {
       const { endDate, startDate } = calculateEndDate(
         data.startDate,
-        isMembershipExist.durationDays
+        isMembershipExist.durationMonths
       );
 
       const newUserMembership = await prisma.userMembership.create({
@@ -220,7 +220,7 @@ export async function RenewCustomerMembership(c: Context) {
 
     const { endDate, startDate } = calculateEndDate(
       data.startDate,
-      isMembershipExist.durationDays
+      isMembershipExist.durationMonths
     );
 
     const isUser = await prisma.user.findUnique({

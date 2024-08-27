@@ -117,16 +117,16 @@ export declare const z_clearBalance: z.ZodObject<{
 export declare const z_createMembership: z.ZodObject<{
     name: z.ZodString;
     description: z.ZodOptional<z.ZodString>;
-    durationDays: z.ZodNumber;
+    durationMonths: z.ZodNumber;
     price: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     name: string;
-    durationDays: number;
+    durationMonths: number;
     price: number;
     description?: string | undefined;
 }, {
     name: string;
-    durationDays: number;
+    durationMonths: number;
     price: number;
     description?: string | undefined;
 }>;
@@ -216,21 +216,21 @@ export declare const z_updateMembership: z.ZodObject<{
     id: z.ZodString;
     name: z.ZodOptional<z.ZodString>;
     description: z.ZodOptional<z.ZodString>;
-    durationDays: z.ZodOptional<z.ZodNumber>;
+    durationMonths: z.ZodOptional<z.ZodNumber>;
     price: z.ZodOptional<z.ZodNumber>;
     active: z.ZodOptional<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
     id: string;
     name?: string | undefined;
     description?: string | undefined;
-    durationDays?: number | undefined;
+    durationMonths?: number | undefined;
     price?: number | undefined;
     active?: boolean | undefined;
 }, {
     id: string;
     name?: string | undefined;
     description?: string | undefined;
-    durationDays?: number | undefined;
+    durationMonths?: number | undefined;
     price?: number | undefined;
     active?: boolean | undefined;
 }>;
