@@ -182,6 +182,8 @@ export async function GetMembershipStats(c: Context) {
         startDate,
         startOfTodayInIST,
         endOfTodayInIST,
+        startOfTodayUTC,
+        endOfTodayUTC,
       },
     });
   } catch (error) {
