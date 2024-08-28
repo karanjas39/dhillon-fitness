@@ -92,6 +92,13 @@ export async function GetDailySales(c: Context) {
       },
       select: {
         paymentAmount: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+          },
+        },
       },
     });
 

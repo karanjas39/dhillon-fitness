@@ -24,7 +24,14 @@ export interface Api_YearlyStatType extends GeneralResponse {
 }
 export interface Api_DailyStatType extends GeneralResponse {
   totalIncome: number;
-  date: Date;
+  dailyIncome: {
+    paymentAmount: number;
+    user: {
+      id: string;
+      name: string;
+      address: string;
+    };
+  }[];
 }
 export interface Api_CustomerBirthdayStatType extends GeneralResponse {
   birthdayCount: number;

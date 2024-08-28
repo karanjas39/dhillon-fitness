@@ -1,24 +1,16 @@
-import { addDays, parseISO, format, startOfDay } from "date-fns";
+import { parseISO, format, startOfDay } from "date-fns";
 
 export function modifyDate(isoString: string | undefined): string {
-  const date = new Date(isoString || "");
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  const humanReadableDate = date.toLocaleString("en-US", options);
-
+  if (!isoString) return "";
+  const date = parseISO(isoString);
+  const humanReadableDate = format(date, "dd MMMM, yyyy");
   return humanReadableDate;
 }
 
 export function modifyEndDate(isoString: string | undefined): string {
   if (!isoString) return "";
   const date = parseISO(isoString);
-  // const incrementedDate = addDays(date, 1);
-  const humanReadableDate = format(date, "MMMM d, yyyy");
+  const humanReadableDate = format(date, "dd MMMM, yyyy");
   return humanReadableDate;
 }
 

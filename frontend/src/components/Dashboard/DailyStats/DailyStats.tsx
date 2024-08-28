@@ -13,8 +13,9 @@ import { useEffect, useState } from "react";
 import Loader from "@/components/Loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import DailyStatsList from "./DailyStatsList";
 
-function MonthlyStats() {
+function DailyStats() {
   const { data, isLoading } = statsApi.useGetDailyStatsQuery();
   const { dailyTarget } = useSelector((state: RootState) => state.admin);
   const [progress, setProgress] = useState(13);
@@ -41,7 +42,14 @@ function MonthlyStats() {
       {!isLoading && data?.success && dailyTarget ? (
         <Card x-chunk="dashboard-05-chunk-1">
           <CardHeader className="pb-2">
-            <CardDescription>Today&lsquo;s Sale</CardDescription>
+            <CardDescription className="flex items-center justify-between">
+              <span>Today's Sale</span>
+              {data.dailyIncome.length ? (
+                <span>
+                  <DailyStatsList dailyIncome={data.dailyIncome} />
+                </span>
+              ) : null}
+            </CardDescription>
             <CardTitle className="text-4xl">
               &#8377; {data.totalIncome}
             </CardTitle>
@@ -57,4 +65,4 @@ function MonthlyStats() {
   );
 }
 
-export default MonthlyStats;
+export default DailyStats;
