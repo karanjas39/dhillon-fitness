@@ -20,8 +20,8 @@ import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 function ExpiredMembershipList({
-  expired,
-}: Pick<Api_MembershipStat, "expired">) {
+  expiring,
+}: Pick<Api_MembershipStat, "expiring">) {
   const router = useRouter();
 
   return (
@@ -31,12 +31,12 @@ function ExpiredMembershipList({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Expired Memberships</DialogTitle>
+          <DialogTitle>Expiring Memberships</DialogTitle>
           <DialogDescription>
-            This is the list of customers whose membership is expired.
+            This is the list of customers whose membership is expiring.
           </DialogDescription>
         </DialogHeader>
-        {expired.length ? (
+        {expiring.length ? (
           <Table>
             <TableHeader>
               <TableRow>
@@ -45,7 +45,7 @@ function ExpiredMembershipList({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {expired.map((exp, i) => (
+              {expiring.map((exp, i) => (
                 <TableRow
                   className="cursor-pointer"
                   onClick={() => router.push(`/customer/detail/${exp.user.id}`)}

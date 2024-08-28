@@ -25,15 +25,15 @@ function MembershipsStats() {
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center justify-between">
-                <span>Expired Memberships</span>
-                {data.expired.length ? (
+                <span>Expiring Memberships</span>
+                {data.expiring.length ? (
                   <span>
-                    <ExpiredMembershipList expired={data.expired} />
+                    <ExpiredMembershipList expiring={data.expiring} />
                   </span>
                 ) : null}
               </CardDescription>
               <CardTitle className="text-4xl">
-                {data.expiredTodayCount}
+                {data.expiringTodayCount}
               </CardTitle>
             </CardHeader>
           </Card>

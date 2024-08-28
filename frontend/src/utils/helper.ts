@@ -28,7 +28,7 @@ export function isMembershipExpired(
 ): boolean {
   const endDateTime = parseISO(endDate);
 
-  const expirationDateTime = startOfDay(addDays(endDateTime, 1));
+  const expirationDateTime = startOfDay(endDateTime);
 
   const now = new Date();
   const todayMidnight = startOfDay(now);

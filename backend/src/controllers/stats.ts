@@ -1,7 +1,17 @@
 import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { parseISO, startOfDay, addMonths, subDays } from "date-fns";
+import {
+  parseISO,
+  startOfDay,
+  endOfDay,
+  addDays,
+  startOfYear,
+  endOfYear,
+  isToday,
+} from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+const timeZone: string = "Asia/Kolkata";
 
 export async function GetYearlySales(c: Context) {
   try {
@@ -11,14 +21,16 @@ export async function GetYearlySales(c: Context) {
 
     const now = new Date();
 
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+    const zonedTime = toZonedTime(now, timeZone);
+
+    const startOfYearInIST = startOfYear(zonedTime);
+    const endOfYearInIST = endOfYear(zonedTime);
 
     const yearlyData = await prisma.userMembership.findMany({
       where: {
         startDate: {
-          gte: startOfYear,
-          lte: endOfYear,
+          gte: startOfYearInIST,
+          lte: endOfYearInIST,
         },
       },
       select: {
@@ -30,8 +42,8 @@ export async function GetYearlySales(c: Context) {
     const monthlyIncome = Array(12).fill(0);
 
     for (const entry of yearlyData) {
-      const month = new Date(entry.createdAt).getMonth();
-      monthlyIncome[month] += entry.paymentAmount;
+      const month = toZonedTime(entry.createdAt, timeZone).getMonth();
+      monthlyIncome[month] += entry.paymentAmount || 0;
     }
 
     const formattedMonthlyIncome = monthlyIncome.map((totalIncome, index) => ({
@@ -65,43 +77,33 @@ export async function GetDailySales(c: Context) {
     }).$extends(withAccelerate());
 
     const now = new Date();
-    const startOfDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      0,
-      0,
-      0
-    );
-    const endOfDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      23,
-      59,
-      59,
-      999
-    );
 
-    const dailyIncome = await prisma.userMembership.aggregate({
-      _sum: {
-        paymentAmount: true,
-      },
+    const zonedTime = toZonedTime(now, timeZone);
+
+    const startOfDayInIST = startOfDay(zonedTime);
+    const endOfDayInIST = endOfDay(zonedTime);
+
+    const dailyIncome = await prisma.userMembership.findMany({
       where: {
         createdAt: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: startOfDayInIST,
+          lte: endOfDayInIST,
         },
+      },
+      select: {
+        paymentAmount: true,
       },
     });
 
-    const totalDailyIncome = dailyIncome._sum.paymentAmount || 0;
+    const totalDailyIncome = dailyIncome.reduce((total, record) => {
+      return total + (record.paymentAmount || 0);
+    }, 0);
 
     return c.json({
       success: true,
       status: 200,
       totalIncome: totalDailyIncome,
-      date: startOfDay.toISOString(),
+      dailyIncome,
     });
   } catch (error) {
     const err = error as Error;
@@ -123,13 +125,14 @@ export async function GetMembershipStats(c: Context) {
     const decodedStartDateParam = decodeURIComponent(startDateParam);
     const startDate = parseISO(decodedStartDateParam);
 
-    const startOfToday = startOfDay(startDate);
+    const startOfTodayInIST = startOfDay(toZonedTime(startDate, timeZone));
+    const endOfTodayInIST = endOfDay(toZonedTime(startDate, timeZone));
 
-    const expiredTodayCount = await prisma.userMembership.findMany({
+    const expiringTodayCount = await prisma.userMembership.findMany({
       where: {
         endDate: {
-          gte: subDays(startOfToday, 1),
-          lt: startOfToday,
+          gte: addDays(startOfTodayInIST, 1),
+          lt: addDays(startOfTodayInIST, 2),
         },
       },
       select: {
@@ -146,7 +149,7 @@ export async function GetMembershipStats(c: Context) {
       await prisma.userMembership.findMany({
         where: {
           endDate: {
-            gte: startOfToday,
+            gt: endOfTodayInIST,
           },
         },
         select: {
@@ -160,9 +163,9 @@ export async function GetMembershipStats(c: Context) {
     return c.json({
       success: true,
       status: 200,
-      expiredTodayCount: expiredTodayCount.length,
+      expiringTodayCount: expiringTodayCount.length,
       liveUntilTodayCount,
-      expired: expiredTodayCount,
+      expiring: expiringTodayCount,
     });
   } catch (error) {
     const err = error as Error;
@@ -181,13 +184,8 @@ export async function GetTodaysBirthdayCount(c: Context) {
     }).$extends(withAccelerate());
 
     const now = new Date();
-    const utcOffsetMinutes = now.getTimezoneOffset();
-    const indiaOffsetMinutes = 330;
-    const totalOffsetMinutes = indiaOffsetMinutes + utcOffsetMinutes;
-    const currentIST = new Date(now.getTime() + totalOffsetMinutes * 60 * 1000);
 
-    const todayDay = currentIST.getDate();
-    const todayMonth = currentIST.getMonth() + 1;
+    const zonedTime = toZonedTime(now, timeZone);
 
     const activeUsers = await prisma.user.findMany({
       where: {
@@ -203,7 +201,14 @@ export async function GetTodaysBirthdayCount(c: Context) {
     const todayBirthdays = activeUsers.filter((user) => {
       if (user.dob) {
         const dob = new Date(user.dob);
-        return dob.getDate() === todayDay && dob.getMonth() + 1 === todayMonth;
+        const dobInIST = toZonedTime(dob, timeZone);
+        const dobMonthDay = new Date(
+          zonedTime.getFullYear(),
+          dobInIST.getMonth(),
+          dobInIST.getDate()
+        );
+
+        return isToday(dobMonthDay);
       }
       return false;
     });

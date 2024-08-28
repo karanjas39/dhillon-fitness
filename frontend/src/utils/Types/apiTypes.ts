@@ -36,9 +36,9 @@ export interface Api_CustomerBirthdayStatType extends GeneralResponse {
 }
 
 export interface Api_MembershipStat extends GeneralResponse {
-  expiredTodayCount: number;
+  expiringTodayCount: number;
   liveUntilTodayCount: number;
-  expired: {
+  expiring: {
     user: {
       id: string;
       name: string;
