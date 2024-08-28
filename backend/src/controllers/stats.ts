@@ -10,7 +10,7 @@ import {
   endOfYear,
   isToday,
 } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
 const timeZone: string = "Asia/Kolkata";
 
 export async function GetYearlySales(c: Context) {
@@ -129,17 +129,21 @@ export async function GetMembershipStats(c: Context) {
     }).$extends(withAccelerate());
 
     const startDateParam = c.req.param("startOfToday");
-    const decodedStartDateParam = decodeURIComponent(startDateParam);
-    const startDate = parseISO(decodedStartDateParam);
+    const startDate = parseISO(startDateParam);
 
-    const startOfTodayInIST = startOfDay(toZonedTime(startDate, timeZone));
-    const endOfTodayInIST = endOfDay(toZonedTime(startDate, timeZone));
+    const startDateInIST = toZonedTime(startDate, timeZone);
+
+    const startOfTodayInIST = startOfDay(startDateInIST);
+    const endOfTodayInIST = endOfDay(startDateInIST);
+
+    const startOfTodayUTC = fromZonedTime(startOfTodayInIST, timeZone);
+    const endOfTodayUTC = fromZonedTime(endOfTodayInIST, timeZone);
 
     const expiringTodayCount = await prisma.userMembership.findMany({
       where: {
         endDate: {
-          gte: addDays(startOfTodayInIST, 1),
-          lt: addDays(startOfTodayInIST, 2),
+          gte: addDays(startOfTodayUTC, 1),
+          lt: addDays(startOfTodayUTC, 2),
         },
       },
       select: {
@@ -156,7 +160,7 @@ export async function GetMembershipStats(c: Context) {
       await prisma.userMembership.findMany({
         where: {
           endDate: {
-            gt: endOfTodayInIST,
+            gt: endOfTodayUTC,
           },
         },
         select: {
@@ -173,6 +177,12 @@ export async function GetMembershipStats(c: Context) {
       expiringTodayCount: expiringTodayCount.length,
       liveUntilTodayCount,
       expiring: expiringTodayCount,
+      dates: {
+        startDateParam,
+        startDate,
+        startOfTodayInIST,
+        endOfTodayInIST,
+      },
     });
   } catch (error) {
     const err = error as Error;

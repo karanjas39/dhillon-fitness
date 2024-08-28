@@ -14,6 +14,7 @@ import {
   Api_MembershipStat,
   Api_YearlyStatType,
 } from "@/utils/Types/apiTypes";
+import { format } from "date-fns";
 
 export const statsApi = createApi({
   reducerPath: "statsApi",
@@ -43,11 +44,8 @@ export const statsApi = createApi({
     }),
     getMembershipStats: builder.query<Api_MembershipStat, void>({
       query: () => {
-        const date = new Date();
-        date.setHours(0, 0, 0, 0);
-        const localDateISO = date.toISOString();
-        const encodedStartDate = encodeURIComponent(localDateISO);
-        return `/stats/membership/today/${encodedStartDate}`;
+        const startDate = format(new Date(), "yyyy-MM-dd");
+        return `/stats/membership/today/${startDate}`;
       },
     }),
   }),
