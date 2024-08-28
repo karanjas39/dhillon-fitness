@@ -31,7 +31,7 @@ function DailyStatsList({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Today's Sales</DialogTitle>
+          <DialogTitle>Today&apos;s Sales</DialogTitle>
           <DialogDescription>
             This is the list of fees received today.
           </DialogDescription>

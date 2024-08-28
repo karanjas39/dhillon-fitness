@@ -43,7 +43,7 @@ function DailyStats() {
         <Card x-chunk="dashboard-05-chunk-1">
           <CardHeader className="pb-2">
             <CardDescription className="flex items-center justify-between">
-              <span>Today's Sale</span>
+              <span>Today&apos;s Sale</span>
               {data.dailyIncome.length ? (
                 <span>
                   <DailyStatsList dailyIncome={data.dailyIncome} />
