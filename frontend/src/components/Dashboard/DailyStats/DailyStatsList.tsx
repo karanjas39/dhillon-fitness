@@ -48,7 +48,7 @@ function DailyStatsList({
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="h-[200px] overflow-scroll">
+              <TableBody>
                 {dailyIncome.map((income, i) => (
                   <TableRow
                     className="cursor-pointer"
