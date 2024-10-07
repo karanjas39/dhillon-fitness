@@ -29,9 +29,9 @@ function UserWithBalanceList({ users }: Pick<Api_UserWithBalance, "users">) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Todays Birthdays</DialogTitle>
+          <DialogTitle>Pending Payments</DialogTitle>
           <DialogDescription>
-            This is the list of customers having birthday today.
+            This is the list of customers who have pending balance.
           </DialogDescription>
         </DialogHeader>
         {users.length ? (
