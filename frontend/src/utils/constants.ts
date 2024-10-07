@@ -24,7 +24,7 @@ export const NavLinks = [
 export const navButtons = [
   {
     link: "/",
-    title: "SignIn",
+    title: "Sign In",
     auth: false,
   },
   {
