@@ -248,3 +248,38 @@ export async function GetTodaysBirthdayCount(c: Context) {
     });
   }
 }
+
+export async function GetUsersWithBalance(c: Context) {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const users = await prisma.user.findMany({
+      where: {
+        balance: {
+          lt: 0,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        balance: true,
+      },
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      users,
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 500,
+      message:
+        err.message || "An error occurred while retrieving users with balance.",
+    });
+  }
+}

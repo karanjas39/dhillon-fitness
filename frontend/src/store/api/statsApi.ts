@@ -12,6 +12,7 @@ import {
   Api_CustomerBirthdayStatType,
   Api_DailyStatType,
   Api_MembershipStat,
+  Api_UserWithBalance,
   Api_YearlyStatType,
 } from "@/utils/Types/apiTypes";
 import { format } from "date-fns";
@@ -47,6 +48,9 @@ export const statsApi = createApi({
         const startDate = format(new Date(), "yyyy-MM-dd");
         return `/stats/membership/today/${startDate}`;
       },
+    }),
+    getUsersWithBalance: builder.query<Api_UserWithBalance, void>({
+      query: () => "/stats/customer/balance",
     }),
   }),
 });

@@ -4,6 +4,7 @@ import MembershipsStats from "@/components/Dashboard/MembershipStats/Memberships
 import DailyStats from "@/components/Dashboard/DailyStats/DailyStats";
 import YearlyStats from "@/components/Dashboard/YearlyStats";
 import Section from "@/components/Layouts/Section";
+import UserWithBalance from "@/components/Dashboard/UsersWithbalance/UserWithBalance";
 
 function Dashboard() {
   return (
@@ -11,9 +12,10 @@ function Dashboard() {
       <AdminDetails />
       <YearlyStats />
       <DailyStats />
-      <div className="grid sm:grid-cols-2 grid-col-1 gap-2">
-        <MembershipsStats />
+      <MembershipsStats />
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
         <CustomerBirthday />
+        <UserWithBalance />
       </div>
     </Section>
   );

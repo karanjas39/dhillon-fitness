@@ -303,7 +303,7 @@ function CreateCustomerForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit">
+            <Button type="submit" disabled={isCreatingCustomer}>
               {isCreatingCustomer ? "Creating customer..." : "Create customer"}
             </Button>
           </form>

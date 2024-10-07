@@ -102,7 +102,7 @@ function SignIn() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">
+              <Button type="submit" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Submit"}
               </Button>
             </form>

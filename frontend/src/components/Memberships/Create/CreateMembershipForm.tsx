@@ -113,7 +113,7 @@ function CreateMembershipForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit" disabled={isLoading}>
             {isLoading ? "Creating membership..." : "Create membership"}
           </Button>
         </form>

@@ -3,6 +3,7 @@ import {
   GetDailySales,
   GetMembershipStats,
   GetTodaysBirthdayCount,
+  GetUsersWithBalance,
   GetYearlySales,
 } from "../controllers/stats";
 
@@ -19,5 +20,6 @@ stats.get("/yearly", GetYearlySales);
 stats.get("/daily", GetDailySales);
 stats.get("/membership/today/:startOfToday", GetMembershipStats);
 stats.get("/customer/birthday", GetTodaysBirthdayCount);
+stats.get("/customer/balance", GetUsersWithBalance);
 
 export default stats;

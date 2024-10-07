@@ -21,7 +21,7 @@ function MembershipsStats() {
         </h2>
       </div>
       {!isLoading && data?.success ? (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
           <Card x-chunk="dashboard-05-chunk-1">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center justify-between">

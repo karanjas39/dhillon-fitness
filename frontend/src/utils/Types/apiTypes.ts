@@ -53,6 +53,14 @@ export interface Api_MembershipStat extends GeneralResponse {
   }[];
 }
 
+export interface Api_UserWithBalance extends GeneralResponse {
+  users: {
+    id: string;
+    name: string;
+    balance: number;
+  }[];
+}
+
 export interface Api_AllCustomers extends GeneralResponse {
   customers: customerType[];
 }
