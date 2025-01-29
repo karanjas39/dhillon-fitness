@@ -18,6 +18,7 @@ model User {
   dob            DateTime?
   active         Boolean         @default(true)
   balance        Float         @default(0)
+  productBalance Float?        @default(0)
   memberships    UserMembership[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt

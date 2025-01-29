@@ -247,6 +247,26 @@ export declare const z_updatePassword: z.ZodObject<{
     prevPassword: string;
     confirmNewPassword?: string | undefined;
 }>;
+export declare const z_addProductBalance: z.ZodObject<{
+    userId: z.ZodString;
+    amount: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    userId: string;
+    amount: number;
+}, {
+    userId: string;
+    amount: number;
+}>;
+export declare const z_clearProductBalance: z.ZodObject<{
+    userId: z.ZodString;
+    amount: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    userId: string;
+    amount: number;
+}, {
+    userId: string;
+    amount: number;
+}>;
 export type z_createAdmin_type = z.infer<typeof z_createAdmin>;
 export type z_updateAdmin_type = z.infer<typeof z_updateAdmin>;
 export type z_clearBalance_type = z.infer<typeof z_clearBalance>;
@@ -262,3 +282,5 @@ export type z_updateUserMembership_type = z.infer<typeof z_updateUserMembership>
 export type z_signin_type = z.infer<typeof z_signin>;
 export type z_id_type = z.infer<typeof z_id>;
 export type z_onlyActive_type = z.infer<typeof z_onlyActive>;
+export type z_addProductBalance_type = z.infer<typeof z_addProductBalance>;
+export type z_clearProductBalance_type = z.infer<typeof z_clearProductBalance>;

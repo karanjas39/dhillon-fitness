@@ -4,6 +4,7 @@ import {
   GetMembershipStats,
   GetTodaysBirthdayCount,
   GetUsersWithBalance,
+  GetUsersWithProductBalance,
   GetYearlySales,
 } from "../controllers/stats";
 
@@ -21,5 +22,6 @@ stats.get("/daily", GetDailySales);
 stats.get("/membership/today/:startOfToday", GetMembershipStats);
 stats.get("/customer/birthday", GetTodaysBirthdayCount);
 stats.get("/customer/balance", GetUsersWithBalance);
+stats.get("/customer/product-balance", GetUsersWithProductBalance);
 
 export default stats;

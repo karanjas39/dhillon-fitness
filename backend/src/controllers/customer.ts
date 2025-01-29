@@ -2,7 +2,9 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import {
+  z_addProductBalance,
   z_clearBalance,
+  z_clearProductBalance,
   z_createUser,
   z_createUser_type,
   z_createUserMembership,
@@ -498,6 +500,7 @@ export async function GetCustomerDetails(c: Context) {
         createdAt: true,
         dob: true,
         active: true,
+        productBalance: true,
       },
     });
 
@@ -746,6 +749,132 @@ export async function ClearUserBalance(c: Context) {
       success: false,
       status: 500,
       message: err.message || "An error occurred while updating the balance.",
+    });
+  }
+}
+
+export async function addProductBalance(c: Context) {
+  const body = await c.req.json();
+  const { success, data } = z_addProductBalance.safeParse(body);
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 400,
+      message: "Invalid input data.",
+    });
+  }
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const { userId, amount } = data;
+
+    const updatedUser = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: { id: true, productBalance: true, active: true },
+      });
+
+      if (!user) {
+        throw new Error("Customer not found.");
+      }
+
+      if (!user.active) {
+        throw new Error("Customer account is inactive.");
+      }
+
+      const newBalance = (user.productBalance ?? 0) + amount;
+
+      if (newBalance < 0) {
+        throw new Error("Product balance cannot be negative.");
+      }
+
+      return await tx.user.update({
+        where: { id: userId },
+        data: { productBalance: newBalance },
+        select: { productBalance: true },
+      });
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "Product Balance is updated successfully.",
+      data: { newBalance: updatedUser.productBalance },
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 500,
+      message:
+        err.message || "An error occurred while updating the product balance.",
+    });
+  }
+}
+
+export async function clearProductBalance(c: Context) {
+  const body = await c.req.json();
+  const { success, data } = z_clearProductBalance.safeParse(body);
+  if (!success) {
+    return c.json({
+      success: false,
+      status: 400,
+      message: "Invalid input data.",
+    });
+  }
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const { userId, amount } = data;
+
+    const updatedUser = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: { id: true, productBalance: true, active: true },
+      });
+
+      if (!user) {
+        throw new Error("Customer not found.");
+      }
+
+      if (!user.active) {
+        throw new Error("Customer account is inactive.");
+      }
+
+      const currentBalance = user.productBalance ?? 0;
+
+      if (currentBalance < amount) {
+        throw new Error("Insufficient product balance.");
+      }
+
+      const newBalance = currentBalance - amount;
+
+      return await tx.user.update({
+        where: { id: userId },
+        data: { productBalance: newBalance },
+        select: { productBalance: true },
+      });
+    });
+
+    return c.json({
+      success: true,
+      status: 200,
+      message: "Product Balance is updated successfully.",
+      data: { newBalance: updatedUser.productBalance },
+    });
+  } catch (error) {
+    const err = error as Error;
+    return c.json({
+      success: false,
+      status: 500,
+      message:
+        err.message || "An error occurred while updating the product balance.",
     });
   }
 }

@@ -120,6 +120,16 @@ export const z_updatePassword = z.object({
   prevPassword: z.string().trim().min(6),
 });
 
+export const z_addProductBalance = z.object({
+  userId: z.string(),
+  amount: z.coerce.number(),
+});
+
+export const z_clearProductBalance = z.object({
+  userId: z.string(),
+  amount: z.coerce.number(),
+});
+
 // Types
 export type z_createAdmin_type = z.infer<typeof z_createAdmin>;
 export type z_updateAdmin_type = z.infer<typeof z_updateAdmin>;
@@ -142,3 +152,5 @@ export type z_updateUserMembership_type = z.infer<
 export type z_signin_type = z.infer<typeof z_signin>;
 export type z_id_type = z.infer<typeof z_id>;
 export type z_onlyActive_type = z.infer<typeof z_onlyActive>;
+export type z_addProductBalance_type = z.infer<typeof z_addProductBalance>;
+export type z_clearProductBalance_type = z.infer<typeof z_clearProductBalance>;

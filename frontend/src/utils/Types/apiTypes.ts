@@ -61,6 +61,14 @@ export interface Api_UserWithBalance extends GeneralResponse {
   }[];
 }
 
+export interface Api_UserWithProductBalance extends GeneralResponse {
+  users: {
+    id: string;
+    name: string;
+    productBalance: number;
+  }[];
+}
+
 export interface Api_AllCustomers extends GeneralResponse {
   customers: customerType[];
 }
@@ -91,6 +99,7 @@ export interface Api_CustomerDetail extends GeneralResponse {
     createdAt: string;
     dob: string;
     active: boolean;
+    productBalance: number;
   };
 }
 

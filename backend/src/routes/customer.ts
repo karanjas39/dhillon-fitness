@@ -1,5 +1,7 @@
 import { Hono } from "hono";
 import {
+  addProductBalance,
+  clearProductBalance,
   ClearUserBalance,
   CreateCustomer,
   CustomerActivation,
@@ -24,6 +26,8 @@ customer.put("/update", UpdateCustomer);
 customer.delete("/delete", DeleteCustomer);
 customer.get("/detail/:id", GetCustomerDetails);
 customer.post("/balance-adjustment", ClearUserBalance);
+customer.post("/add-product-balance", addProductBalance);
+customer.post("/clear-product-balance", clearProductBalance);
 customer.get("/memberships/:id", GetCustomerMemberships);
 customer.post("/membership/renew", RenewCustomerMembership);
 customer.delete("/membership/delete", DeleteCustomerMembership);

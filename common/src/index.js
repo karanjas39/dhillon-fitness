@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.z_clearProductBalance = exports.z_addProductBalance = exports.z_updatePassword = exports.z_updateMembership = exports.z_id = exports.z_signin = exports.z_deleteUserMembership = exports.z_updateUserMembership = exports.z_createUserMembership = exports.z_onlyActive = exports.z_userActivation = exports.z_createMembership = exports.z_clearBalance = exports.z_updateUser = exports.z_createUser = exports.z_updateAdmin = exports.z_createAdmin = void 0;
-const zod_1 = require("zod");
+var zod_1 = require("zod");
 // SCHEMAS
 exports.z_createAdmin = zod_1.z.object({
     email: zod_1.z.string().trim().email(),
@@ -29,10 +29,10 @@ exports.z_createUser = zod_1.z
         .datetime({ precision: 3 })
         .or(zod_1.z.literal("").optional()),
 })
-    .refine((data) => {
-    const { membershipId, startDate } = data;
-    const allProvided = membershipId !== "" && startDate !== "";
-    const noneProvided = membershipId === "" && startDate === "";
+    .refine(function (data) {
+    var membershipId = data.membershipId, startDate = data.startDate;
+    var allProvided = membershipId !== "" && startDate !== "";
+    var noneProvided = membershipId === "" && startDate === "";
     return allProvided || noneProvided;
 }, {
     message: "If one of 'membershipId' or 'startDate' is provided, all must be provided.",

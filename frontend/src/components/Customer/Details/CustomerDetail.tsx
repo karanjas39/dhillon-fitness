@@ -10,6 +10,7 @@ import { modifyDate } from "@/utils/helper";
 import { Badge } from "@/components/ui/badge";
 import CustomerActivation from "./CustomerActivation";
 import ClearBalance from "./ClearBalance";
+import ProductBalance from "./ProductBalance/ProductBalance";
 
 function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
   return (
@@ -32,6 +33,16 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
             <Badge variant="constructive">{customer.balance}</Badge>
           )}
         </div>
+        <div className="flex items-center justify-between">
+          <p className="font-bold">Product Balance</p>
+          {customer.productBalance > 0 ? (
+            <Badge variant="destructive">
+              {Math.abs(customer.productBalance)}
+            </Badge>
+          ) : (
+            <Badge variant="constructive">{customer.productBalance}</Badge>
+          )}
+        </div>
         {customer.email && (
           <CardContentDiv title="Email" value={customer.email} />
         )}
@@ -42,6 +53,10 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         />
         <div className="self-end mt-3 flex gap-3">
           <CustomerActivation active={customer.active} />
+          <ProductBalance
+            productBalance={customer.productBalance}
+            userId={customer.id}
+          />
           {customer.balance != 0 ? (
             <ClearBalance balance={customer.balance} userId={customer.id} />
           ) : null}
