@@ -48,6 +48,7 @@ function CreateCustomerForm() {
       sex: "male",
       dob: undefined,
       startDate: "",
+      bioId: "",
     },
   });
 
@@ -91,6 +92,22 @@ function CreateCustomerForm() {
                     <Input placeholder="Name" type="text" {...field} />
                   </FormControl>
                   <FormDescription>Enter customer name here</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="bioId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Biometric ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Biometric ID" type="text" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Enter Biometric ID of Customer (optional)
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

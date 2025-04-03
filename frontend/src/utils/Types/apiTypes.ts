@@ -100,6 +100,10 @@ export interface Api_CustomerDetail extends GeneralResponse {
     dob: string;
     active: boolean;
     productBalance: number;
+    bioId: string;
+    memberships: {
+      endDate: string;
+    }[];
   };
 }
 

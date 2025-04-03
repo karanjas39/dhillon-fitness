@@ -17,6 +17,7 @@ exports.z_createUser = zod_1.z
     .object({
     name: zod_1.z.string().trim(),
     email: zod_1.z.string().trim().email().or(zod_1.z.literal("").optional()),
+    bioId: zod_1.z.string().trim().or(zod_1.z.literal("").optional()),
     dob: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),
     phone: zod_1.z.string().trim().min(10).max(10),
     address: zod_1.z.string().trim(),
@@ -42,6 +43,7 @@ exports.z_updateUser = zod_1.z.object({
     id: zod_1.z.string().trim().cuid(),
     name: zod_1.z.string().trim().optional(),
     email: zod_1.z.string().trim().email().or(zod_1.z.literal("").optional()),
+    bioId: zod_1.z.string().trim().or(zod_1.z.literal("").optional()),
     phone: zod_1.z.string().trim().min(10).max(10).optional(),
     address: zod_1.z.string().trim().optional(),
     dob: zod_1.z.string().trim().datetime({ precision: 3 }).optional(),

@@ -25,6 +25,7 @@ function CustomerDetail({ customer }: Pick<Api_CustomerDetail, "customer">) {
         ) : null}
         <CardContentDiv title="Phone Number" value={customer.phone} />
         <CardContentDiv title="Address" value={customer.address} />
+        <CardContentDiv title="Biometric ID" value={customer.bioId || "N/A"} />
         <div className="flex items-center justify-between">
           <p className="font-bold">Balance</p>
           {customer.balance < 0 ? (

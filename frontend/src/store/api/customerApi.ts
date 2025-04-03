@@ -80,10 +80,9 @@ export const customerApi = createApi({
         method: "PUT",
         body: query,
       }),
-      // invalidatesTags: (result, error, arg) => [
-      //   { type: tag_customer_detail, id: arg.id },
-      //   tag_all_customers,
-      // ],
+      invalidatesTags: (result, error, arg) => [
+        { type: tag_customer_detail, id: arg.id },
+      ],
     }),
     getCustomerDetails: builder.query<Api_CustomerDetail, { id: string }>({
       query: (query) => `/customer/detail/${query.id}`,

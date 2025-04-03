@@ -38,14 +38,14 @@ import Loader from "@/components/Loader/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import { format, parseISO } from "date-fns";
 
-function AddMembershipDialog({ id }: { id: string }) {
+function AddMembershipDialog({ id, endDate }: { id: string; endDate: string }) {
   const form = useForm<z_createUserMembership_type>({
     resolver: zodResolver(z_createUserMembership),
     defaultValues: {
       membershipId: "",
       paymentAmount: 0,
       userId: id,
-      startDate: "",
+      startDate: endDate,
     },
   });
 

@@ -28,7 +28,14 @@ function CustomerDetails() {
               {data.customer.name}
             </h1>
             <div className="flex sm:items-center items-end sm:flex-row flex-col gap-2 self-end">
-              <AddMembershipDialog id={params.id} />
+              <AddMembershipDialog
+                id={params.id}
+                endDate={
+                  data.customer?.memberships?.length
+                    ? data.customer?.memberships[0]?.endDate
+                    : ""
+                }
+              />
               <DeletCustomer />
             </div>
           </div>

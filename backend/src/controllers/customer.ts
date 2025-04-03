@@ -63,6 +63,7 @@ export async function CreateCustomer(c: Context) {
         email: data.email ? data.email : null,
         dob: data.dob ? data.dob : null,
         active: data.membershipId ? true : false,
+        bioId: data.bioId ? data.bioId : null,
       },
     });
 
@@ -501,6 +502,16 @@ export async function GetCustomerDetails(c: Context) {
         dob: true,
         active: true,
         productBalance: true,
+        bioId: true,
+        memberships: {
+          select: {
+            endDate: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+        },
       },
     });
 

@@ -43,6 +43,7 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
         customer.sex === "male" || customer.sex === "female"
           ? customer.sex
           : undefined,
+      bioId: customer.bioId,
     },
   });
   const { toast } = useToast();
@@ -78,6 +79,22 @@ function EditCustomerForm({ customer }: Pick<Api_CustomerDetail, "customer">) {
                   <Input placeholder="name" type="text" {...field} />
                 </FormControl>
                 <FormDescription>Enter updated name here</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="bioId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Biometric ID</FormLabel>
+                <FormControl>
+                  <Input placeholder="Biometric ID" type="text" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Enter Biometric ID of Customer (optional)
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

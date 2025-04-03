@@ -17,6 +17,7 @@ export const z_createUser = z
   .object({
     name: z.string().trim(),
     email: z.string().trim().email().or(z.literal("").optional()),
+    bioId: z.string().trim().or(z.literal("").optional()),
     dob: z.string().trim().datetime({ precision: 3 }).optional(),
     phone: z.string().trim().min(10).max(10),
     address: z.string().trim(),
@@ -47,6 +48,7 @@ export const z_updateUser = z.object({
   id: z.string().trim().cuid(),
   name: z.string().trim().optional(),
   email: z.string().trim().email().or(z.literal("").optional()),
+  bioId: z.string().trim().or(z.literal("").optional()),
   phone: z.string().trim().min(10).max(10).optional(),
   address: z.string().trim().optional(),
   dob: z.string().trim().datetime({ precision: 3 }).optional(),

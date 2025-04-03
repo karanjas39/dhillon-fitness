@@ -28,6 +28,7 @@ export declare const z_updateAdmin: z.ZodObject<{
 export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     name: z.ZodString;
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
+    bioId: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
     dob: z.ZodOptional<z.ZodString>;
     phone: z.ZodString;
     address: z.ZodString;
@@ -41,6 +42,7 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
@@ -51,6 +53,7 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
@@ -61,6 +64,7 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
@@ -71,6 +75,7 @@ export declare const z_createUser: z.ZodEffects<z.ZodObject<{
     address: string;
     sex: "male" | "female";
     email?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     membershipId?: string | undefined;
     paymentAmount?: number | undefined;
@@ -80,6 +85,7 @@ export declare const z_updateUser: z.ZodObject<{
     id: z.ZodString;
     name: z.ZodOptional<z.ZodString>;
     email: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
+    bioId: z.ZodUnion<[z.ZodString, z.ZodOptional<z.ZodLiteral<"">>]>;
     phone: z.ZodOptional<z.ZodString>;
     address: z.ZodOptional<z.ZodString>;
     dob: z.ZodOptional<z.ZodString>;
@@ -88,6 +94,7 @@ export declare const z_updateUser: z.ZodObject<{
     id: string;
     email?: string | undefined;
     name?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     phone?: string | undefined;
     address?: string | undefined;
@@ -96,6 +103,7 @@ export declare const z_updateUser: z.ZodObject<{
     id: string;
     email?: string | undefined;
     name?: string | undefined;
+    bioId?: string | undefined;
     dob?: string | undefined;
     phone?: string | undefined;
     address?: string | undefined;

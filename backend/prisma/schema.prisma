@@ -13,6 +13,7 @@ model User {
   name           String
   phone          String          @unique
   email          String?
+  bioId          String?
   address        String
   sex            String          
   dob            DateTime?
